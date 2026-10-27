@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'projects:list' %}">&larr; {% translate "My projects" %}</a></p>
+<div class="page-heading">
+  <h1>{{ project.name }}</h1>
+  <a href="{% url 'projects:update' project.pk %}" class="button button-secondary">{% translate "Edit" %}</a>
+</div>
+
+<dl class="details">
+  <dt>{% translate "Business name" %}</dt>
+  <dd>{{ project.business_name|default:_("Not provided") }}</dd>
+
+  <dt>{% translate "Website address" %}</dt>
+  <dd>{% if project.website_url %}{{ project.website_url }}{% else %}{% translate "Not provided" %}{% endif %}</dd>
+
+  <dt>{% translate "Business details (entered by you)" %}</dt>
+  <dd class="prewrap">{{ project.business_details|default:_("Not provided") }}</dd>
+</dl>
+
+<section class="notice" aria-labelledby="next-heading">
+  <h2 id="next-heading">{% translate "What happens next" %}</h2>
+  <p>{% translate "Website analysis is not available yet. When it is, you will be able to review what was found on your website and correct it here." %}</p>
+</section>
+
+<p><a href="{% url 'projects:delete' project.pk %}" class="danger-link">{% translate "Delete this project" %}</a></p>
+{% endblock %}

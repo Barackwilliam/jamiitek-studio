@@ -80,7 +80,7 @@ The initial implementation should favor a modular Django application unless actu
 
 The following is a possible target structure, not an assertion about the current repository.
 
-As of 2026-10-27, the implemented structure contains `manage.py`, `config/` (with a single `settings.py` rather than a `settings/` package; see DEC-017), `apps/core/`, `templates/`, `static/`, and the supporting files. Other applications will be added only when their features are built.
+As of 2026-10-27, the implemented structure contains `manage.py`, `config/` (with a single `settings.py` rather than a `settings/` package; see DEC-017), `apps/core/`, `apps/accounts/`, `apps/projects/`, `apps/website_analyzer/` (URL safety and page fetching), `templates/`, `static/`, and the supporting files. Other applications will be added only when their features are built.
 
 ```text
 jamiitek-ai-marketing-studio/
@@ -556,13 +556,14 @@ This section lists candidate tools for building the product without paid service
 | Need | Candidate | Notes to verify |
 |---|---|---|
 | Web framework | Django | Already the chosen direction (DEC-006). |
-| Database | SQLite (development), PostgreSQL (later) | Both free. Free hosted PostgreSQL offers are often time-limited; confirm before relying on one. |
+| Database | SQLite (tests and offline work), Supabase PostgreSQL (DEC-018) | Implemented. Supabase's free plan pauses inactive projects and has small size limits; see DEC-018. |
+| File storage | Supabase Storage, private bucket, S3 protocol (DEC-018) | Decided, not yet implemented. Free plan storage is small (about 1 GB). |
 | HTTP fetching | Python standard library or `httpx`/`requests` | Must be wrapped by the SSRF protections in section 7. |
 | HTML parsing | Beautiful Soup | Already the chosen direction (DEC-009). |
 | JavaScript-rendered pages | Playwright with Chromium | Free, but memory-hungry; likely unsuitable for small free hosting instances. |
 | Image and poster composition | Pillow, or HTML/CSS templates rendered to images | No AI needed. Fonts must have licenses that allow commercial and embedded use (for example, the SIL Open Font License). |
 | Video rendering | FFmpeg | Free. Some builds include GPL components; acceptable for server-side use, but check before distributing binaries. |
-| Background jobs | Database-backed jobs and a worker management command | Avoids paying for or maintaining Redis. |
+| Background jobs | Database-backed jobs and a worker management command | Avoids paying for or maintaining Redis, and suits an 8 GB development laptop. |
 | Tests | Django test runner and `unittest.mock` | No extra testing framework needed initially. |
 | Continuous integration | GitHub Actions | Free for public repositories; private repositories receive a limited monthly free allowance. Verify current limits. |
 
@@ -572,7 +573,7 @@ This section lists candidate tools for building the product without paid service
 |---|---|
 | Google Gemini API free tier | Free access and limits vary by model and are set per project. Content sent on the free tier may be used by Google to improve its products, so private user data must not be sent without informing the user. |
 | Groq API free tier (open-weight models such as Llama) | Rate limits are per organization and vary by model. Confirm the current limits and terms. |
-| Local models through Ollama or similar | No usage cost and no data leaves the machine, but quality and speed depend on the developer's hardware. Check each model's license for commercial use. |
+| Local models through Ollama or similar | No usage cost and no data leaves the machine, but impractical on the current 8 GB development laptop (DEC-012). Check each model's license for commercial use. |
 | Template-based drafts without AI | Always available. Output must be clearly presented as a template draft, never as AI analysis. |
 
 The text-generation interface must allow switching between these options through configuration, because any free tier may change or close.

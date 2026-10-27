@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "My projects" %} · JamiiTek{% endblock %}
+
+{% block content %}
+<div class="page-heading">
+  <h1>{% translate "My projects" %}</h1>
+  <a href="{% url 'projects:create' %}" class="button">{% translate "New project" %}</a>
+</div>
+
+{% if projects %}
+  <ul class="card-list">
+    {% for project in projects %}
+      <li class="card">
+        <h2><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></h2>
+        {% if project.business_name %}<p>{{ project.business_name }}</p>{% endif %}
+        <p class="muted">
+          {% if project.website_url %}{{ project.website_url }}{% else %}{% translate "No website — details entered manually" %}{% endif %}
+        </p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div class="empty-state">
+    <p>{% translate "You have no projects yet." %}</p>
+    <p>{% translate "A project holds the information about one business. Start by adding its website address or describing it." %}</p>
+    <a href="{% url 'projects:create' %}" class="button">{% translate "Create your first project" %}</a>
+  </div>
+{% endif %}
+{% endblock %}

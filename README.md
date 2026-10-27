@@ -137,6 +137,18 @@ All settings come from environment variables. `.env.example` lists every variabl
 
 `DJANGO_DEBUG` defaults to `False`. With debug off, the application refuses to start without `DJANGO_SECRET_KEY`, and it enables HTTPS-only cookies, HTTPS redirects, and HSTS.
 
+### Using Supabase PostgreSQL
+
+Without `DATABASE_URL`, the application uses a local SQLite file. To use Supabase instead (see `docs/DECISIONS.md`, DEC-018):
+
+1. Create a project at supabase.com and keep the database password safe.
+2. In the project, open **Connect** and copy the **Session pooler** connection string (port 5432). It works on ordinary IPv4 internet connections; the direct connection needs IPv6.
+3. Put it in `.env` as `DATABASE_URL=...`, with your real password in place of `[YOUR-PASSWORD]`. If the password contains special characters such as `@`, `#` or `/`, URL-encode them.
+4. Run `python manage.py migrate`. Row level security is switched on for every Django table automatically, so Supabase's Data API cannot read them.
+5. Optionally, in the Supabase dashboard, turn off the Data API or stop exposing the `public` schema, because this application does not use it.
+
+On Supabase's free plan, a project is paused after about a week without activity; restore it from the dashboard when that happens. Automated tests never connect to Supabase.
+
 ### Running checks and tests
 
 ```bash
@@ -145,7 +157,7 @@ python manage.py makemigrations --check --dry-run
 python manage.py test
 ```
 
-The same checks run automatically on GitHub Actions for every push (`.github/workflows/tests.yml`).
+The workflow in `.github/workflows/tests.yml` runs the same checks on GitHub Actions, on SQLite and on PostgreSQL 16.
 
 ## 6. Development Roadmap
 
@@ -192,15 +204,15 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-27, the planning documentation is complete and the Phase 1 Django foundation exists: settings, a home page, a `/health/` endpoint, automated tests, and continuous integration. No marketing features exist yet. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-27, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, a safe single-page fetcher, and PostgreSQL/Supabase support with automatic row level security. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- Website scraping or browser automation.
+- Website analysis (crawling, extraction, business profiles) or browser automation.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.
-- User accounts, project storage, or a production database.
+- File uploads and Supabase Storage.
 - Deployment infrastructure.
 
 As development progresses, update the project status documentation with implemented features, test results, known limitations, and the next development priorities.

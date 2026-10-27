@@ -11,14 +11,20 @@
       accurate marketing content from it.
     {% endblocktranslate %}
   </p>
+  {% if user.is_authenticated %}
+    <a href="{% url 'projects:list' %}" class="button">{% translate "Go to my projects" %}</a>
+  {% else %}
+    <a href="{% url 'signup' %}" class="button">{% translate "Create a free account" %}</a>
+  {% endif %}
 </section>
 
 <section class="notice" aria-labelledby="status-heading">
   <h2 id="status-heading">{% translate "Project status" %}</h2>
   <p>
     {% blocktranslate trimmed %}
-      This application is in early development. No marketing features are
-      available yet, and nothing on this page collects or processes data.
+      This application is in early development. You can create an account
+      and save projects with your website address and business details.
+      Website analysis and content creation are not available yet.
     {% endblocktranslate %}
   </p>
 </section>

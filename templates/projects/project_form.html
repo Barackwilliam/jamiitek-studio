@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% if is_new %}{% translate "New project" %}{% else %}{% translate "Edit project" %}{% endif %} · JamiiTek{% endblock %}
+
+{% block content %}
+<section class="narrow">
+  <h1>{% if is_new %}{% translate "New project" %}{% else %}{% translate "Edit project" %}{% endif %}</h1>
+  <p class="muted">
+    {% translate "Add your website address, describe your business, or both. We check that the website address is a public site before saving it; nothing is downloaded from it yet." %}
+  </p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <div class="actions">
+      <button type="submit" class="button">{% if is_new %}{% translate "Create project" %}{% else %}{% translate "Save changes" %}{% endif %}</button>
+      <a href="{% if project %}{{ project.get_absolute_url }}{% else %}{% url 'projects:list' %}{% endif %}">{% translate "Cancel" %}</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

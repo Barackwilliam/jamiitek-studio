@@ -252,6 +252,37 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - Validate command-line and media-processing workflows in the supported environment.
 - Most hosting environments, including free ones, run Linux. Use `pathlib` for paths, avoid Windows-only commands in application code, and test media workflows on Linux before deployment.
 
+**Hardware (recorded 2026-10-27):** The owner develops on a Dell laptop with Windows 11 and 8 GB of RAM. Consequences:
+- Windows and the browser use a large share of 8 GB, so local AI models (for example through Ollama) are impractical except very small ones whose quality, especially in Kiswahili, is unlikely to be acceptable. Prefer a hosted free tier for text generation (OPEN-013).
+- Docker Desktop and similar heavy tools are avoided; the project runs with Python and a virtual environment only.
+- Playwright may be used, but with one browser and one page at a time, and only for pages that need JavaScript.
+- FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
+- Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
+
+### DEC-018: Supabase for PostgreSQL and File Storage
+
+**Status:** Accepted (database implemented; storage decided, not yet implemented)
+
+**Date:** 2026-10-27
+
+**Context:** The owner chose Supabase for the PostgreSQL database and a Supabase Storage bucket for images. This resolves the database part of OPEN-009 and supports DEC-016 (zero budget) through Supabase's free plan.
+
+**Decision:**
+- Django connects to Supabase PostgreSQL directly with `psycopg` through `DATABASE_URL`. Django does not use Supabase's Data API (REST), Supabase Auth, or `supabase-py`; Django's own authentication remains in use.
+- Use the **session pooler** connection string (port 5432) for the long-running Django server, because it works on IPv4 networks. Supabase's direct connection is IPv6-only unless a paid add-on is bought. The transaction pooler (port 6543) is supported through `DJANGO_DB_TRANSACTION_POOLER=True`, which disables server-side cursors and prepared statements, but it is intended for serverless workloads.
+- TLS is required for database connections (`DJANGO_DB_SSL_REQUIRE=True`).
+- **Row level security is enabled automatically on every Django table after each migration** (`apps/core/db_security.py`). Supabase exposes tables in the `public` schema to its `anon` and `authenticated` roles through the Data API. With RLS enabled and no policies, those roles can read nothing, while Django is unaffected because PostgreSQL does not apply RLS to a table's owner. This was verified on PostgreSQL 16 (see `docs/PROJECT_STATUS.md`, section 4.2).
+- Automated tests use SQLite by default and never connect to Supabase, so they cost nothing and use no quota. Continuous integration also runs the tests against a temporary PostgreSQL 16 service.
+- Images and other media will be stored in a **private** Supabase Storage bucket, accessed from the server through Supabase's S3-compatible API (expected: `django-storages` with `boto3`), and shown to users through short-lived signed URLs. The S3 access keys are server-side secrets with broad access and must never reach the browser. This will be implemented when file uploads are built (Phase 6), after re-checking Supabase's current S3 documentation.
+
+**Free plan constraints (reported by third-party sources on 2026-10-27; verify on Supabase's pricing page):** about 500 MB of database per project, 1 GB of file storage, limited bandwidth, and projects are paused after about 7 days without activity until restored from the dashboard. These limits are adequate for development and demonstrations, not for production with real customers.
+
+**Recommended Supabase dashboard settings:** Because Django does not use the Data API, disable the Data API or remove the `public` schema from its exposed schemas if the dashboard allows it. RLS remains the safeguard if it is left on.
+
+**Alternatives considered:** Local PostgreSQL (uses RAM on an 8 GB laptop and is not reachable for demonstrations); other hosted PostgreSQL free tiers (several expire or delete data after a fixed period); SQLite in production (unsuitable for concurrent users and ephemeral hosting disks).
+
+**Review conditions:** Revisit if free-plan limits or pausing block development, or when real customers require an always-on database.
+
 ## 5. Product Direction Decisions
 
 ### DEC-013: Hybrid Video Production
@@ -310,9 +341,9 @@ The following topics remain open until explicitly decided and recorded.
 | OPEN-006 | Initial editing depth | Basic settings and scripts, scene editor, or full timeline |
 | OPEN-007 | Authentication | Initial account and access requirements |
 | OPEN-008 | Background processing | When a job queue and separate workers become necessary; at zero budget, prefer a database-backed approach that needs no extra service |
-| OPEN-009 | Storage | Local development storage and future production storage |
+| ~~OPEN-009~~ | ~~Storage~~ | **Resolved by DEC-018:** Supabase PostgreSQL and a private Supabase Storage bucket |
 | OPEN-010 | Deployment | Hosting environment and production architecture; must fit free-tier limits under DEC-016 |
-| OPEN-013 | Text AI provider | Which free text-generation option to use first (hosted free tier or local model), after verifying current terms |
+| OPEN-013 | Text AI provider | Which free hosted text-generation option to use first, after verifying current terms (local models are impractical on the 8 GB development laptop; see DEC-012) |
 | OPEN-014 | Narration | Which free speech option, if any, is licensed for commercial use in the launch languages |
 | OPEN-011 | Usage limits | Project, crawl, generation, and export limits |
 | OPEN-012 | Commercial model | Free access, subscriptions, usage-based pricing, or a combination |
