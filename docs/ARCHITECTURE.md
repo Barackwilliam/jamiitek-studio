@@ -80,6 +80,8 @@ The initial implementation should favor a modular Django application unless actu
 
 The following is a possible target structure, not an assertion about the current repository.
 
+As of 2026-10-27, the implemented structure contains `manage.py`, `config/` (with a single `settings.py` rather than a `settings/` package; see DEC-017), `apps/core/`, `templates/`, `static/`, and the supporting files. Other applications will be added only when their features are built.
+
 ```text
 jamiitek-ai-marketing-studio/
 |

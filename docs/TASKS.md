@@ -49,9 +49,9 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-001 — P0:** Create the project's Git repository. *(No repository exists yet.)*
-- [x] **TASK-002 — P0:** Verify which planning documents exist. *(2026-10-27: all ten documents exist as files; not yet committed.)*
-- [ ] **TASK-003 — P0:** Save and reconcile the agreed project documentation. *(Reconciled 2026-10-27; still needs to be committed to the repository.)*
+- [ ] **TASK-001 — P0:** Create the project's Git repository. *(2026-10-27: local Git repository initialized; no GitHub repository exists yet.)*
+- [x] **TASK-002 — P0:** Verify which planning documents exist. *(2026-10-27: all ten documents exist.)*
+- [ ] **TASK-003 — P0:** Save and reconcile the agreed project documentation. *(Reconciled and committed locally 2026-10-27; still needs to be pushed to GitHub.)*
 - [x] **TASK-004 — P0:** Complete `docs/TESTING.md`. *(Written 2026-10-27.)*
 - [x] **TASK-005 — P0:** Review `docs/PROJECT_REQUIREMENTS.md` for consistency with the master specification. *(2026-10-27: added manual business-information entry, robots.txt handling, prompt-injection protection, language and licensing requirements.)*
 - [x] **TASK-006 — P1:** Record important technical and product decisions in `docs/DECISIONS.md`. *(Initial log written; DEC-016 zero budget added 2026-10-27.)*
@@ -75,17 +75,18 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-009 — P0:** Verify the installed Python version and development environment.
-- [ ] **TASK-010 — P0:** Verify or create the Django project, depending on the existing repository.
-- [ ] **TASK-011 — P0:** Establish a repeatable dependency-installation workflow.
-- [ ] **TASK-012 — P0:** Configure development settings and environment variables.
-- [ ] **TASK-013 — P0:** Configure the initial database.
-- [ ] **TASK-014 — P0:** Verify Django migrations and database connectivity.
-- [ ] **TASK-015 — P0:** Establish a basic application entry page.
-- [ ] **TASK-016 — P0:** Add a basic health or availability check.
-- [ ] **TASK-017 — P0:** Add foundational automated tests.
-- [ ] **TASK-018 — P1:** Configure Git hygiene, `.gitignore`, `.gitattributes` (consistent line endings between Windows and Linux), and a safe example environment file.
-- [ ] **TASK-019 — P1:** Document the actual setup, run, and test commands in `README.md`.
+- [ ] **TASK-009 — P0:** Verify the installed Python version and development environment. *(Verified on Linux with Python 3.13 on 2026-10-27. Not yet verified on the owner's Windows computer.)*
+- [x] **TASK-010 — P0:** Verify or create the Django project, depending on the existing repository. *(Django 5.2 project created; DEC-017.)*
+- [x] **TASK-011 — P0:** Establish a repeatable dependency-installation workflow. *(`requirements.txt` with version ranges; virtual environment steps in `README.md`.)*
+- [x] **TASK-012 — P0:** Configure development settings and environment variables. *(`config/settings.py`, `.env.example`.)*
+- [x] **TASK-013 — P0:** Configure the initial database. *(SQLite, path configurable through `DJANGO_SQLITE_PATH`.)*
+- [x] **TASK-014 — P0:** Verify Django migrations and database connectivity. *(`migrate` applied; `makemigrations --check` reports no changes; `/health/` confirms database access.)*
+- [x] **TASK-015 — P0:** Establish a basic application entry page. *(`/` describes the product and states honestly that no features are available yet.)*
+- [x] **TASK-016 — P0:** Add a basic health or availability check. *(`/health/` returns 200 or 503 JSON without internal details.)*
+- [x] **TASK-017 — P0:** Add foundational automated tests. *(17 tests in `apps/core/tests/`; all passing on 2026-10-27.)*
+- [x] **TASK-018 — P1:** Configure Git hygiene, `.gitignore`, `.gitattributes` (consistent line endings between Windows and Linux), and a safe example environment file.
+- [x] **TASK-019 — P1:** Document the actual setup, run, and test commands in `README.md`. *(Linux commands verified; Windows commands not yet verified on Windows.)*
+- [x] **TASK-019A — P1:** Run checks and tests automatically on GitHub Actions. *(`.github/workflows/tests.yml`; will run once the repository is on GitHub.)*
 
 ### Acceptance criteria
 

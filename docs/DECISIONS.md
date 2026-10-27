@@ -170,6 +170,28 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 
 **Review conditions:** Reconsider only if repository inspection or concrete technical requirements demonstrate that Django is unsuitable.
 
+### DEC-017: Django 5.2 LTS and a Single Environment-Driven Settings Module
+
+**Status:** Accepted
+
+**Date:** 2026-10-27
+
+**Context:** Phase 1 required choosing a Django version and a settings layout.
+
+**Decision:**
+- Use Django 5.2, the current long-term support release (security updates until April 2028), pinned as `Django>=5.2,<5.3`.
+- Use one settings module, `config/settings.py`, that reads all environment-specific values from environment variables, with `python-dotenv` loading an optional local `.env` file.
+- `DJANGO_DEBUG` defaults to `False`, and the application refuses to start without `DJANGO_SECRET_KEY` when debug is off.
+
+**Reasoning:** An LTS release reduces forced upgrades for a small team with no budget. A single environment-driven settings file is simpler than the `config/settings/` package shown as a possible structure in `docs/ARCHITECTURE.md`, while still separating configuration from code. Defaulting to debug off means a forgotten setting fails safely.
+
+**Alternatives considered:**
+- Django 6.x: newer features but a shorter support window.
+- A `config/settings/` package with separate development and production modules: more files without a current need.
+- No `.env` support: fewer dependencies, but harder local setup on Windows.
+
+**Review conditions:** Plan the upgrade to the next LTS release before April 2028. Split settings into a package only if the environments diverge substantially.
+
 ### DEC-007: Initial Frontend Approach
 
 **Status:** Provisional

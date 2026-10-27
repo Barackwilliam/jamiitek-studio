@@ -95,7 +95,57 @@ The initial development direction is:
 
 These are planned technical choices. All of them are free and open source. The actual repository structure, installed dependencies, and implemented components must be verified before setup instructions are finalized.
 
-Setup, run, and test instructions will be added here once the Django project exists.
+## 5A. Local Setup
+
+**Requirements:** Python 3.10 or newer (tested with 3.12 and 3.13) and Git. No paid services are needed.
+
+The project uses Django 5.2, a long-term support release.
+
+**Windows (PowerShell):**
+
+```powershell
+git clone <repository-url> jamiitek-ai-marketing-studio
+cd jamiitek-ai-marketing-studio
+python -m venv .venv
+.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+copy .env.example .env
+python manage.py migrate
+python manage.py runserver
+```
+
+**Linux or macOS:**
+
+```bash
+git clone <repository-url> jamiitek-ai-marketing-studio
+cd jamiitek-ai-marketing-studio
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+python manage.py migrate
+python manage.py runserver
+```
+
+Then open <http://127.0.0.1:8000/>. The health check is at <http://127.0.0.1:8000/health/>.
+
+If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use `.venv\Scripts\activate.bat` from Command Prompt.
+
+### Configuration
+
+All settings come from environment variables. `.env.example` lists every variable with safe defaults for local development. Never commit `.env`.
+
+`DJANGO_DEBUG` defaults to `False`. With debug off, the application refuses to start without `DJANGO_SECRET_KEY`, and it enables HTTPS-only cookies, HTTPS redirects, and HSTS.
+
+### Running checks and tests
+
+```bash
+python manage.py check
+python manage.py makemigrations --check --dry-run
+python manage.py test
+```
+
+The same checks run automatically on GitHub Actions for every push (`.github/workflows/tests.yml`).
 
 ## 6. Development Roadmap
 
@@ -142,17 +192,16 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-27, the planning documentation is complete and implementation has not begun. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-27, the planning documentation is complete and the Phase 1 Django foundation exists: settings, a home page, a `/health/` endpoint, automated tests, and continuous integration. No marketing features exist yet. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- A working Django application.
 - Website scraping or browser automation.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.
 - User accounts, project storage, or a production database.
-- Automated tests or deployment infrastructure.
+- Deployment infrastructure.
 
 As development progresses, update the project status documentation with implemented features, test results, known limitations, and the next development priorities.
 

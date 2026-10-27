@@ -26,9 +26,9 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Implementation has not begun.
+The product vision, initial requirements, and proposed architecture have been documented. The Phase 1 Django foundation has been implemented and verified. No marketing features exist yet.
 
-As of 2026-10-27, all planned documentation files exist as files and have been reviewed together for consistency:
+As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
 | Document | Status |
 |---|---|
@@ -43,7 +43,7 @@ As of 2026-10-27, all planned documentation files exist as files and have been r
 | `docs/TASKS.md` | Written; reviewed for consistency |
 | `docs/TESTING.md` | Written; reviewed for consistency |
 
-**Important:** These files have not yet been committed to a Git repository. A project repository has not yet been created, so no source code, dependency installation, database migration, automated test, or deployment exists.
+**Important:** The documentation and code are committed to a local Git repository only. No GitHub repository exists yet, so nothing has been pushed, and the GitHub Actions workflow has not yet run. No deployment exists.
 
 ### 2.1 Key decisions recorded so far
 
@@ -68,9 +68,12 @@ Use the following status definitions consistently:
 |---|---|---|
 | Product requirements | In Progress | Specification written (v1.1); open decisions remain |
 | Technical architecture | In Progress | Proposed architecture written (v1.1), including zero-budget tooling candidates |
-| Testing strategy | In Progress | `docs/TESTING.md` written; no tests exist yet |
-| Repository creation | Not Started | No Git repository exists yet for this project |
-| Django application foundation | Not Started | No code exists yet |
+| Testing strategy | In Progress | `docs/TESTING.md` written; foundational tests exist |
+| Repository creation | In Progress | Local Git repository initialized; GitHub repository not yet created |
+| Django application foundation | Implemented — Verified | See section 4.1 |
+| Home page | Implemented — Verified | `/`; states honestly that no features are available yet |
+| Health check | Implemented — Verified | `/health/`; database check, 503 on failure, no internal details |
+| Continuous integration | Implemented — Unverified | `.github/workflows/tests.yml` exists but has not run, because no GitHub repository exists yet |
 | Project and user management | Not Started | No verified implementation recorded |
 | Secure URL validation | Not Started | Security requirements documented |
 | Website crawling | Not Started | No verified implementation recorded |
@@ -84,10 +87,10 @@ Use the following status definitions consistently:
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | Not Started | Testing strategy not yet finalized |
+| Automated tests | In Progress | 17 foundational tests passing; feature tests will grow with each feature |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
-These statuses describe the known planning state. Update them as soon as code is written and verified.
+Update these statuses as soon as code is written and verified.
 
 ## 4. Verified Development Evidence
 
@@ -114,14 +117,37 @@ For every important verification, record:
 5. Known limitations.
 6. Relevant commit or file references, where available.
 
+### 4.1 Verification record: Phase 1 foundation
+
+**Date:** 2026-10-27  
+**Environment:** Linux, Python 3.13.17, Django 5.2.18, python-dotenv 1.2.4  
+**Files:** `manage.py`, `config/`, `apps/core/`, `templates/`, `static/`, `requirements.txt`, `.env.example`, `.github/workflows/tests.yml`
+
+| Check | Command or method | Result |
+|---|---|---|
+| System checks | `python manage.py check` | Passed: no issues |
+| Missing migrations | `python manage.py makemigrations --check --dry-run` | Passed: no changes detected |
+| Automated tests | `python manage.py test` | Passed: 17 tests |
+| Production settings | Test runs `check --deploy` with debug off | Passed. Only W005 (HSTS for subdomains) and W021 (HSTS preload) remain; both are deliberate opt-ins that depend on the real domain |
+| Regression detection | `check --deploy` with HSTS disabled | Reports W004, which the test would treat as a failure |
+| Missing secret key | Test starts Django with debug off and no key | Refused to start, as intended |
+| Manual server test | `runserver` with `.env` copied from `.env.example`, then HTTP requests | `/` 200, `/health/` 200 with `no-store`, CSS 200, unknown URL 404, POST to `/health/` 403 (CSRF) |
+| Layout | Playwright screenshots at 375px (light) and 1280px (dark) | No horizontal scrolling; content readable |
+| Git hygiene | `git status --ignored` | `.env` and `db.sqlite3` are ignored |
+
+**Known limitations:**
+- Not yet verified on Windows.
+- GitHub Actions has not run, because the repository is not yet on GitHub.
+- No Kiswahili translations exist yet; the template text is marked for translation.
+
 ## 5. Current Blockers and Open Questions
 
 The following items must be resolved or investigated as implementation progresses.
 
 ### 5.1 Repository and Environment
 
-- Create the project's Git repository and commit the documentation.
-- Confirm the Python version and virtual environment on the development computer.
+- Create the GitHub repository and push the local commits. **This is the current blocker:** the work exists only in a temporary environment until it is pushed.
+- Confirm the setup steps on the owner's Windows computer.
 - Confirm that FFmpeg can be installed on the development computer (needed later, not for Phase 1).
 
 ### 5.2 Product Decisions
@@ -161,19 +187,20 @@ The next development priorities should be completed in order, adjusting the sequ
 
 ### Priority 2 — Create the Repository
 
-- [ ] Create the Git repository for the project.
-- [ ] Commit the documentation with `.gitignore` and `.gitattributes`.
-- [ ] Record the actual development environment (Python version, operating system).
+- [x] Create a local Git repository and commit the documentation with `.gitignore` and `.gitattributes`.
+- [ ] Create the GitHub repository and push.
+- [ ] Confirm that GitHub Actions runs and passes.
+- [ ] Record the owner's development environment (Windows, Python version).
 
 ### Priority 3 — Establish a Minimal Working Foundation
 
-- [ ] Create the Django project.
-- [ ] Confirm the application starts locally.
-- [ ] Establish a repeatable development environment.
-- [ ] Configure the initial database.
-- [ ] Add a basic health or application availability check.
-- [ ] Add foundational tests.
-- [ ] Document exact setup and run commands.
+- [x] Create the Django project (Django 5.2 LTS, DEC-017).
+- [x] Confirm the application starts locally (verified on Linux; Windows pending).
+- [x] Establish a repeatable development environment.
+- [x] Configure the initial database.
+- [x] Add a basic health or application availability check.
+- [x] Add foundational tests.
+- [x] Document exact setup and run commands.
 
 ### Priority 4 — Build the First End-to-End Feature
 

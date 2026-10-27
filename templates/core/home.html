@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+<section class="hero">
+  <h1>{% translate "Turn your website into marketing content" %}</h1>
+  <p class="lead">
+    {% blocktranslate trimmed %}
+      JamiiTek AI Marketing Studio will read the public information on your
+      business website, let you check and correct it, and help you create
+      accurate marketing content from it.
+    {% endblocktranslate %}
+  </p>
+</section>
+
+<section class="notice" aria-labelledby="status-heading">
+  <h2 id="status-heading">{% translate "Project status" %}</h2>
+  <p>
+    {% blocktranslate trimmed %}
+      This application is in early development. No marketing features are
+      available yet, and nothing on this page collects or processes data.
+    {% endblocktranslate %}
+  </p>
+</section>
+
+<section aria-labelledby="plan-heading">
+  <h2 id="plan-heading">{% translate "Planned workflow" %}</h2>
+  <ol class="steps">
+    <li>{% translate "Create a project and enter your website address, or type your business details yourself." %}</li>
+    <li>{% translate "Review what was found on your website and correct anything that is wrong." %}</li>
+    <li>{% translate "Choose your goal, audience, language, and format." %}</li>
+    <li>{% translate "Review and edit the generated script before anything is produced." %}</li>
+    <li>{% translate "Preview and download the finished content." %}</li>
+  </ol>
+</section>
+{% endblock %}
