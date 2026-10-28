@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     "apps.business_profiles",
     "apps.marketing_content",
     "apps.creative_assets",
+    "apps.media_production",
 ]
 
 MIDDLEWARE = [
@@ -224,6 +225,14 @@ STORAGES = {
     "default": _default_storage,
     "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
 }
+
+# Video rendering (DEC-023). FFmpeg must be installed; set full paths if the
+# programs are not on PATH (common on Windows).
+FFMPEG_PATH = os.environ.get("FFMPEG_PATH", "").strip() or "ffmpeg"
+FFPROBE_PATH = os.environ.get("FFPROBE_PATH", "").strip() or "ffprobe"
+# Threads per FFmpeg process; 2 keeps an 8 GB laptop responsive.
+FFMPEG_THREADS = int(os.environ.get("FFMPEG_THREADS", "2"))
+MAX_AUDIO_BYTES = int(os.environ.get("MAX_AUDIO_BYTES", str(15 * 1024 * 1024)))
 
 # Largest image a user may upload or import.
 MAX_IMAGE_BYTES = int(os.environ.get("MAX_IMAGE_BYTES", str(8 * 1024 * 1024)))

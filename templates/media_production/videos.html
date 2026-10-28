@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Videos" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{{ project.get_absolute_url }}">&larr; {{ project.name }}</a></p>
+<div class="page-heading">
+  <h1>{% translate "Videos" %}</h1>
+  {% if has_approved_script and ffmpeg_ready %}<a href="{% url 'media_production:create' project.pk %}" class="button">{% translate "Make a video" %}</a>{% endif %}
+</div>
+
+{% if not ffmpeg_ready %}
+  <section class="notice status-failed">
+    <h2>{% translate "FFmpeg is not installed" %}</h2>
+    <p>{% translate "Video making needs the free FFmpeg program on the computer running this application. See README for how to install it." %}</p>
+  </section>
+{% elif not has_approved_script %}
+  <section class="notice">
+    <h2>{% translate "Approve a script first" %}</h2>
+    <p>{% translate "Videos are made from an approved script, so every statement has been checked." %}</p>
+    <a href="{% url 'marketing_content:home' project.pk %}" class="button button-secondary">{% translate "Go to marketing content" %}</a>
+  </section>
+{% endif %}
+
+{% if renders %}
+  <ul class="card-list">
+    {% for video in renders %}
+      <li class="card">
+        <p class="page-status">{{ video.get_status_display }}</p>
+        <h2><a href="{{ video.get_absolute_url }}">{{ video.script.title|default:_("Video") }}</a></h2>
+        <p class="muted">{{ video }}{% if video.duration %} · {{ video.duration|floatformat:0 }} s{% endif %} · {{ video.created_at|date:"j M Y, H:i" }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<section aria-labelledby="audio-heading">
+  <h2 id="audio-heading">{% translate "Music and voice-over" %}</h2>
+  <p class="muted">{% translate "Use music you have a licence for, or record your own voice reading the script on your phone. Automatic AI narration is not available yet." %}</p>
+  {% if tracks %}
+    <ul class="fact-list">
+      {% for track in tracks %}
+        <li class="fact">
+          <p class="fact-value">{{ track.original_name|default:track.get_kind_display }}</p>
+          <p class="fact-meta">{{ track.get_kind_display }} · {{ track.duration|floatformat:0 }} s</p>
+          <audio controls preload="none" src="{{ track.file_url }}"></audio>
+          <form method="post" action="{% url 'media_production:audio_delete' project.pk track.pk %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <form method="post" action="{% url 'media_production:upload_audio' project.pk %}" enctype="multipart/form-data" novalidate class="narrow">
+    {% csrf_token %}
+    {% include "includes/form_fields.html" with form=audio_form %}
+    <button type="submit" class="button button-secondary">{% translate "Upload audio" %}</button>
+  </form>
+</section>
+{% endblock %}

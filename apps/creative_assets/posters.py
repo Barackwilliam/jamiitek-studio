@@ -60,7 +60,7 @@ def _wrap(draw, text, font, max_width):
     return lines
 
 
-def _fit_text(draw, text, font_path, max_width, start_size, min_size, max_lines):
+def fit_text(draw, text, font_path, max_width, start_size, min_size, max_lines):
     size = start_size
     while True:
         font = ImageFont.truetype(str(font_path), size)
@@ -71,7 +71,7 @@ def _fit_text(draw, text, font_path, max_width, start_size, min_size, max_lines)
         size -= 2
 
 
-def _background(size, brand_rgb, photo):
+def photo_or_gradient(size, brand_rgb, photo):
     width, height = size
     if photo is not None:
         return ImageOps.fit(photo.convert("RGB"), size, method=Image.Resampling.LANCZOS)
@@ -108,7 +108,7 @@ def render_poster(*, size, headline, subtext="", call_to_action="", brand_color=
     width, height = size
     brand_rgb = hex_to_rgb(brand_color)
     photo = Image.open(io.BytesIO(photo_bytes)) if photo_bytes else None
-    canvas = _background(size, brand_rgb, photo)
+    canvas = photo_or_gradient(size, brand_rgb, photo)
 
     draw = ImageDraw.Draw(canvas)
     margin = int(min(width, height) * 0.07)
@@ -119,7 +119,7 @@ def render_poster(*, size, headline, subtext="", call_to_action="", brand_color=
     y = height - margin
     cta = None
     if call_to_action:
-        font, lines = _fit_text(draw, call_to_action, BOLD_FONT, text_width * 0.9,
+        font, lines = fit_text(draw, call_to_action, BOLD_FONT, text_width * 0.9,
                                 int(short_side * 0.042), int(short_side * 0.028), 2)
         line_height = int(font.size * 1.25)
         pad_x, pad_y = int(font.size * 0.9), int(font.size * 0.55)
@@ -131,14 +131,14 @@ def render_poster(*, size, headline, subtext="", call_to_action="", brand_color=
 
     sub = None
     if subtext:
-        font, lines = _fit_text(draw, subtext, REGULAR_FONT, text_width,
+        font, lines = fit_text(draw, subtext, REGULAR_FONT, text_width,
                                 int(short_side * 0.04), int(short_side * 0.028), 3)
         line_height = int(font.size * 1.3)
         y -= line_height * len(lines)
         sub = (y, font, lines, line_height)
         y -= int(short_side * 0.03)
 
-    head_font, head_lines = _fit_text(draw, headline, BOLD_FONT, text_width,
+    head_font, head_lines = fit_text(draw, headline, BOLD_FONT, text_width,
                                       int(short_side * 0.085), int(short_side * 0.045), 3)
     head_line_height = int(head_font.size * 1.15)
     y -= head_line_height * len(head_lines)

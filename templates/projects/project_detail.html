@@ -60,7 +60,12 @@
   <h2 id="media-heading">{% translate "Images and posters" %}</h2>
   <p>{% translate "Keep your photos and logo in one place and turn approved text into posters." %}</p>
   <a href="{% url 'creative_assets:library' project.pk %}" class="button button-secondary">{% translate "Open images and posters" %}</a>
-  <p class="muted">{% translate "Narration and video are not available yet." %}</p>
+</section>
+
+<section class="notice" aria-labelledby="video-heading">
+  <h2 id="video-heading">{% translate "Videos" %}</h2>
+  <p>{% translate "Turn an approved script and your photos into a short MP4 video with captions, and optional music or your own voice-over." %}</p>
+  <a href="{% url 'media_production:videos' project.pk %}" class="button button-secondary">{% translate "Open videos" %}</a>
 </section>
 
 <p><a href="{% url 'projects:delete' project.pk %}" class="danger-link">{% translate "Delete this project" %}</a></p>

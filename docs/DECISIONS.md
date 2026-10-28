@@ -259,6 +259,22 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-023: Template Videos With FFmpeg
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- Videos are made only from **approved** scripts, as a snapshot, so later edits do not silently change a video.
+- Each scene is a still: the user's photo (or the brand colour) with a slow zoom, the on-screen text, and the narration text as captions. An optional end card shows the logo and call to action. Scenes are joined with short cross-fades.
+- All text is drawn with Pillow; FFmpeg never receives user text, and it always runs without a shell, with time limits and 2 threads by default.
+- Each scene is rendered separately and then joined, which keeps memory use low on the 8 GB development laptop. Users render a 540p preview first and 1080p only when satisfied.
+- A video is marked ready only after FFprobe confirms the format, size, duration and sound, and a full decode succeeds.
+- Sound: user-uploaded music (looped, faded, lowered under speech) and/or a user-recorded voice-over, each with a rights confirmation. **AI narration remains open (OPEN-014):** no free Kiswahili voice with a confirmed commercial licence was found. AI-generated footage is deferred for the same reasons as AI images (DEC-022).
+
+**Review conditions:** Revisit narration when a suitably licensed free Kiswahili voice is confirmed; revisit motion and transitions after feedback from real users.
+
 ### DEC-022: Image Library and Template Posters Without AI Image Generation
 
 **Status:** Accepted
@@ -415,7 +431,7 @@ The following topics remain open until explicitly decided and recorded.
 | ~~OPEN-009~~ | ~~Storage~~ | **Resolved by DEC-018:** Supabase PostgreSQL and a private Supabase Storage bucket |
 | OPEN-010 | Deployment | Hosting environment and production architecture; must fit free-tier limits under DEC-016 |
 | OPEN-013 | Text AI provider | Which free hosted text-generation option to use first, after verifying current terms (local models are impractical on the 8 GB development laptop; see DEC-012) |
-| OPEN-014 | Narration | Which free speech option, if any, is licensed for commercial use in the launch languages |
+| OPEN-014 | Narration | Which free speech option, if any, is licensed for commercial use in the launch languages (until then, users can upload their own voice-over; DEC-023) |
 | OPEN-011 | Usage limits | Project, crawl, generation, and export limits |
 | OPEN-012 | Commercial model | Free access, subscriptions, usage-based pricing, or a combination |
 

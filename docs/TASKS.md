@@ -268,21 +268,22 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-074 — P1:** Define the initial video scene-plan format.
-- [ ] **TASK-075 — P1:** Validate scene timing and asset references.
-- [ ] **TASK-076 — P1:** Establish a working FFmpeg rendering prototype using local test assets.
-- [ ] **TASK-077 — P1:** Implement image and video preparation for scenes.
-- [ ] **TASK-078 — P1:** Implement basic transitions and animated text.
-- [ ] **TASK-079 — P1:** Implement audio and caption composition.
-- [ ] **TASK-080 — P1:** Evaluate free narration options (for example, Piper voices) and verify each voice's license for commercial use; integrate only if a suitable voice exists. Videos must work without narration (OPEN-014).
-- [ ] **TASK-081 — P1:** Render an initial playable MP4.
-- [ ] **TASK-082 — P1:** Validate output dimensions, duration, and playback.
-- [ ] **TASK-083 — P1:** Implement safe temporary-file handling.
-- [ ] **TASK-084 — P1:** Add rendering failure handling and bounded retries.
-- [ ] **TASK-085 — P2:** Evaluate AI-generated supplementary video footage.
-- [ ] **TASK-086 — P2:** Add a hybrid workflow combining authentic business assets with supplementary generated footage.
-- [ ] **TASK-087 — P2:** Evaluate 9:16, 16:9, and 1:1 output profiles.
-- [ ] **TASK-088 — P2:** Add scene-level preview and revision where practical.
+- [x] **TASK-074 — P1:** Define the initial video scene-plan format. *(Snapshot of approved script scenes: texts, durations, image IDs, end card.)*
+- [x] **TASK-075 — P1:** Validate scene timing and asset references. *(2–15 s per scene, 120 s total, voice-over must fit; checked before queueing and again before rendering; missing images fall back to the brand colour.)*
+- [x] **TASK-076 — P1:** Establish a working FFmpeg rendering prototype using local test assets.
+- [x] **TASK-077 — P1:** Implement image and video preparation for scenes. *(Photos; video clips as scene sources are not supported yet.)*
+- [x] **TASK-078 — P1:** Implement basic transitions and animated text. *(Slow zoom and cross-fades; text is static.)*
+- [x] **TASK-079 — P1:** Implement audio and caption composition. *(Narration text as captions; music looped and faded; user voice-over mixed above music.)*
+- [ ] **TASK-080 — P1:** Evaluate free narration options (OPEN-014). *(Still open: no free Kiswahili voice with a confirmed commercial licence. Users can upload their own recorded voice-over instead.)*
+- [x] **TASK-081 — P1:** Render an initial playable MP4.
+- [x] **TASK-082 — P1:** Validate output dimensions, duration, and playback. *(FFprobe checks plus a full decode; a failed check fails the render.)*
+- [x] **TASK-083 — P1:** Implement safe temporary-file handling. *(Temporary folders always removed.)*
+- [ ] **TASK-084 — P1:** Add rendering failure handling and bounded retries. *(Failures recorded with safe messages; no automatic retry, the user starts it again.)*
+- [x] **TASK-085 — P2:** Evaluate AI-generated supplementary video footage. *(Deferred, DEC-023.)*
+- [ ] **TASK-086 — P2:** Add a hybrid workflow with supplementary generated footage. *(Deferred.)*
+- [x] **TASK-087 — P2:** Evaluate 9:16, 16:9, and 1:1 output profiles.
+- [ ] **TASK-088 — P2:** Add scene-level preview and revision where practical. *(Whole-video preview quality only.)*
+- [ ] **TASK-088A — P2:** Support seeking in long videos (HTTP range requests) and video clips as scene sources.
 
 ### Acceptance criteria
 
