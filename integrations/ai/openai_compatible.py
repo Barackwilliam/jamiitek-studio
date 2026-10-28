@@ -16,6 +16,7 @@ from . import (
     ProviderAuthError,
     ProviderBadResponse,
     ProviderRateLimited,
+    ProviderSetupError,
     ProviderUnavailable,
     TextGenerationProvider,
     TextGenerationResult,
@@ -71,6 +72,15 @@ class OpenAICompatibleProvider(TextGenerationProvider):
             raise ProviderBadResponse("response too large")
         return body
 
+    def _error_text(self, exc):
+        try:
+            text = exc.read(2000).decode("utf-8", errors="replace")
+        except Exception:
+            return "(no details)"
+        if self.api_key:
+            text = text.replace(self.api_key, "[key]")
+        return " ".join(text.split())[:500] or "(no details)"
+
     def generate(self, request):
         payload = self._payload(request)
         attempt = 0
@@ -80,10 +90,14 @@ class OpenAICompatibleProvider(TextGenerationProvider):
                 break
             except urllib.error.HTTPError as exc:
                 status = exc.code
-                # Never log the request: it carries the API key header.
-                logger.warning("%s returned HTTP %s", self.name, status)
+                # Never log the request: it carries the API key header. The
+                # provider's own error text says what is wrong (for example
+                # an unknown model), so a short, key-free part of it is logged.
+                logger.warning("%s returned HTTP %s: %s", self.name, status, self._error_text(exc))
                 if status in (401, 403):
                     raise ProviderAuthError(f"HTTP {status}") from exc
+                if status == 404:
+                    raise ProviderSetupError(f"HTTP {status}") from exc
                 if status == 429:
                     raise ProviderRateLimited(f"HTTP {status}") from exc
                 if status >= 500 and attempt < self.retries:

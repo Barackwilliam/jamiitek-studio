@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JamiiTek AI Marketing Studio\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 17:15+0300\n"
+"POT-Creation-Date: 2026-10-28 17:55+0300\n"
 "PO-Revision-Date: 2026-10-28 16:00+0300\n"
 "Last-Translator: JamiiTek <https://github.com/Barackwilliam/jamiitek-"
 "studio>\n"
@@ -1087,13 +1087,21 @@ msgstr ""
 
 #: integrations/ai/__init__.py:39
 msgid ""
+"The AI service did not recognise the model name or address. The "
+"administrator needs to check AI_TEXT_MODEL and AI_TEXT_BASE_URL."
+msgstr ""
+"Huduma ya AI haikutambua jina la model au anwani. Msimamizi anahitaji "
+"kukagua AI_TEXT_MODEL na AI_TEXT_BASE_URL."
+
+#: integrations/ai/__init__.py:45
+msgid ""
 "The free AI quota has been reached for now. Your work is saved; please try "
 "again later."
 msgstr ""
 "Kiwango cha bure cha AI kimefikiwa kwa sasa. Kazi yako imehifadhiwa; "
 "tafadhali jaribu tena baadaye."
 
-#: integrations/ai/__init__.py:45
+#: integrations/ai/__init__.py:51
 msgid ""
 "The AI service is not responding right now. Your work is saved; please try "
 "again later."
@@ -1101,7 +1109,7 @@ msgstr ""
 "Huduma ya AI haijibu kwa sasa. Kazi yako imehifadhiwa; tafadhali jaribu tena "
 "baadaye."
 
-#: integrations/ai/__init__.py:51
+#: integrations/ai/__init__.py:57
 msgid "The AI service returned an answer we could not use. Please try again."
 msgstr ""
 "Huduma ya AI ilirudisha jibu ambalo hatukuweza kutumia. Tafadhali jaribu "

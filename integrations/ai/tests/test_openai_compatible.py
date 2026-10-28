@@ -9,6 +9,7 @@ from integrations.ai import (
     ProviderBadResponse,
     ProviderNotConfigured,
     ProviderRateLimited,
+    ProviderSetupError,
     ProviderUnavailable,
     TextGenerationRequest,
 )
@@ -49,8 +50,9 @@ def completion(content='{"ok": true}', finish_reason="stop"):
             "usage": {"prompt_tokens": 100, "completion_tokens": 20, "note": "ignored"}}
 
 
-def http_error(status):
-    return urllib.error.HTTPError("https://ai.example/v1/chat/completions", status, "error", {}, None)
+def http_error(status, body=b""):
+    return urllib.error.HTTPError("https://ai.example/v1/chat/completions", status, "error", {},
+                                  io.BytesIO(body))
 
 
 def provider(opener, **kwargs):
@@ -87,12 +89,23 @@ class OpenAICompatibleProviderTests(SimpleTestCase):
 
     def test_error_statuses_map_to_errors(self):
         for status, error in [(401, ProviderAuthError), (403, ProviderAuthError),
-                              (429, ProviderRateLimited), (400, ProviderBadResponse)]:
+                              (429, ProviderRateLimited), (400, ProviderBadResponse),
+                              (404, ProviderSetupError)]:
             with self.subTest(status=status), self.assertLogs("integrations.ai", "WARNING"):
                 opener = FakeOpener(http_error(status), completion())
                 with self.assertRaises(error):
                     provider(opener).generate(REQUEST)
                 self.assertEqual(len(opener.requests), 1, "must not retry")
+
+    def test_provider_error_text_is_logged_without_the_key(self):
+        body = ('{"error": {"message": "models/old-model is not found for API version v1beta, '
+                'key ' + SECRET_KEY + '"}}').encode()
+        opener = FakeOpener(http_error(404, body))
+        with self.assertLogs("integrations.ai", "WARNING") as logs, self.assertRaises(ProviderSetupError):
+            provider(opener).generate(REQUEST)
+        output = "\n".join(logs.output)
+        self.assertIn("models/old-model is not found", output)
+        self.assertNotIn(SECRET_KEY, output)
 
     def test_server_error_is_retried_once(self):
         opener = FakeOpener(http_error(503), completion())

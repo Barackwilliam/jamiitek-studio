@@ -34,6 +34,12 @@ class ProviderAuthError(ProviderError):
                            "The administrator needs to check the configuration.")
 
 
+class ProviderSetupError(ProviderError):
+    code = "setup_error"
+    message = gettext_noop("The AI service did not recognise the model name or address. "
+                           "The administrator needs to check AI_TEXT_MODEL and AI_TEXT_BASE_URL.")
+
+
 class ProviderRateLimited(ProviderError):
     code = "rate_limited"
     message = gettext_noop("The free AI quota has been reached for now. Your work is saved; "
