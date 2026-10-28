@@ -143,10 +143,10 @@ Keep it running while you use the application; stop it with Ctrl+C. Without it, 
 
 AI writing is off until a provider is configured in `.env` (see `docs/DECISIONS.md`, DEC-021). Both options below have free tiers; check their current limits and terms before relying on them.
 
-- **Google Gemini** (recommended for Kiswahili): create a key in Google AI Studio, then set `AI_TEXT_PROVIDER_NAME=Google Gemini`, `AI_TEXT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`, `AI_TEXT_API_KEY=<your key>` and `AI_TEXT_MODEL=<a current Flash model name>`. On the free tier Google may use the information you send to improve its products, so set `AI_TEXT_DATA_NOTICE` to tell users.
+- **Google Gemini** (recommended for Kiswahili): create a key in Google AI Studio, then set `AI_TEXT_PROVIDER_NAME=Google Gemini`, `AI_TEXT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`, `AI_TEXT_API_KEY=<your key>`, `AI_TEXT_MODEL=gemini-flash-latest` (or a Flash model name shown in AI Studio) and `AI_TEXT_REASONING_EFFORT=low`. Without the last setting, newer Flash models may think for over a minute and time out. On the free tier Google may use the information you send to improve its products, so set `AI_TEXT_DATA_NOTICE` to tell users.
 - **Groq**: create a key in the Groq console, then set `AI_TEXT_PROVIDER_NAME=Groq`, `AI_TEXT_BASE_URL=https://api.groq.com/openai/v1`, `AI_TEXT_API_KEY=<your key>` and `AI_TEXT_MODEL=<a current model name>`.
 
-If drafts fail with "answer we could not use" right away, try `AI_TEXT_JSON_MODE=False`. Restart the web server and the worker after changing `.env`. Automated tests never call the real AI service.
+If drafts fail with "answer we could not use" right away, try `AI_TEXT_JSON_MODE=False`. If they fail because the AI service is not responding, the worker window shows `TimeoutError`: set `AI_TEXT_REASONING_EFFORT=low` or raise `AI_TEXT_TIMEOUT`. The worker window also shows the provider's own reason for other errors, such as an unknown model name. Restart the web server and the worker after changing `.env`. Automated tests never call the real AI service.
 
 If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use `.venv\Scripts\activate.bat` from Command Prompt.
 

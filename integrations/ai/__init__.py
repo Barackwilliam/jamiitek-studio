@@ -62,7 +62,8 @@ class TextGenerationRequest:
     system_prompt: str
     user_prompt: str
     temperature: float = 0.7
-    max_output_tokens: int = 2048
+    # Room for the answer plus any "thinking" tokens newer models count here.
+    max_output_tokens: int = 4096
     json_output: bool = True
 
 

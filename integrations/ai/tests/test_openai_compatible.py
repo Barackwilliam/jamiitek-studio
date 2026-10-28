@@ -87,6 +87,14 @@ class OpenAICompatibleProviderTests(SimpleTestCase):
         provider(opener, json_mode=False).generate(REQUEST)
         self.assertNotIn("response_format", json.loads(opener.requests[0][0].data))
 
+    def test_reasoning_effort_is_sent_only_when_set(self):
+        opener = FakeOpener(completion(), completion())
+        provider(opener).generate(REQUEST)
+        provider(opener, reasoning_effort="low").generate(REQUEST)
+        first, second = (json.loads(r[0].data) for r in opener.requests)
+        self.assertNotIn("reasoning_effort", first)
+        self.assertEqual(second["reasoning_effort"], "low")
+
     def test_error_statuses_map_to_errors(self):
         for status, error in [(401, ProviderAuthError), (403, ProviderAuthError),
                               (429, ProviderRateLimited), (400, ProviderBadResponse),

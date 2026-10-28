@@ -29,13 +29,14 @@ MAX_RESPONSE_BYTES = 2_000_000
 
 class OpenAICompatibleProvider(TextGenerationProvider):
     def __init__(self, *, name, base_url, api_key, model, timeout=60.0, json_mode=True,
-                 retries=1, retry_delay=2.0, opener=None, sleep=time.sleep):
+                 reasoning_effort="", retries=1, retry_delay=2.0, opener=None, sleep=time.sleep):
         self.name = name
         self.base_url = base_url.rstrip("/")
         self.api_key = api_key
         self.model = model
         self.timeout = timeout
         self.json_mode = json_mode
+        self.reasoning_effort = reasoning_effort
         self.retries = retries
         self.retry_delay = retry_delay
         self.opener = opener or urllib.request.build_opener()
@@ -53,6 +54,10 @@ class OpenAICompatibleProvider(TextGenerationProvider):
         }
         if request.json_output and self.json_mode:
             payload["response_format"] = {"type": "json_object"}
+        if self.reasoning_effort:
+            # Newer "thinking" models can spend a minute reasoning before they
+            # answer; short marketing drafts do not need that.
+            payload["reasoning_effort"] = self.reasoning_effort
         return payload
 
     def _post(self, payload):

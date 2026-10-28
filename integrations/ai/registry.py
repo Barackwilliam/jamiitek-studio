@@ -19,4 +19,5 @@ def get_text_provider():
         model=settings.AI_TEXT_MODEL,
         timeout=settings.AI_TEXT_TIMEOUT,
         json_mode=settings.AI_TEXT_JSON_MODE,
+        reasoning_effort=settings.AI_TEXT_REASONING_EFFORT,
     )

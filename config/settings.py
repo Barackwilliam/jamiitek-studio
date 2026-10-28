@@ -273,8 +273,9 @@ AI_TEXT_PROVIDER_NAME = os.environ.get("AI_TEXT_PROVIDER_NAME", "").strip() or "
 AI_TEXT_BASE_URL = os.environ.get("AI_TEXT_BASE_URL", "").strip()
 AI_TEXT_API_KEY = os.environ.get("AI_TEXT_API_KEY", "").strip()
 AI_TEXT_MODEL = os.environ.get("AI_TEXT_MODEL", "").strip()
-AI_TEXT_TIMEOUT = float(os.environ.get("AI_TEXT_TIMEOUT", "60"))
+AI_TEXT_TIMEOUT = float(os.environ.get("AI_TEXT_TIMEOUT", "120"))
 AI_TEXT_JSON_MODE = env_bool("AI_TEXT_JSON_MODE", default=True)
+AI_TEXT_REASONING_EFFORT = os.environ.get("AI_TEXT_REASONING_EFFORT", "").strip()
 # Shown to users before their business information is sent to the provider.
 AI_TEXT_DATA_NOTICE = os.environ.get("AI_TEXT_DATA_NOTICE", "").strip()
 
