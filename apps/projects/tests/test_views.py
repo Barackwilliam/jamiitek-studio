@@ -188,6 +188,7 @@ class ProjectDetailUpdateDeleteTests(ProjectTestCase):
         self.assertContains(response, "Analyze website")
         self.assertContains(response, "Review business profile")
         self.assertContains(response, "Create marketing content")
+        self.assertContains(response, "Open images and posters")
 
     def test_user_content_is_escaped(self):
         self.project.business_details = "<script>alert('x')</script>"

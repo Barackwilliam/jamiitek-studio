@@ -475,3 +475,53 @@ details summary {
   width: auto;
   margin-top: 0.3rem;
 }
+
+/* Images and posters */
+.asset-grid {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+
+.asset img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+
+.asset-alt {
+  font-size: 0.875rem;
+  margin: 0.25rem 0;
+  overflow-wrap: anywhere;
+}
+
+.two-columns {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin: 2rem 0;
+}
+
+.candidate-list {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.poster-preview {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 80vh;
+  width: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}

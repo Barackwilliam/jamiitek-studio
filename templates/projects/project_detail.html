@@ -54,7 +54,13 @@
   <h2 id="content-heading">{% translate "Marketing content" %}</h2>
   <p>{% translate "Let AI draft video concepts and scripts from your confirmed business information. You review and approve everything." %}</p>
   <a href="{% url 'marketing_content:home' project.pk %}" class="button button-secondary">{% translate "Create marketing content" %}</a>
-  <p class="muted">{% translate "Images, narration and video are not available yet." %}</p>
+</section>
+
+<section class="notice" aria-labelledby="media-heading">
+  <h2 id="media-heading">{% translate "Images and posters" %}</h2>
+  <p>{% translate "Keep your photos and logo in one place and turn approved text into posters." %}</p>
+  <a href="{% url 'creative_assets:library' project.pk %}" class="button button-secondary">{% translate "Open images and posters" %}</a>
+  <p class="muted">{% translate "Narration and video are not available yet." %}</p>
 </section>
 
 <p><a href="{% url 'projects:delete' project.pk %}" class="danger-link">{% translate "Delete this project" %}</a></p>

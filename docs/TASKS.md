@@ -237,16 +237,18 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-064 — P1:** Define the initial creative configuration model.
-- [ ] **TASK-065 — P1:** Implement settings for aspect ratio, language, tone, and duration.
-- [ ] **TASK-066 — P1:** Implement project asset metadata and ownership.
-- [ ] **TASK-067 — P1:** Support safe selection of website images.
-- [ ] **TASK-068 — P1:** Add secure user uploads where required.
-- [ ] **TASK-069 — P1:** Validate file types, sizes, and relevant media properties.
-- [ ] **TASK-070 — P1:** Implement brand asset selection and logo placement options.
-- [ ] **TASK-071 — P2:** Evaluate free image-generation options or suitable local alternatives, including their commercial-use licenses.
-- [ ] **TASK-072 — P2:** Add poster generation from templates and approved assets (no AI required), then AI image generation if a free, licensed option is found.
-- [ ] **TASK-073 — P2:** Add asset preview and replacement workflows.
+- [x] **TASK-064 — P1:** Define the initial creative configuration model. *(Brief settings from Phase 5 plus poster format, photo, logo and brand colour.)*
+- [x] **TASK-065 — P1:** Implement settings for aspect ratio, language, tone, and duration. *(Language, tone, duration in the brief; 1:1, 9:16 and 16:9 for posters.)*
+- [x] **TASK-066 — P1:** Implement project asset metadata and ownership. *(`Asset`: origin, source URL, description, size, checksum, rights confirmation.)*
+- [x] **TASK-067 — P1:** Support safe selection of website images. *(Only images found by the analysis; SSRF-safe fetch; robots.txt; no third-party images loaded in our pages.)*
+- [x] **TASK-068 — P1:** Add secure user uploads where required.
+- [x] **TASK-069 — P1:** Validate file types, sizes, and relevant media properties. *(Pillow decides the format; size, dimension and decompression-bomb limits; re-encoded without metadata.)*
+- [x] **TASK-070 — P1:** Implement brand asset selection and logo placement options. *(Logo and photo chosen per poster; logo placement fixed in the top corner.)*
+- [x] **TASK-071 — P2:** Evaluate free image-generation options. *(Deferred, DEC-022.)*
+- [x] **TASK-072 — P2:** Add poster generation from templates and approved assets. *(No AI; AI images deferred.)*
+- [ ] **TASK-073 — P2:** Add asset preview and replacement workflows. *(Partial: previews, removal and re-upload; no in-place replacement or cropping.)*
+- [ ] **TASK-073A — P1:** Try Supabase Storage with a real private bucket.
+- [ ] **TASK-073B — P2:** More poster layouts and choice of logo position.
 
 ### Acceptance criteria
 

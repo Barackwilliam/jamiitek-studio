@@ -80,7 +80,7 @@ The initial implementation should favor a modular Django application unless actu
 
 The following is a possible target structure, not an assertion about the current repository.
 
-As of 2026-10-27, the implemented structure contains `manage.py`, `config/` (with a single `settings.py` rather than a `settings/` package; see DEC-017), `apps/core/`, `apps/accounts/`, `apps/projects/`, `apps/website_analyzer/` (URL safety, fetching, crawling, background analysis), `apps/business_profiles/`, `apps/marketing_content/`, `integrations/ai/` (OpenAI-compatible text provider, DEC-021), `templates/`, `static/`, and the supporting files. Other applications will be added only when their features are built.
+As of 2026-10-27, the implemented structure contains `manage.py`, `config/` (with a single `settings.py` rather than a `settings/` package; see DEC-017), `apps/core/`, `apps/accounts/`, `apps/projects/`, `apps/website_analyzer/` (URL safety, fetching, crawling, background analysis), `apps/business_profiles/`, `apps/marketing_content/`, `apps/creative_assets/` (image library and posters, DEC-022), `integrations/ai/` (OpenAI-compatible text provider, DEC-021), `templates/`, `static/`, and the supporting files. Other applications will be added only when their features are built.
 
 ```text
 jamiitek-ai-marketing-studio/

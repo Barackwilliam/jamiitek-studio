@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Images and posters" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block extra_head %}{% if latest_import.is_active %}<meta http-equiv="refresh" content="5">{% endif %}{% endblock %}
+
+{% block content %}
+<p><a href="{{ project.get_absolute_url }}">&larr; {{ project.name }}</a></p>
+<div class="page-heading">
+  <h1>{% translate "Images and posters" %}</h1>
+  <a href="{% url 'creative_assets:poster_create' project.pk %}" class="button">{% translate "Make a poster" %}</a>
+</div>
+
+{% if latest_import %}
+  <section class="notice status-{{ latest_import.status }}" aria-live="polite">
+    {% if latest_import.is_active %}
+      <h2>{% translate "Importing images from your website…" %}</h2>
+      <p>{% translate "This page refreshes automatically. If nothing happens, start the worker: python manage.py run_worker" %}</p>
+    {% else %}
+      <h2>{% translate "Latest import" %}</h2>
+      <ul class="break">
+        {% for result in latest_import.results %}
+          <li>{% if result.status == "imported" %}{% translate "Imported" %}{% elif result.status == "duplicate" %}{% translate "Already in library" %}{% else %}{% translate "Failed" %}{% endif %}: {{ result.url }}{% if result.message %} — {{ result.message }}{% endif %}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  </section>
+{% endif %}
+
+<section aria-labelledby="images-heading">
+  <h2 id="images-heading">{% translate "Image library" %}</h2>
+  {% if assets %}
+    <ul class="asset-grid">
+      {% for asset in assets %}
+        <li class="asset">
+          <img src="{{ asset.thumbnail_url }}" alt="{{ asset.alt_text }}" loading="lazy" width="240" height="240">
+          <p class="fact-meta">{{ asset.get_kind_display }} · {{ asset.get_origin_display }} · {{ asset.width }}×{{ asset.height }}</p>
+          {% if asset.alt_text %}<p class="asset-alt">{{ asset.alt_text }}</p>{% endif %}
+          <form method="post" action="{% url 'creative_assets:asset_delete' project.pk asset.pk %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">{% translate "No images yet. Upload your own photos and logo, or import them from your website." %}</p>
+  {% endif %}
+</section>
+
+<div class="two-columns">
+  <section class="narrow" aria-labelledby="upload-heading">
+    <h2 id="upload-heading">{% translate "Upload an image" %}</h2>
+    <form method="post" action="{% url 'creative_assets:upload' project.pk %}" enctype="multipart/form-data" novalidate>
+      {% csrf_token %}
+      {% include "includes/form_fields.html" with form=upload_form %}
+      <button type="submit" class="button">{% translate "Upload" %}</button>
+    </form>
+  </section>
+  <section aria-labelledby="import-heading">
+    <h2 id="import-heading">{% translate "From your website" %}</h2>
+    {% if has_candidates %}
+      <p>{% translate "Choose images that were found when your website was analyzed." %}</p>
+      <a href="{% url 'creative_assets:import' project.pk %}" class="button button-secondary">{% translate "Choose website images" %}</a>
+    {% else %}
+      <p class="muted">{% translate "Analyze your website first to see its images here." %}</p>
+    {% endif %}
+  </section>
+</div>
+
+<section aria-labelledby="posters-heading">
+  <h2 id="posters-heading">{% translate "Posters" %}</h2>
+  {% if posters %}
+    <ul class="asset-grid">
+      {% for poster in posters %}
+        <li class="asset">
+          <a href="{{ poster.get_absolute_url }}"><img src="{{ poster.file_url }}" alt="{{ poster.headline }}" loading="lazy" width="240" height="240"></a>
+          <p class="fact-meta">{{ poster.get_format_display }}{% if poster.flags %} · {% translate "claims to check" %}{% endif %}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="muted">{% translate "No posters yet." %}</p>
+  {% endif %}
+</section>
+{% endblock %}

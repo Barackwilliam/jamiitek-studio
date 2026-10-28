@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ poster.headline }} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'creative_assets:library' project.pk %}">&larr; {% translate "Images and posters" %}</a></p>
+<h1>{% translate "Poster" %}</h1>
+<p class="muted">{{ poster.get_format_display }} · {{ poster.created_at|date:"j M Y, H:i" }}</p>
+
+{% include "marketing_content/includes/flags.html" with flags=poster.flags %}
+
+<img class="poster-preview" src="{{ poster.file_url }}" alt="{{ poster.headline }}" width="{{ poster.width }}" height="{{ poster.height }}">
+
+<div class="actions">
+  <a href="{{ poster.file_url }}?download=1" class="button">{% translate "Download JPEG" %}</a>
+  <a href="{% url 'creative_assets:poster_create' project.pk %}{% if poster.script_id %}?script={{ poster.script_id }}{% endif %}" class="button button-secondary">{% translate "Make another" %}</a>
+  <form method="post" action="{% url 'creative_assets:poster_delete' project.pk poster.pk %}" class="inline-form">
+    {% csrf_token %}
+    <button type="submit" class="link-button danger-link">{% translate "Delete" %}</button>
+  </form>
+</div>
+{% endblock %}
