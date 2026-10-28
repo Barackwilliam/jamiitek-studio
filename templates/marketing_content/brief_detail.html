@@ -22,7 +22,7 @@
       {% endif %}
     {% elif latest_job.status == "failed" %}
       <h2>{% translate "Writing failed" %}</h2>
-      <p>{{ latest_job.error_message }}</p>
+      <p>{% translate latest_job.error_message %}</p>
     {% endif %}
   </section>
 {% endif %}

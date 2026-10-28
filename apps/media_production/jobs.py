@@ -9,6 +9,7 @@ from pathlib import Path
 from django.core.files.base import ContentFile
 from django.db import IntegrityError, transaction
 from django.utils import timezone
+from django.utils.translation import gettext_noop
 
 from apps.business_profiles.models import FactKey, ProfileFact
 from apps.creative_assets.models import Asset
@@ -76,7 +77,7 @@ def fail_stale_renders():
     return VideoRender.objects.filter(
         status=VideoRender.Status.RUNNING, started_at__lt=timezone.now() - STALE_AFTER
     ).update(status=VideoRender.Status.FAILED, error_code="interrupted",
-             error_message="Rendering was interrupted. Please try again.", finished_at=timezone.now())
+             error_message=gettext_noop("Rendering was interrupted. Please try again."), finished_at=timezone.now())
 
 
 def _read(field):
@@ -130,11 +131,13 @@ def run_render(render):
         render.status = VideoRender.Status.FAILED
         render.error_code = "plan" if isinstance(exc, PlanError) else "ffmpeg"
         render.error_message = exc.message[:500]
+        if getattr(exc, "detail", ""):
+            logger.warning("Render %s failed: %s", render.pk, exc.detail)
     except Exception:
         logger.exception("Render %s crashed", render.pk)
         render.status = VideoRender.Status.FAILED
         render.error_code = "internal_error"
-        render.error_message = "Something went wrong on our side. Please try again later."
+        render.error_message = gettext_noop("Something went wrong on our side. Please try again later.")
     finally:
         shutil.rmtree(workdir, ignore_errors=True)
     render.finished_at = timezone.now()

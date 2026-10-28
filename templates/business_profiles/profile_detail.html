@@ -71,28 +71,28 @@
             {% if fact.status != "confirmed" and fact.status != "rejected" %}
               <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
                 {% csrf_token %}<input type="hidden" name="action" value="confirm">
-                <button type="submit" class="button button-small">{% translate "Confirm" %}</button>
+                <button type="submit" class="button button-small">{% translate "Confirm" %}<span class="visually-hidden">: {{ fact.value|truncatechars:60 }}</span></button>
               </form>
             {% endif %}
             {% if fact.status != "rejected" %}
-              <a href="{% url 'business_profiles:edit_fact' project.pk fact.pk %}" class="button button-secondary button-small">{% translate "Edit" %}</a>
+              <a href="{% url 'business_profiles:edit_fact' project.pk fact.pk %}" class="button button-secondary button-small">{% translate "Edit" %}<span class="visually-hidden">: {{ fact.value|truncatechars:60 }}</span></a>
             {% endif %}
             {% if fact.source == "website" %}
               {% if fact.status == "suggested" %}
                 <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
                   {% csrf_token %}<input type="hidden" name="action" value="reject">
-                  <button type="submit" class="link-button danger-link">{% translate "Reject" %}</button>
+                  <button type="submit" class="link-button danger-link">{% translate "Reject" %}<span class="visually-hidden">: {{ fact.value|truncatechars:60 }}</span></button>
                 </form>
               {% else %}
                 <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
                   {% csrf_token %}<input type="hidden" name="action" value="undo">
-                  <button type="submit" class="link-button">{% translate "Undo" %}</button>
+                  <button type="submit" class="link-button">{% translate "Undo" %}<span class="visually-hidden">: {{ fact.value|truncatechars:60 }}</span></button>
                 </form>
               {% endif %}
             {% else %}
-              <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
+              <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form" data-confirm="{% translate 'Remove this information from the profile?' %}">
                 {% csrf_token %}<input type="hidden" name="action" value="delete">
-                <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+                <button type="submit" class="link-button danger-link">{% translate "Remove" %}<span class="visually-hidden">: {{ fact.value|truncatechars:60 }}</span></button>
               </form>
             {% endif %}
           </div>

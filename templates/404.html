@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Page not found" %} · JamiiTek{% endblock %}
+
+{% block content %}
+<h1>{% translate "Page not found" %}</h1>
+<p>{% translate "This page does not exist, or it belongs to another account." %}</p>
+<p><a href="{% url 'projects:list' %}" class="button">{% translate "Go to my projects" %}</a></p>
+{% endblock %}

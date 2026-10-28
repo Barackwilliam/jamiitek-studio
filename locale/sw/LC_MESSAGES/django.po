@@ -1,0 +1,2229 @@
+# Kiswahili translation of JamiiTek AI Marketing Studio.
+# This file is distributed under the same license as the project.
+msgid ""
+msgstr ""
+"Project-Id-Version: JamiiTek AI Marketing Studio\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-28 15:56+0300\n"
+"PO-Revision-Date: 2026-10-28 16:00+0300\n"
+"Last-Translator: JamiiTek <https://github.com/Barackwilliam/jamiitek-"
+"studio>\n"
+"Language-Team: Kiswahili\n"
+"Language: sw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: apps/accounts/forms.py:13
+msgid "Too many failed attempts. Please wait 15 minutes and try again."
+msgstr ""
+"Umejaribu mara nyingi bila mafanikio. Subiri dakika 15 kisha ujaribu tena."
+
+#: apps/accounts/views.py:24
+msgid "Too many sign-up attempts from your network. Please try again later."
+msgstr ""
+"Kuna majaribio mengi ya kujisajili kutoka mtandao wako. Tafadhali jaribu "
+"tena baadaye."
+
+#: apps/business_profiles/forms.py:8
+msgid "Value"
+msgstr "Taarifa"
+
+#: apps/business_profiles/forms.py:21
+msgid "Enter a value."
+msgstr "Andika taarifa."
+
+#: apps/business_profiles/forms.py:25
+#, python-format
+msgid "Keep this under %(limit)d characters."
+msgstr "Isizidi herufi %(limit)d."
+
+#: apps/business_profiles/forms.py:34
+msgid "This value is already in the profile."
+msgstr "Taarifa hii tayari iko kwenye wasifu."
+
+#: apps/business_profiles/forms.py:39
+msgid "Type of information"
+msgstr "Aina ya taarifa"
+
+#: apps/business_profiles/models.py:9 apps/projects/forms.py:32
+#: templates/projects/project_detail.html:14
+msgid "Business name"
+msgstr "Jina la biashara"
+
+#: apps/business_profiles/models.py:10
+msgid "Description"
+msgstr "Maelezo"
+
+#: apps/business_profiles/models.py:11
+msgid "Product or service"
+msgstr "Bidhaa au huduma"
+
+#: apps/business_profiles/models.py:12
+msgid "Price"
+msgstr "Bei"
+
+#: apps/business_profiles/models.py:13
+msgid "Phone number"
+msgstr "Namba ya simu"
+
+#: apps/business_profiles/models.py:14
+msgid "Email address"
+msgstr "Barua pepe"
+
+#: apps/business_profiles/models.py:15
+msgid "Address"
+msgstr "Anwani"
+
+#: apps/business_profiles/models.py:16
+msgid "Opening hours"
+msgstr "Saa za kazi"
+
+#: apps/business_profiles/models.py:17
+msgid "Social media"
+msgstr "Mitandao ya kijamii"
+
+#: apps/business_profiles/models.py:18 apps/creative_assets/forms.py:41
+#: apps/creative_assets/models.py:33
+msgid "Logo"
+msgstr "Nembo"
+
+#: apps/business_profiles/models.py:19 apps/creative_assets/forms.py:43
+msgid "Brand colour"
+msgstr "Rangi ya chapa"
+
+#: apps/business_profiles/models.py:20
+msgid "Other information"
+msgstr "Taarifa nyingine"
+
+#: apps/business_profiles/models.py:67
+msgid "Found on the website"
+msgstr "Imepatikana kwenye tovuti"
+
+#: apps/business_profiles/models.py:68
+msgid "Entered by you"
+msgstr "Umeiandika wewe"
+
+#: apps/business_profiles/models.py:71
+msgid "Needs your review"
+msgstr "Inasubiri ukague"
+
+#: apps/business_profiles/models.py:72
+msgid "Confirmed"
+msgstr "Imethibitishwa"
+
+#: apps/business_profiles/models.py:73
+msgid "Rejected"
+msgstr "Imekataliwa"
+
+#: apps/business_profiles/views.py:76
+msgid "There is no finished website analysis to take suggestions from."
+msgstr "Hakuna uchambuzi wa tovuti uliokamilika wa kuchukua mapendekezo."
+
+#: apps/business_profiles/views.py:80
+#, python-format
+msgid "Suggestions updated from the latest analysis: %(count)d to review."
+msgstr ""
+"Mapendekezo yamesasishwa kutoka uchambuzi wa karibuni: %(count)d ya kukagua."
+
+#: apps/business_profiles/views.py:100
+msgid "Information added."
+msgstr "Taarifa imeongezwa."
+
+#: apps/business_profiles/views.py:121
+msgid "Information removed."
+msgstr "Taarifa imeondolewa."
+
+#: apps/business_profiles/views.py:124
+msgid "That action is not available for this information."
+msgstr "Kitendo hicho hakipatikani kwa taarifa hii."
+
+#: apps/business_profiles/views.py:151
+msgid "Saved and confirmed."
+msgstr "Imehifadhiwa na kuthibitishwa."
+
+#: apps/creative_assets/forms.py:9
+msgid "I own these images or have permission to use them in advertising."
+msgstr "Picha hizi ni zangu au nina ruhusa ya kuzitumia kwenye matangazo."
+
+#: apps/creative_assets/forms.py:13
+msgid "Image file"
+msgstr "Faili la picha"
+
+#: apps/creative_assets/forms.py:13
+msgid "JPEG, PNG, WebP or GIF, up to 8 MB."
+msgstr "JPEG, PNG, WebP au GIF, hadi MB 8."
+
+#: apps/creative_assets/forms.py:14 apps/media_production/forms.py:16
+msgid "Type"
+msgstr "Aina"
+
+#: apps/creative_assets/forms.py:15
+msgid "Short description"
+msgstr "Maelezo mafupi"
+
+#: apps/creative_assets/forms.py:16
+msgid "What the image shows, for example: Pilau served at a wedding."
+msgstr "Picha inaonyesha nini, kwa mfano: Pilau ikihudumiwa kwenye harusi."
+
+#: apps/creative_assets/forms.py:24
+#, python-format
+msgid "The image is larger than %(mb)d MB."
+msgstr "Picha ni kubwa kuliko MB %(mb)d."
+
+#: apps/creative_assets/forms.py:41
+msgid "Photo"
+msgstr "Picha"
+
+#: apps/creative_assets/forms.py:41 apps/marketing_content/forms.py:37
+#: templates/marketing_content/script_detail.html:37
+msgid "Headline"
+msgstr "Kichwa"
+
+#: apps/creative_assets/forms.py:42
+msgid "Supporting text"
+msgstr "Maandishi ya ziada"
+
+#: apps/creative_assets/forms.py:42
+msgid "Button text"
+msgstr "Maandishi ya kitufe"
+
+#: apps/creative_assets/forms.py:52
+msgid "No photo (brand colour background)"
+msgstr "Bila picha (mandharinyuma ya rangi ya chapa)"
+
+#: apps/creative_assets/forms.py:55
+msgid "No logo"
+msgstr "Bila nembo"
+
+#: apps/creative_assets/forms.py:62
+msgid "Choose a colour such as #0b6e4f."
+msgstr "Chagua rangi kama #0b6e4f."
+
+#: apps/creative_assets/images.py:58
+msgid "The file is empty."
+msgstr "Faili halina kitu."
+
+#: apps/creative_assets/images.py:68
+msgid "Only JPEG, PNG, WebP and GIF images are supported."
+msgstr "Picha za JPEG, PNG, WebP na GIF pekee ndizo zinakubalika."
+
+#: apps/creative_assets/images.py:71
+msgid "The image dimensions are too large."
+msgstr "Vipimo vya picha ni vikubwa mno."
+
+#: apps/creative_assets/images.py:77
+msgid "This file is not a supported image, or it is too large."
+msgstr "Faili hili si picha inayokubalika, au ni kubwa mno."
+
+#: apps/creative_assets/images.py:79
+msgid "The image is damaged or incomplete."
+msgstr "Picha imeharibika au haijakamilika."
+
+#: apps/creative_assets/importing.py:117
+msgid "Already in your library."
+msgstr "Tayari iko kwenye maktaba yako."
+
+#: apps/creative_assets/importing.py:124
+msgid "Something went wrong on our side."
+msgstr "Kuna hitilafu upande wetu."
+
+#: apps/creative_assets/models.py:32
+msgid "Photo or image"
+msgstr "Picha"
+
+#: apps/creative_assets/models.py:36
+msgid "Uploaded by you"
+msgstr "Umepakia wewe"
+
+#: apps/creative_assets/models.py:37 templates/creative_assets/library.html:62
+msgid "From your website"
+msgstr "Kutoka tovuti yako"
+
+#: apps/creative_assets/models.py:93 apps/marketing_content/models.py:68
+#: apps/media_production/models.py:67 apps/website_analyzer/models.py:11
+msgid "Waiting to start"
+msgstr "Inasubiri kuanza"
+
+#: apps/creative_assets/models.py:94
+msgid "Importing"
+msgstr "Inaleta"
+
+#: apps/creative_assets/models.py:95 apps/marketing_content/models.py:70
+#: apps/website_analyzer/models.py:13
+msgid "Completed"
+msgstr "Imekamilika"
+
+#: apps/creative_assets/models.py:96 apps/marketing_content/models.py:71
+#: apps/media_production/models.py:70 apps/website_analyzer/models.py:15
+#: apps/website_analyzer/models.py:79 templates/creative_assets/library.html:24
+msgid "Failed"
+msgstr "Imeshindikana"
+
+#: apps/creative_assets/models.py:125
+msgid "Square 1:1 (1080 × 1080)"
+msgstr "Mraba 1:1 (1080 × 1080)"
+
+#: apps/creative_assets/models.py:126
+msgid "Vertical 9:16 (1080 × 1920)"
+msgstr "Wima 9:16 (1080 × 1920)"
+
+#: apps/creative_assets/models.py:127
+msgid "Horizontal 16:9 (1920 × 1080)"
+msgstr "Mlalo 16:9 (1920 × 1080)"
+
+#: apps/creative_assets/views.py:59
+msgid "Image added to your library."
+msgstr "Picha imeongezwa kwenye maktaba yako."
+
+#: apps/creative_assets/views.py:61
+msgid "This image is already in your library."
+msgstr "Picha hii tayari iko kwenye maktaba yako."
+
+#: apps/creative_assets/views.py:79
+msgid "Choose at least one image."
+msgstr "Chagua angalau picha moja."
+
+#: apps/creative_assets/views.py:81
+msgid "An import is already in progress."
+msgstr "Kuna picha zinazoletwa tayari."
+
+#: apps/creative_assets/views.py:83
+msgid "Importing the selected images."
+msgstr "Tunaleta picha ulizochagua."
+
+#: apps/creative_assets/views.py:103
+msgid "Image removed. Posters made with it are kept."
+msgstr "Picha imeondolewa. Mabango yaliyotengenezwa nayo yamebaki."
+
+#: apps/creative_assets/views.py:146
+msgid "Poster created."
+msgstr "Bango limetengenezwa."
+
+#: apps/creative_assets/views.py:174
+msgid "Poster deleted."
+msgstr "Bango limefutwa."
+
+#: apps/marketing_content/forms.py:13
+msgid "Anything else? (optional)"
+msgstr "Kuna jingine? (si lazima)"
+
+#: apps/marketing_content/forms.py:16
+msgid ""
+"Your wishes for this content, for example a season or an occasion. Write "
+"business facts in the business profile instead."
+msgstr ""
+"Matakwa yako kwa maudhui haya, kwa mfano msimu au tukio. Taarifa za biashara "
+"ziandike kwenye wasifu wa biashara."
+
+#: apps/marketing_content/forms.py:25
+msgid "Goal"
+msgstr "Lengo"
+
+#: apps/marketing_content/forms.py:26
+msgid "Who is it for?"
+msgstr "Ni kwa ajili ya nani?"
+
+#: apps/marketing_content/forms.py:27
+msgid "Where will it be shown?"
+msgstr "Litaonyeshwa wapi?"
+
+#: apps/marketing_content/forms.py:28
+msgid "Video length"
+msgstr "Urefu wa video"
+
+#: apps/marketing_content/forms.py:29
+msgid "Language"
+msgstr "Lugha"
+
+#: apps/marketing_content/forms.py:30
+msgid "Style"
+msgstr "Mtindo"
+
+#: apps/marketing_content/forms.py:32
+msgid "For example: families in Dar es Salaam planning a wedding."
+msgstr "Kwa mfano: familia za Dar es Salaam zinazopanga harusi."
+
+#: apps/marketing_content/forms.py:36
+msgid "Title"
+msgstr "Jina"
+
+#: apps/marketing_content/forms.py:38
+#: templates/marketing_content/script_detail.html:38
+msgid "Caption"
+msgstr "Maelezo ya chapisho"
+
+#: apps/marketing_content/forms.py:40
+#: templates/marketing_content/script_detail.html:39
+msgid "Call to action"
+msgstr "Wito wa kuchukua hatua"
+
+#: apps/marketing_content/forms.py:42
+#: templates/marketing_content/script_detail.html:40
+msgid "Hashtags"
+msgstr "Hashtag"
+
+#: apps/marketing_content/forms.py:43
+msgid "Separate with spaces or commas."
+msgstr "Tenganisha kwa nafasi au koma."
+
+#: apps/marketing_content/forms.py:55
+msgid "Narration"
+msgstr "Masimulizi"
+
+#: apps/marketing_content/forms.py:57
+msgid "On-screen text"
+msgstr "Maandishi ya kwenye skrini"
+
+#: apps/marketing_content/forms.py:59
+msgid "What to show"
+msgstr "Kionyeshwe nini"
+
+#: apps/marketing_content/forms.py:60
+msgid "Seconds"
+msgstr "Sekunde"
+
+#: apps/marketing_content/forms.py:69
+msgid ""
+"I have checked the highlighted claims and they are true for my business."
+msgstr "Nimekagua madai yaliyowekewa alama na ni kweli kwa biashara yangu."
+
+#: apps/marketing_content/forms.py:80
+msgid "Please check the highlighted claims and tick the box."
+msgstr ""
+"Tafadhali kagua madai yaliyowekewa alama kisha weka tiki kwenye kisanduku."
+
+#: apps/marketing_content/generation.py:98
+msgid "Writing was interrupted. Please try again."
+msgstr "Uandishi ulikatizwa. Tafadhali jaribu tena."
+
+#: apps/marketing_content/generation.py:110
+msgid ""
+"The AI referred to information that is not in your confirmed facts. Check "
+"the text carefully."
+msgstr ""
+"AI imetaja taarifa ambazo hazipo kwenye taarifa ulizothibitisha. Kagua "
+"maandishi kwa makini."
+
+#: apps/marketing_content/generation.py:135
+msgid ""
+"There is no confirmed business information yet. Confirm or add information "
+"in the business profile first."
+msgstr ""
+"Bado hakuna taarifa za biashara zilizothibitishwa. Kwanza thibitisha au "
+"ongeza taarifa kwenye wasifu wa biashara."
+
+#: apps/marketing_content/generation.py:182
+msgid "The AI's answer could not be used. Please try again."
+msgstr "Jibu la AI halikuweza kutumika. Tafadhali jaribu tena."
+
+#: apps/marketing_content/generation.py:187 apps/media_production/jobs.py:140
+#: apps/website_analyzer/jobs.py:125
+msgid "Something went wrong on our side. Please try again later."
+msgstr "Kuna hitilafu upande wetu. Tafadhali jaribu tena baadaye."
+
+#: apps/marketing_content/models.py:11
+msgid "Make more people know the business"
+msgstr "Biashara ijulikane na watu wengi zaidi"
+
+#: apps/marketing_content/models.py:12
+msgid "Promote a product"
+msgstr "Kutangaza bidhaa"
+
+#: apps/marketing_content/models.py:13
+msgid "Promote a service"
+msgstr "Kutangaza huduma"
+
+#: apps/marketing_content/models.py:14
+msgid "Get enquiries or bookings"
+msgstr "Kupata maulizo au oda"
+
+#: apps/marketing_content/models.py:15
+msgid "Increase sales"
+msgstr "Kuongeza mauzo"
+
+#: apps/marketing_content/models.py:16
+msgid "Promote an event"
+msgstr "Kutangaza tukio"
+
+#: apps/marketing_content/models.py:19
+msgid "Kiswahili"
+msgstr "Kiswahili"
+
+#: apps/marketing_content/models.py:20
+msgid "English"
+msgstr "Kiingereza"
+
+#: apps/marketing_content/models.py:23
+msgid "Friendly"
+msgstr "Kirafiki"
+
+#: apps/marketing_content/models.py:24
+msgid "Professional"
+msgstr "Kitaalamu"
+
+#: apps/marketing_content/models.py:25
+msgid "Energetic"
+msgstr "Kwa nguvu na shangwe"
+
+#: apps/marketing_content/models.py:26
+msgid "Warm and personal"
+msgstr "Kwa ukaribu na upendo"
+
+#: apps/marketing_content/models.py:27
+msgid "Premium"
+msgstr "Kifahari"
+
+#: apps/marketing_content/models.py:30
+msgid "Instagram Reels"
+msgstr "Instagram Reels"
+
+#: apps/marketing_content/models.py:31
+msgid "TikTok"
+msgstr "TikTok"
+
+#: apps/marketing_content/models.py:32
+msgid "Facebook"
+msgstr "Facebook"
+
+#: apps/marketing_content/models.py:33
+msgid "WhatsApp Status"
+msgstr "WhatsApp Status"
+
+#: apps/marketing_content/models.py:34
+msgid "YouTube"
+msgstr "YouTube"
+
+#: apps/marketing_content/models.py:35
+msgid "Website"
+msgstr "Tovuti"
+
+#: apps/marketing_content/models.py:37
+msgid "15 seconds"
+msgstr "Sekunde 15"
+
+#: apps/marketing_content/models.py:37
+msgid "30 seconds"
+msgstr "Sekunde 30"
+
+#: apps/marketing_content/models.py:37
+msgid "60 seconds"
+msgstr "Sekunde 60"
+
+#: apps/marketing_content/models.py:64
+#: templates/marketing_content/brief_detail.html:32
+msgid "Concepts"
+msgstr "Mawazo"
+
+#: apps/marketing_content/models.py:65 apps/marketing_content/models.py:126
+msgid "Script"
+msgstr "Skripti"
+
+#: apps/marketing_content/models.py:69
+msgid "Writing"
+msgstr "Inaandika"
+
+#: apps/marketing_content/models.py:125
+msgid "Concept"
+msgstr "Wazo"
+
+#: apps/marketing_content/models.py:129
+msgid "AI draft"
+msgstr "Rasimu ya AI"
+
+#: apps/marketing_content/models.py:130
+msgid "Edited by you"
+msgstr "Umeihariri wewe"
+
+#: apps/marketing_content/models.py:131
+msgid "Approved"
+msgstr "Imeidhinishwa"
+
+#: apps/marketing_content/templatetags/content_tags.py:11
+msgctxt "script field"
+msgid "title"
+msgstr "jina"
+
+#: apps/marketing_content/templatetags/content_tags.py:12
+msgctxt "script field"
+msgid "headline"
+msgstr "kichwa"
+
+#: apps/marketing_content/templatetags/content_tags.py:13
+msgctxt "script field"
+msgid "caption"
+msgstr "maelezo ya chapisho"
+
+#: apps/marketing_content/templatetags/content_tags.py:14
+msgctxt "script field"
+msgid "call to action"
+msgstr "wito wa kuchukua hatua"
+
+#: apps/marketing_content/templatetags/content_tags.py:15
+msgctxt "script field"
+msgid "hashtags"
+msgstr "hashtag"
+
+#: apps/marketing_content/templatetags/content_tags.py:16
+msgctxt "script field"
+msgid "angle"
+msgstr "mtazamo"
+
+#: apps/marketing_content/templatetags/content_tags.py:17
+msgctxt "script field"
+msgid "key message"
+msgstr "ujumbe mkuu"
+
+#: apps/marketing_content/templatetags/content_tags.py:18
+msgctxt "script field"
+msgid "voice-over"
+msgstr "sauti ya msimulizi"
+
+#: apps/marketing_content/templatetags/content_tags.py:19
+msgctxt "script field"
+msgid "on-screen text"
+msgstr "maandishi ya kwenye skrini"
+
+#: apps/marketing_content/templatetags/content_tags.py:20
+msgctxt "script field"
+msgid "fact references"
+msgstr "marejeo ya taarifa"
+
+#: apps/marketing_content/templatetags/content_tags.py:31
+#, python-format
+msgid "scene %(number)s, %(field)s"
+msgstr "onyesho %(number)s, %(field)s"
+
+#: apps/marketing_content/templatetags/content_tags.py:42
+#, python-format
+msgid "The number “%(text)s” is not in your confirmed information."
+msgstr "Namba “%(text)s” haipo kwenye taarifa ulizothibitisha."
+
+#: apps/marketing_content/templatetags/content_tags.py:44
+#, python-format
+msgid "“%(text)s” may be a claim that is not in your confirmed information."
+msgstr ""
+"“%(text)s” inaweza kuwa dai ambalo halipo kwenye taarifa ulizothibitisha."
+
+#: apps/marketing_content/views.py:45
+msgid "The AI is already writing for this brief. Please wait for it to finish."
+msgstr "AI tayari inaandika kwa ajili ya ombi hili. Tafadhali subiri imalize."
+
+#: apps/marketing_content/views.py:70 integrations/ai/__init__.py:28
+msgid "AI text generation is not set up on this installation yet."
+msgstr "Uandishi wa AI bado haujawekwa kwenye mfumo huu."
+
+#: apps/marketing_content/views.py:72
+msgid "Confirm or add business information in the profile first."
+msgstr "Kwanza thibitisha au ongeza taarifa za biashara kwenye wasifu."
+
+#: apps/marketing_content/views.py:78
+msgid "The AI is writing three concepts."
+msgstr "AI inaandika mawazo matatu."
+
+#: apps/marketing_content/views.py:105
+msgid "The AI is writing new concepts. Earlier ones are kept."
+msgstr "AI inaandika mawazo mapya. Ya awali yamebaki."
+
+#: apps/marketing_content/views.py:114
+msgid "The AI is writing the script."
+msgstr "AI inaandika skripti."
+
+#: apps/marketing_content/views.py:156
+msgid "Earlier version restored. Review it before approving."
+msgstr "Toleo la awali limerudishwa. Likague kabla ya kuidhinisha."
+
+#: apps/marketing_content/views.py:183
+msgid "Script saved. Review it again before approving."
+msgstr "Skripti imehifadhiwa. Ikague tena kabla ya kuidhinisha."
+
+#: apps/marketing_content/views.py:201
+msgid "Script approved."
+msgstr "Skripti imeidhinishwa."
+
+#: apps/media_production/audio.py:41
+msgid "This file is not a supported audio file."
+msgstr "Faili hili si sauti inayokubalika."
+
+#: apps/media_production/audio.py:44
+msgid "Please upload MP3, M4A, WAV or OGG audio."
+msgstr "Tafadhali pakia sauti ya MP3, M4A, WAV au OGG."
+
+#: apps/media_production/audio.py:46
+msgid "The file has no sound."
+msgstr "Faili halina sauti."
+
+#: apps/media_production/audio.py:55
+msgid "The audio could not be processed. It may be damaged."
+msgstr "Sauti haikuweza kuchakatwa. Huenda imeharibika."
+
+#: apps/media_production/ffmpeg.py:30
+msgid "FFmpeg is not installed or could not be found. See README."
+msgstr "FFmpeg haijasakinishwa au haikupatikana. Angalia README."
+
+#: apps/media_production/ffmpeg.py:32
+msgid "Video processing took too long and was stopped."
+msgstr "Uchakataji wa video ulichukua muda mrefu mno na ukasimamishwa."
+
+#: apps/media_production/ffmpeg.py:43
+msgid "Video processing failed."
+msgstr "Uchakataji wa video umeshindikana."
+
+#: apps/media_production/ffmpeg.py:53 apps/media_production/ffmpeg.py:58
+msgid "The file is not a readable media file."
+msgstr "Faili hili si sauti wala video inayosomeka."
+
+#: apps/media_production/forms.py:11
+msgid "I own this recording or have a licence to use it in advertising."
+msgstr "Sauti hii ni yangu au nina leseni ya kuitumia kwenye matangazo."
+
+#: apps/media_production/forms.py:15
+msgid "Audio file"
+msgstr "Faili la sauti"
+
+#: apps/media_production/forms.py:15
+msgid "MP3, M4A, WAV or OGG, up to 15 MB and 10 minutes."
+msgstr "MP3, M4A, WAV au OGG, hadi MB 15 na dakika 10."
+
+#: apps/media_production/forms.py:23
+#, python-format
+msgid "The file is larger than %(mb)d MB."
+msgstr "Faili ni kubwa kuliko MB %(mb)d."
+
+#: apps/media_production/forms.py:32
+msgid "Approved script"
+msgstr "Skripti iliyoidhinishwa"
+
+#: apps/media_production/forms.py:33
+msgid "Format"
+msgstr "Umbo"
+
+#: apps/media_production/forms.py:34
+msgid "Quality"
+msgstr "Ubora"
+
+#: apps/media_production/forms.py:35
+msgid "Make a preview first; final quality takes several times longer."
+msgstr ""
+"Anza na onyesho la majaribio; ubora wa mwisho huchukua muda mara kadhaa "
+"zaidi."
+
+#: apps/media_production/forms.py:37
+msgid "Photos (used in order, one per scene)"
+msgstr "Picha (zinatumika kwa mpangilio, moja kwa kila onyesho)"
+
+#: apps/media_production/forms.py:39
+msgid "Without photos, scenes use your brand colour."
+msgstr "Bila picha, maonyesho yanatumia rangi ya chapa yako."
+
+#: apps/media_production/forms.py:40 apps/media_production/models.py:22
+msgid "Background music"
+msgstr "Muziki wa nyuma"
+
+#: apps/media_production/forms.py:41
+msgid "No music"
+msgstr "Bila muziki"
+
+#: apps/media_production/forms.py:42
+msgid "Voice-over"
+msgstr "Sauti ya msimulizi"
+
+#: apps/media_production/forms.py:43
+msgid "No voice-over"
+msgstr "Bila sauti ya msimulizi"
+
+#: apps/media_production/forms.py:44
+msgid "Show the narration as captions"
+msgstr "Onyesha masimulizi kama maandishi"
+
+#: apps/media_production/forms.py:45
+msgid "End with logo and call to action"
+msgstr "Malizia kwa nembo na wito wa kuchukua hatua"
+
+#: apps/media_production/jobs.py:80
+msgid "Rendering was interrupted. Please try again."
+msgstr "Utengenezaji wa video ulikatizwa. Tafadhali jaribu tena."
+
+#: apps/media_production/models.py:23
+msgid "Voice-over recording"
+msgstr "Rekodi ya sauti ya msimulizi"
+
+#: apps/media_production/models.py:58
+msgid "Vertical 9:16 (Reels, TikTok, Status)"
+msgstr "Wima 9:16 (Reels, TikTok, Status)"
+
+#: apps/media_production/models.py:59
+msgid "Square 1:1"
+msgstr "Mraba 1:1"
+
+#: apps/media_production/models.py:60
+msgid "Horizontal 16:9 (YouTube, website)"
+msgstr "Mlalo 16:9 (YouTube, tovuti)"
+
+#: apps/media_production/models.py:63
+msgid "Preview (fast, 540p)"
+msgstr "Majaribio (haraka, 540p)"
+
+#: apps/media_production/models.py:64
+msgid "Final (1080p, slower)"
+msgstr "Ya mwisho (1080p, polepole zaidi)"
+
+#: apps/media_production/models.py:68
+msgid "Rendering"
+msgstr "Inatengenezwa"
+
+#: apps/media_production/models.py:69
+msgid "Ready"
+msgstr "Iko tayari"
+
+#: apps/media_production/render.py:68
+msgid "The script has no scenes."
+msgstr "Skripti haina maonyesho."
+
+#: apps/media_production/render.py:71
+#, python-format
+msgid "Scene %(number)s must last between %(min)s and %(max)s seconds."
+msgstr ""
+"Onyesho %(number)s linapaswa kudumu kati ya sekunde %(min)s na %(max)s."
+
+#: apps/media_production/render.py:75
+#, python-format
+msgid "The video would last %(total).0f seconds; the limit is %(limit)s."
+msgstr "Video ingedumu sekunde %(total).0f; kikomo ni %(limit)s."
+
+#: apps/media_production/render.py:78
+#, python-format
+msgid ""
+"The voice-over lasts %(voice).0f seconds but the video only %(total).0f. "
+"Lengthen the scenes or shorten the recording."
+msgstr ""
+"Sauti ya msimulizi inadumu sekunde %(voice).0f lakini video ni sekunde "
+"%(total).0f tu. Ongeza muda wa maonyesho au fupisha rekodi."
+
+#: apps/media_production/render.py:180
+msgid "Joining scenes and adding sound"
+msgstr "Inaunganisha maonyesho na kuongeza sauti"
+
+#: apps/media_production/render.py:184
+msgid "Checking the finished video"
+msgstr "Inakagua video iliyokamilika"
+
+#: apps/media_production/render.py:188
+msgid "The finished video did not pass its quality checks. Please try again."
+msgstr "Video iliyokamilika haikupita ukaguzi wa ubora. Tafadhali jaribu tena."
+
+#: apps/media_production/templatetags/video_tags.py:17
+#, python-format
+msgid "Rendering scene %(number)s of %(total)s"
+msgstr "Inatengeneza onyesho %(number)s kati ya %(total)s"
+
+#: apps/media_production/views.py:49
+msgid "Audio added."
+msgstr "Sauti imeongezwa."
+
+#: apps/media_production/views.py:51
+msgid "This recording is already in the project."
+msgstr "Rekodi hii tayari iko kwenye mradi."
+
+#: apps/media_production/views.py:79 apps/media_production/views.py:117
+msgid ""
+"A video for this project is already being made. Please wait for it to finish."
+msgstr "Video ya mradi huu tayari inatengenezwa. Tafadhali subiri ikamilike."
+
+#: apps/media_production/views.py:81
+msgid "Your video is being made."
+msgstr "Video yako inatengenezwa."
+
+#: apps/media_production/views.py:119
+msgid "Trying again."
+msgstr "Tunajaribu tena."
+
+#: apps/media_production/views.py:128
+msgid "Wait until the video is finished before deleting it."
+msgstr "Subiri video ikamilike kabla ya kuifuta."
+
+#: apps/media_production/views.py:131
+msgid "Video deleted."
+msgstr "Video imefutwa."
+
+#: apps/media_production/views.py:147
+msgid "Audio removed. Videos already made are kept."
+msgstr "Sauti imeondolewa. Video zilizokwisha tengenezwa zimebaki."
+
+#: apps/projects/forms.py:15 templates/projects/project_detail.html:17
+msgid "Website address"
+msgstr "Anwani ya tovuti"
+
+#: apps/projects/forms.py:18
+msgid "For example: example.com. Leave empty if you have no website."
+msgstr "Kwa mfano: example.com. Acha wazi kama huna tovuti."
+
+#: apps/projects/forms.py:22
+msgid "Business details"
+msgstr "Maelezo ya biashara"
+
+#: apps/projects/forms.py:25
+msgid ""
+"What you sell, who your customers are, and anything else we should know."
+msgstr ""
+"Unauza nini, wateja wako ni akina nani, na lolote jingine tunalopaswa kujua."
+
+#: apps/projects/forms.py:32
+msgid "Project name"
+msgstr "Jina la mradi"
+
+#: apps/projects/forms.py:51
+msgid "Enter a website address or describe your business."
+msgstr "Andika anwani ya tovuti au eleza biashara yako."
+
+#: apps/projects/progress.py:34
+msgid "Analyze your website"
+msgstr "Chambua tovuti yako"
+
+#: apps/projects/progress.py:38
+msgid "No website: we use the details you entered."
+msgstr "Hakuna tovuti: tunatumia maelezo uliyoandika."
+
+#: apps/projects/progress.py:41
+msgid "Confirm your business information"
+msgstr "Thibitisha taarifa za biashara yako"
+
+#: apps/projects/progress.py:47
+msgid "Approve a script"
+msgstr "Idhinisha skripti"
+
+#: apps/projects/progress.py:54
+msgid "Make a poster or a video"
+msgstr "Tengeneza bango au video"
+
+#: apps/projects/views.py:33
+msgid "Project created."
+msgstr "Mradi umeundwa."
+
+#: apps/projects/views.py:57
+msgid "Project saved."
+msgstr "Mradi umehifadhiwa."
+
+#: apps/projects/views.py:70
+msgid "Project deleted."
+msgstr "Mradi umefutwa."
+
+#: apps/website_analyzer/crawler.py:213
+msgid "The website's robots.txt asks crawlers not to read this page."
+msgstr ""
+"Faili la robots.txt la tovuti linaomba ukurasa huu usisomwe na programu."
+
+#: apps/website_analyzer/fetch.py:106 apps/website_analyzer/fetch.py:162
+#: apps/website_analyzer/fetch.py:215
+msgid "The website took too long to respond."
+msgstr "Tovuti ilichelewa sana kujibu."
+
+#: apps/website_analyzer/fetch.py:112 apps/website_analyzer/fetch.py:201
+msgid "The page is too large to analyze."
+msgstr "Ukurasa ni mkubwa mno kuchambuliwa."
+
+#: apps/website_analyzer/fetch.py:157
+msgid "The website redirects in a loop."
+msgstr "Tovuti inaelekeza kwenye mzunguko usioisha."
+
+#: apps/website_analyzer/fetch.py:182
+msgid "The website sent an invalid redirect."
+msgstr "Tovuti ilituma uelekezaji usio sahihi."
+
+#: apps/website_analyzer/fetch.py:184
+msgid "The website redirects too many times."
+msgstr "Tovuti inaelekeza mara nyingi mno."
+
+#: apps/website_analyzer/fetch.py:192
+msgid "The website sent a compressed response we cannot accept."
+msgstr "Tovuti ilituma jibu lililobanwa ambalo hatuwezi kulipokea."
+
+#: apps/website_analyzer/fetch.py:197
+msgid "This address does not point to a web page."
+msgstr "Anwani hii haielekezi kwenye ukurasa wa tovuti."
+
+#: apps/website_analyzer/fetch.py:218
+msgid "The website's security certificate could not be verified."
+msgstr "Cheti cha usalama cha tovuti hakikuweza kuthibitishwa."
+
+#: apps/website_analyzer/fetch.py:221
+msgid "The website sent an invalid response."
+msgstr "Tovuti ilituma jibu lisilo sahihi."
+
+#: apps/website_analyzer/fetch.py:223
+msgid "We could not connect to the website."
+msgstr "Hatukuweza kuunganishwa na tovuti."
+
+#: apps/website_analyzer/jobs.py:66
+msgid "The analysis was interrupted. Please start it again."
+msgstr "Uchambuzi ulikatizwa. Tafadhali uanze tena."
+
+#: apps/website_analyzer/jobs.py:137
+msgid "No pages could be analyzed."
+msgstr "Hakuna ukurasa ulioweza kuchambuliwa."
+
+#: apps/website_analyzer/models.py:12
+msgid "Running"
+msgstr "Unaendelea"
+
+#: apps/website_analyzer/models.py:14
+msgid "Completed with some pages failing"
+msgstr "Umekamilika, baadhi ya kurasa zimeshindikana"
+
+#: apps/website_analyzer/models.py:58
+msgid "Stopped after reaching the limit of pages for one analysis."
+msgstr "Ulisimama baada ya kufikia kikomo cha kurasa kwa uchambuzi mmoja."
+
+#: apps/website_analyzer/models.py:59
+msgid "Stopped after reaching the time limit for one analysis."
+msgstr "Ulisimama baada ya kufikia kikomo cha muda kwa uchambuzi mmoja."
+
+#: apps/website_analyzer/models.py:78
+msgid "Analyzed"
+msgstr "Umechambuliwa"
+
+#: apps/website_analyzer/models.py:80
+msgid "Skipped"
+msgstr "Umerukwa"
+
+#: apps/website_analyzer/url_safety.py:86
+msgid ""
+"We could not find this website address. Check the spelling, or enter your "
+"business details manually."
+msgstr ""
+"Hatukuipata anwani hii ya tovuti. Kagua tahajia, au andika maelezo ya "
+"biashara yako mwenyewe."
+
+#: apps/website_analyzer/url_safety.py:105
+msgid "Enter a website address."
+msgstr "Andika anwani ya tovuti."
+
+#: apps/website_analyzer/url_safety.py:107
+msgid "This website address is too long."
+msgstr "Anwani hii ya tovuti ni ndefu mno."
+
+#: apps/website_analyzer/url_safety.py:109
+msgid "This website address contains invalid characters."
+msgstr "Anwani hii ya tovuti ina herufi zisizoruhusiwa."
+
+#: apps/website_analyzer/url_safety.py:117
+#: apps/website_analyzer/url_safety.py:130
+msgid "Only website addresses starting with http:// or https:// are supported."
+msgstr "Zinakubalika anwani za tovuti zinazoanza na http:// au https:// pekee."
+
+#: apps/website_analyzer/url_safety.py:125
+msgid "This is not a valid website address."
+msgstr "Hii si anwani sahihi ya tovuti."
+
+#: apps/website_analyzer/url_safety.py:134
+msgid "Website addresses containing a username or password are not supported."
+msgstr "Anwani za tovuti zenye jina la mtumiaji au nenosiri hazikubaliki."
+
+#: apps/website_analyzer/url_safety.py:139
+msgid "This website address has no domain name."
+msgstr "Anwani hii ya tovuti haina jina la kikoa (domain)."
+
+#: apps/website_analyzer/url_safety.py:151
+msgid "This website address is not valid."
+msgstr "Anwani hii ya tovuti si sahihi."
+
+#: apps/website_analyzer/url_safety.py:154
+msgid "Enter the website's domain name instead of a numeric address."
+msgstr "Andika jina la kikoa la tovuti badala ya anwani ya namba."
+
+#: apps/website_analyzer/url_safety.py:157
+msgid "This address points to a private network."
+msgstr "Anwani hii inaelekeza kwenye mtandao binafsi."
+
+#: apps/website_analyzer/url_safety.py:160
+msgid "Enter a full website address, for example example.com."
+msgstr "Andika anwani kamili ya tovuti, kwa mfano example.com."
+
+#: apps/website_analyzer/url_safety.py:166
+msgid "Website addresses with this port number are not supported."
+msgstr "Anwani za tovuti zenye namba hii ya port hazikubaliki."
+
+#: apps/website_analyzer/url_safety.py:196
+msgid "We could not find this website address."
+msgstr "Hatukuipata anwani hii ya tovuti."
+
+#: apps/website_analyzer/url_safety.py:205
+msgid ""
+"This address points to a private or reserved network and cannot be analyzed."
+msgstr ""
+"Anwani hii inaelekeza kwenye mtandao binafsi au uliohifadhiwa, hivyo haiwezi "
+"kuchambuliwa."
+
+#: apps/website_analyzer/views.py:18
+msgid "Add a website address to this project before analyzing it."
+msgstr "Ongeza anwani ya tovuti kwenye mradi huu kabla ya kuuchambua."
+
+#: apps/website_analyzer/views.py:23
+msgid "An analysis of this website is already in progress."
+msgstr "Uchambuzi wa tovuti hii tayari unaendelea."
+
+#: apps/website_analyzer/views.py:25
+msgid "Website analysis started."
+msgstr "Uchambuzi wa tovuti umeanza."
+
+#: integrations/ai/__init__.py:19
+msgid "The AI service could not complete the request. Please try again later."
+msgstr ""
+"Huduma ya AI haikuweza kukamilisha ombi. Tafadhali jaribu tena baadaye."
+
+#: integrations/ai/__init__.py:33
+msgid ""
+"The AI service rejected our access key. The administrator needs to check the "
+"configuration."
+msgstr ""
+"Huduma ya AI imekataa ufunguo wetu wa kuingia. Msimamizi anahitaji kukagua "
+"mipangilio."
+
+#: integrations/ai/__init__.py:39
+msgid ""
+"The free AI quota has been reached for now. Your work is saved; please try "
+"again later."
+msgstr ""
+"Kiwango cha bure cha AI kimefikiwa kwa sasa. Kazi yako imehifadhiwa; "
+"tafadhali jaribu tena baadaye."
+
+#: integrations/ai/__init__.py:45
+msgid ""
+"The AI service is not responding right now. Your work is saved; please try "
+"again later."
+msgstr ""
+"Huduma ya AI haijibu kwa sasa. Kazi yako imehifadhiwa; tafadhali jaribu tena "
+"baadaye."
+
+#: integrations/ai/__init__.py:51
+msgid "The AI service returned an answer we could not use. Please try again."
+msgstr ""
+"Huduma ya AI ilirudisha jibu ambalo hatukuweza kutumia. Tafadhali jaribu "
+"tena."
+
+#: templates/403.html:4 templates/403.html:7
+msgid "Not allowed"
+msgstr "Hairuhusiwi"
+
+#: templates/403.html:8
+msgid "You do not have permission to do this."
+msgstr "Huna ruhusa ya kufanya hivi."
+
+#: templates/403.html:9 templates/404.html:9 templates/core/home.html:15
+msgid "Go to my projects"
+msgstr "Nenda kwenye miradi yangu"
+
+#: templates/403_csrf.html:4 templates/403_csrf.html:7
+msgid "Please try again"
+msgstr "Tafadhali jaribu tena"
+
+#: templates/403_csrf.html:8
+msgid ""
+"The form was open for too long or your browser blocked a security cookie, so "
+"it was not sent. Go back, reload the page and submit it again."
+msgstr ""
+"Fomu ilikaa wazi muda mrefu mno au kivinjari chako kilizuia kidakuzi "
+"(cookie) cha usalama, hivyo haikutumwa. Rudi nyuma, pakia ukurasa upya kisha "
+"uitume tena."
+
+#: templates/403_csrf.html:9
+msgid "If this keeps happening, allow cookies for this site."
+msgstr "Hili likiendelea kutokea, ruhusu vidakuzi (cookies) kwa tovuti hii."
+
+#: templates/403_csrf.html:10 templates/500.html:16
+msgid "Go to the home page"
+msgstr "Nenda ukurasa wa mwanzo"
+
+#: templates/404.html:4 templates/404.html:7
+msgid "Page not found"
+msgstr "Ukurasa haupatikani"
+
+#: templates/404.html:8
+msgid "This page does not exist, or it belongs to another account."
+msgstr "Ukurasa huu haupo, au ni wa akaunti nyingine."
+
+#: templates/500.html:9 templates/500.html:14
+msgid "Something went wrong"
+msgstr "Kuna hitilafu"
+
+#: templates/500.html:15
+msgid ""
+"Sorry, an error happened on our side. Your saved work is safe. Please try "
+"again in a few minutes."
+msgstr ""
+"Samahani, kumetokea hitilafu upande wetu. Kazi uliyohifadhi iko salama. "
+"Tafadhali jaribu tena baada ya dakika chache."
+
+#: templates/accounts/signup.html:4 templates/base.html:28
+#: templates/registration/login.html:15
+msgid "Sign up"
+msgstr "Jisajili"
+
+#: templates/accounts/signup.html:8
+msgid "Create an account"
+msgstr "Fungua akaunti"
+
+#: templates/accounts/signup.html:12
+msgid "Create account"
+msgstr "Fungua akaunti"
+
+#: templates/accounts/signup.html:14
+msgid "Already have an account?"
+msgstr "Tayari una akaunti?"
+
+#: templates/accounts/signup.html:14 templates/base.html:27
+#: templates/registration/login.html:4 templates/registration/login.html:8
+#: templates/registration/login.html:13
+msgid "Log in"
+msgstr "Ingia"
+
+#: templates/base.html:12
+msgid "Skip to main content"
+msgstr "Ruka hadi maudhui makuu"
+
+#: templates/base.html:16
+msgid "Main"
+msgstr "Kuu"
+
+#: templates/base.html:19 templates/projects/project_detail.html:7
+#: templates/projects/project_list.html:4
+#: templates/projects/project_list.html:8
+msgid "My projects"
+msgstr "Miradi yangu"
+
+#: templates/base.html:23
+msgid "Log out"
+msgstr "Toka"
+
+#: templates/business_profiles/fact_edit.html:4
+msgid "Edit information"
+msgstr "Hariri taarifa"
+
+#: templates/business_profiles/fact_edit.html:8
+#, python-format
+msgid "Edit: %(label)s"
+msgstr "Hariri: %(label)s"
+
+#: templates/business_profiles/fact_edit.html:10
+msgid ""
+"Saving confirms this information. The original wording from the website is "
+"kept for reference."
+msgstr ""
+"Ukihifadhi, taarifa hii inathibitishwa. Maneno ya awali kutoka tovuti "
+"yanabaki kwa kumbukumbu."
+
+#: templates/business_profiles/fact_edit.html:16
+msgid "Save and confirm"
+msgstr "Hifadhi na uthibitishe"
+
+#: templates/business_profiles/fact_edit.html:17
+#: templates/marketing_content/script_edit.html:22
+#: templates/projects/project_confirm_delete.html:14
+#: templates/projects/project_form.html:17
+msgid "Cancel"
+msgstr "Ghairi"
+
+#: templates/business_profiles/profile_detail.html:4
+#: templates/business_profiles/profile_detail.html:8
+#: templates/projects/project_detail.html:61
+msgid "Business profile"
+msgstr "Wasifu wa biashara"
+
+#: templates/business_profiles/profile_detail.html:10
+msgid ""
+"Check this information carefully. Only information you confirm or add "
+"yourself will be used to create marketing content."
+msgstr ""
+"Kagua taarifa hizi kwa makini. Ni taarifa unazothibitisha au kuongeza "
+"mwenyewe pekee ndizo zitakazotumika kutengeneza maudhui ya matangazo."
+
+#: templates/business_profiles/profile_detail.html:14
+msgid "Summary"
+msgstr "Muhtasari"
+
+#: templates/business_profiles/profile_detail.html:16
+#, python-format
+msgid "%(counter)s item needs your review"
+msgid_plural "%(counter)s items need your review"
+msgstr[0] "Taarifa %(counter)s inasubiri ukague"
+msgstr[1] "Taarifa %(counter)s zinasubiri ukague"
+
+#: templates/business_profiles/profile_detail.html:17
+#, python-format
+msgid "%(counter)s confirmed"
+msgid_plural "%(counter)s confirmed"
+msgstr[0] "%(counter)s imethibitishwa"
+msgstr[1] "%(counter)s zimethibitishwa"
+
+#: templates/business_profiles/profile_detail.html:20
+msgid "Missing:"
+msgstr "Zinazokosekana:"
+
+#: templates/business_profiles/profile_detail.html:21
+msgid "Add these below if they apply to your business."
+msgstr "Ziongeze hapa chini kama zinahusu biashara yako."
+
+#: templates/business_profiles/profile_detail.html:26
+msgid "Update suggestions from the latest website analysis"
+msgstr "Sasisha mapendekezo kutoka uchambuzi wa karibuni wa tovuti"
+
+#: templates/business_profiles/profile_detail.html:28
+msgid ""
+"Your confirmed, rejected and added information is kept when suggestions are "
+"updated."
+msgstr ""
+"Taarifa ulizothibitisha, kukataa na kuongeza zinabaki mapendekezo "
+"yanaposasishwa."
+
+#: templates/business_profiles/profile_detail.html:30
+msgid "Analyze the website to get suggestions."
+msgstr "Chambua tovuti ili upate mapendekezo."
+
+#: templates/business_profiles/profile_detail.html:30
+msgid "Go to the project"
+msgstr "Nenda kwenye mradi"
+
+#: templates/business_profiles/profile_detail.html:36
+msgid "Details you wrote"
+msgstr "Maelezo uliyoandika"
+
+#: templates/business_profiles/profile_detail.html:38
+msgid "Add the important points below so they can be used individually."
+msgstr "Ongeza mambo muhimu hapa chini ili yaweze kutumika moja moja."
+
+#: templates/business_profiles/profile_detail.html:46
+msgid ""
+"Different values were found. Confirm the correct one and reject the others."
+msgstr ""
+"Zimepatikana taarifa tofauti. Thibitisha iliyo sahihi na ukatae nyingine."
+
+#: templates/business_profiles/profile_detail.html:49
+msgid "Nothing found yet."
+msgstr "Bado hakuna kilichopatikana."
+
+#: templates/business_profiles/profile_detail.html:57
+msgid "edited by you"
+msgstr "umeihariri wewe"
+
+#: templates/business_profiles/profile_detail.html:61
+#, python-format
+msgid "Where this was found (%(counter)s place)"
+msgid_plural "Where this was found (%(counter)s places)"
+msgstr[0] "Ilipopatikana (sehemu %(counter)s)"
+msgstr[1] "Ilipopatikana (sehemu %(counter)s)"
+
+#: templates/business_profiles/profile_detail.html:67
+msgid "Original wording on the website:"
+msgstr "Maneno ya awali kwenye tovuti:"
+
+#: templates/business_profiles/profile_detail.html:74
+msgid "Confirm"
+msgstr "Thibitisha"
+
+#: templates/business_profiles/profile_detail.html:78
+#: templates/marketing_content/script_detail.html:10
+#: templates/projects/project_detail.html:10
+msgid "Edit"
+msgstr "Hariri"
+
+#: templates/business_profiles/profile_detail.html:84
+msgid "Reject"
+msgstr "Kataa"
+
+#: templates/business_profiles/profile_detail.html:89
+msgid "Undo"
+msgstr "Rudisha"
+
+#: templates/business_profiles/profile_detail.html:93
+msgid "Remove this information from the profile?"
+msgstr "Uondoe taarifa hii kwenye wasifu?"
+
+#: templates/business_profiles/profile_detail.html:95
+#: templates/creative_assets/library.html:42
+#: templates/media_production/videos.html:50
+msgid "Remove"
+msgstr "Ondoa"
+
+#: templates/business_profiles/profile_detail.html:106
+msgid "Add information"
+msgstr "Ongeza taarifa"
+
+#: templates/business_profiles/profile_detail.html:110
+msgid "Add"
+msgstr "Ongeza"
+
+#: templates/core/home.html:6
+msgid "Turn your website into marketing content"
+msgstr "Geuza tovuti yako kuwa maudhui ya matangazo"
+
+#: templates/core/home.html:8
+msgid ""
+"JamiiTek AI Marketing Studio reads the public information on your business "
+"website, lets you check and correct it, and helps you create accurate "
+"scripts, posters and short videos from it."
+msgstr ""
+"JamiiTek AI Marketing Studio inasoma taarifa za wazi kwenye tovuti ya "
+"biashara yako, inakuruhusu kuzikagua na kuzirekebisha, kisha inakusaidia "
+"kutengeneza skripti, mabango na video fupi sahihi kutoka kwazo."
+
+#: templates/core/home.html:17
+msgid "Create a free account"
+msgstr "Fungua akaunti bure"
+
+#: templates/core/home.html:22
+msgid "How it works"
+msgstr "Inavyofanya kazi"
+
+#: templates/core/home.html:24
+msgid ""
+"Create a project and enter your website address, or type your business "
+"details yourself."
+msgstr ""
+"Fungua mradi na uandike anwani ya tovuti yako, au andika maelezo ya biashara "
+"yako mwenyewe."
+
+#: templates/core/home.html:25
+msgid ""
+"Review what was found on your website and correct anything that is wrong."
+msgstr ""
+"Kagua kilichopatikana kwenye tovuti yako na urekebishe chochote "
+"kilichokosewa."
+
+#: templates/core/home.html:26
+msgid ""
+"Choose your goal, audience, language, and format, and let AI draft concepts "
+"and a script."
+msgstr ""
+"Chagua lengo, walengwa, lugha na umbo, kisha AI iandae mawazo na skripti."
+
+#: templates/core/home.html:27
+msgid ""
+"Edit and approve the script. Nothing is produced from text you have not "
+"approved."
+msgstr ""
+"Hariri na uidhinishe skripti. Hakuna kinachotengenezwa kutoka maandishi "
+"ambayo hujaidhinisha."
+
+#: templates/core/home.html:28
+msgid "Make posters and short MP4 videos with your photos, then download them."
+msgstr "Tengeneza mabango na video fupi za MP4 kwa picha zako, kisha uzipakue."
+
+#: templates/core/home.html:33
+msgid "Your information stays accurate"
+msgstr "Taarifa zako zinabaki sahihi"
+
+#: templates/core/home.html:35
+msgid ""
+"The AI only uses business information you have confirmed, and any number or "
+"strong claim it cannot match to that information is highlighted for you to "
+"check. Nothing is posted anywhere for you."
+msgstr ""
+"AI inatumia taarifa za biashara ulizothibitisha pekee, na namba yoyote au "
+"dai zito lisilolingana na taarifa hizo huwekewa alama ili ulikague. Hakuna "
+"kinachochapishwa popote kwa niaba yako."
+
+#: templates/creative_assets/import.html:4
+#: templates/creative_assets/import.html:8
+msgid "Images from your website"
+msgstr "Picha kutoka tovuti yako"
+
+#: templates/creative_assets/import.html:7
+#: templates/creative_assets/library.html:4
+#: templates/creative_assets/library.html:11
+#: templates/creative_assets/poster_detail.html:7
+#: templates/creative_assets/poster_form.html:7
+#: templates/projects/project_detail.html:73
+msgid "Images and posters"
+msgstr "Picha na mabango"
+
+#: templates/creative_assets/import.html:9
+msgid ""
+"To protect your privacy, images are not loaded from the website on this "
+"page. Choose them by their address and description; you will see them after "
+"importing. Up to 12 at a time."
+msgstr ""
+"Kulinda faragha yako, picha hazipakiwi kutoka tovuti kwenye ukurasa huu. "
+"Zichague kwa anwani na maelezo yake; utaziona baada ya kuzileta. Hadi 12 kwa "
+"wakati mmoja."
+
+#: templates/creative_assets/import.html:20
+msgid "Logo:"
+msgstr "Nembo:"
+
+#: templates/creative_assets/import.html:22
+msgid "Found on"
+msgstr "Imepatikana kwenye"
+
+#: templates/creative_assets/import.html:32
+msgid "Import selected images"
+msgstr "Leta picha ulizochagua"
+
+#: templates/creative_assets/import.html:35
+msgid ""
+"No images were found. Analyze your website first, or upload images yourself."
+msgstr ""
+"Hakuna picha zilizopatikana. Kwanza chambua tovuti yako, au pakia picha "
+"mwenyewe."
+
+#: templates/creative_assets/library.html:12
+#: templates/creative_assets/poster_form.html:4
+#: templates/creative_assets/poster_form.html:9
+msgid "Make a poster"
+msgstr "Tengeneza bango"
+
+#: templates/creative_assets/library.html:18
+msgid "Importing images from your website…"
+msgstr "Tunaleta picha kutoka tovuti yako…"
+
+#: templates/creative_assets/library.html:19
+msgid ""
+"This page refreshes automatically. If nothing happens, start the worker: "
+"python manage.py run_worker"
+msgstr ""
+"Ukurasa huu unajisasisha wenyewe. Kama hakuna kinachotokea, washa worker: "
+"python manage.py run_worker"
+
+#: templates/creative_assets/library.html:21
+msgid "Latest import"
+msgstr "Uletaji wa karibuni"
+
+#: templates/creative_assets/library.html:24
+msgid "Imported"
+msgstr "Imeletwa"
+
+#: templates/creative_assets/library.html:24
+msgid "Already in library"
+msgstr "Tayari iko kwenye maktaba"
+
+#: templates/creative_assets/library.html:32
+msgid "Image library"
+msgstr "Maktaba ya picha"
+
+#: templates/creative_assets/library.html:40
+msgid "Remove this image? Posters made with it are kept."
+msgstr "Uondoe picha hii? Mabango yaliyotengenezwa nayo yatabaki."
+
+#: templates/creative_assets/library.html:48
+msgid ""
+"No images yet. Upload your own photos and logo, or import them from your "
+"website."
+msgstr ""
+"Bado hakuna picha. Pakia picha na nembo yako, au zilete kutoka tovuti yako."
+
+#: templates/creative_assets/library.html:54
+msgid "Upload an image"
+msgstr "Pakia picha"
+
+#: templates/creative_assets/library.html:58
+msgid "Upload"
+msgstr "Pakia"
+
+#: templates/creative_assets/library.html:64
+msgid "Choose images that were found when your website was analyzed."
+msgstr "Chagua picha zilizopatikana tovuti yako ilipochambuliwa."
+
+#: templates/creative_assets/library.html:65
+msgid "Choose website images"
+msgstr "Chagua picha za tovuti"
+
+#: templates/creative_assets/library.html:67
+msgid "Analyze your website first to see its images here."
+msgstr "Kwanza chambua tovuti yako ili uone picha zake hapa."
+
+#: templates/creative_assets/library.html:73
+msgid "Posters"
+msgstr "Mabango"
+
+#: templates/creative_assets/library.html:79
+msgid "claims to check"
+msgstr "madai ya kukagua"
+
+#: templates/creative_assets/library.html:84
+msgid "No posters yet."
+msgstr "Bado hakuna mabango."
+
+#: templates/creative_assets/poster_detail.html:8
+msgid "Poster"
+msgstr "Bango"
+
+#: templates/creative_assets/poster_detail.html:16
+msgid "Download JPEG"
+msgstr "Pakua JPEG"
+
+#: templates/creative_assets/poster_detail.html:17
+msgid "Make another"
+msgstr "Tengeneza jingine"
+
+#: templates/creative_assets/poster_detail.html:18
+msgid "Delete this poster permanently?"
+msgstr "Ufute bango hili kabisa?"
+
+#: templates/creative_assets/poster_detail.html:20
+msgid "Delete"
+msgstr "Futa"
+
+#: templates/creative_assets/poster_form.html:11
+#, python-format
+msgid "Text taken from your approved script “%(title)s”."
+msgstr ""
+"Maandishi yamechukuliwa kutoka skripti yako iliyoidhinishwa “%(title)s”."
+
+#: templates/creative_assets/poster_form.html:14
+msgid ""
+"You have no images yet, so the poster will use your brand colour as the "
+"background."
+msgstr ""
+"Bado huna picha, hivyo bango litatumia rangi ya chapa yako kama "
+"mandharinyuma."
+
+#: templates/creative_assets/poster_form.html:15
+msgid "Add images"
+msgstr "Ongeza picha"
+
+#: templates/creative_assets/poster_form.html:17
+msgid ""
+"Only write what is true for your business. Text that is not supported by "
+"your confirmed information will be highlighted."
+msgstr ""
+"Andika yaliyo kweli kwa biashara yako pekee. Maandishi yasiyoungwa mkono na "
+"taarifa ulizothibitisha yatawekewa alama."
+
+#: templates/creative_assets/poster_form.html:22
+msgid "Create poster"
+msgstr "Tengeneza bango"
+
+#: templates/marketing_content/brief_detail.html:9
+#: templates/marketing_content/brief_form.html:7
+#: templates/marketing_content/content_home.html:4
+#: templates/marketing_content/content_home.html:9
+#: templates/projects/project_detail.html:67
+msgid "Marketing content"
+msgstr "Maudhui ya matangazo"
+
+#: templates/marketing_content/brief_detail.html:17
+#, python-format
+msgid "The AI is writing the %(kind)s…"
+msgstr "AI inaandika %(kind)s…"
+
+#: templates/marketing_content/brief_detail.html:18
+msgid ""
+"This usually takes less than a minute. This page refreshes automatically."
+msgstr ""
+"Kwa kawaida huchukua chini ya dakika moja. Ukurasa huu unajisasisha wenyewe."
+
+#: templates/marketing_content/brief_detail.html:20
+#: templates/media_production/video_detail.html:19
+#: templates/website_analyzer/analysis_detail.html:18
+msgid "This is taking longer than expected."
+msgstr "Hii inachukua muda mrefu kuliko ilivyotarajiwa."
+
+#: templates/marketing_content/brief_detail.html:21
+#: templates/media_production/video_detail.html:20
+#: templates/website_analyzer/analysis_detail.html:19
+msgid ""
+"The background worker may not be running. Start it with: python manage.py "
+"run_worker"
+msgstr ""
+"Huenda worker ya nyuma haifanyi kazi. Iwashe kwa: python manage.py run_worker"
+
+#: templates/marketing_content/brief_detail.html:24
+msgid "Writing failed"
+msgstr "Uandishi umeshindikana"
+
+#: templates/marketing_content/brief_detail.html:36
+msgid "Write new concepts"
+msgstr "Andika mawazo mapya"
+
+#: templates/marketing_content/brief_detail.html:46
+msgid "Angle:"
+msgstr "Mtazamo:"
+
+#: templates/marketing_content/brief_detail.html:47
+msgid "Key message:"
+msgstr "Ujumbe mkuu:"
+
+#: templates/marketing_content/brief_detail.html:53
+msgid "Write a script from this concept"
+msgstr "Andika skripti kutoka wazo hili"
+
+#: templates/marketing_content/brief_detail.html:60
+msgid "No concepts yet."
+msgstr "Bado hakuna mawazo."
+
+#: templates/marketing_content/brief_detail.html:66
+msgid "Scripts"
+msgstr "Skripti"
+
+#: templates/marketing_content/brief_detail.html:70
+#, python-format
+msgid "%(counter)s claim to check"
+msgid_plural "%(counter)s claims to check"
+msgstr[0] "Dai %(counter)s la kukagua"
+msgstr[1] "Madai %(counter)s ya kukagua"
+
+#: templates/marketing_content/brief_form.html:4
+#: templates/marketing_content/content_home.html:10
+msgid "New content"
+msgstr "Maudhui mapya"
+
+#: templates/marketing_content/brief_form.html:9
+msgid "What do you want to create?"
+msgstr "Unataka kutengeneza nini?"
+
+#: templates/marketing_content/brief_form.html:15
+msgid "Write three concepts"
+msgstr "Andika mawazo matatu"
+
+#: templates/marketing_content/content_home.html:26
+msgid "No content yet. Start by telling us what you want to create."
+msgstr "Bado hakuna maudhui. Anza kwa kutueleza unachotaka kutengeneza."
+
+#: templates/marketing_content/content_home.html:27
+msgid "Create your first content"
+msgstr "Tengeneza maudhui yako ya kwanza"
+
+#: templates/marketing_content/includes/flags.html:4
+msgid "Check these possible claims:"
+msgstr "Kagua madai haya yanayowezekana:"
+
+#: templates/marketing_content/includes/readiness.html:4
+msgid "AI writing is not set up"
+msgstr "Uandishi wa AI haujawekwa"
+
+#: templates/marketing_content/includes/readiness.html:5
+msgid ""
+"The administrator needs to add an AI provider in the configuration (see "
+"README). Your projects and profile are not affected."
+msgstr ""
+"Msimamizi anahitaji kuongeza mtoa huduma wa AI kwenye mipangilio (angalia "
+"README). Miradi na wasifu wako haviathiriki."
+
+#: templates/marketing_content/includes/readiness.html:9
+msgid "Confirm your business information first"
+msgstr "Kwanza thibitisha taarifa za biashara yako"
+
+#: templates/marketing_content/includes/readiness.html:10
+msgid ""
+"The AI only uses information you have confirmed, so it cannot write anything "
+"yet."
+msgstr ""
+"AI inatumia taarifa ulizothibitisha pekee, hivyo bado haiwezi kuandika "
+"chochote."
+
+#: templates/marketing_content/includes/readiness.html:11
+#: templates/projects/project_detail.html:63
+msgid "Review business profile"
+msgstr "Kagua wasifu wa biashara"
+
+#: templates/marketing_content/includes/readiness.html:15
+#, python-format
+msgid ""
+"The AI will use your %(counter)s confirmed piece of business information and "
+"nothing else."
+msgid_plural ""
+"The AI will use your %(counter)s confirmed pieces of business information "
+"and nothing else."
+msgstr[0] ""
+"AI itatumia taarifa %(counter)s ya biashara uliyothibitisha na si kitu "
+"kingine."
+msgstr[1] ""
+"AI itatumia taarifa %(counter)s za biashara ulizothibitisha na si kitu "
+"kingine."
+
+#: templates/marketing_content/includes/readiness.html:16
+#, python-format
+msgid "It is sent to %(name)s to write drafts."
+msgstr "Zinatumwa kwa %(name)s ili kuandika rasimu."
+
+#: templates/marketing_content/script_detail.html:14
+#, python-format
+msgid "About %(seconds)s seconds"
+msgstr "Takriban sekunde %(seconds)s"
+
+#: templates/marketing_content/script_detail.html:15
+#, python-format
+msgid "Written by %(provider)s (%(model)s)"
+msgstr "Imeandikwa na %(provider)s (%(model)s)"
+
+#: templates/marketing_content/script_detail.html:20
+msgid "Scenes"
+msgstr "Maonyesho"
+
+#: templates/marketing_content/script_detail.html:24
+#, python-format
+msgid "%(seconds)s seconds"
+msgstr "Sekunde %(seconds)s"
+
+#: templates/marketing_content/script_detail.html:25
+msgid "Narration:"
+msgstr "Masimulizi:"
+
+#: templates/marketing_content/script_detail.html:26
+msgid "On screen:"
+msgstr "Kwenye skrini:"
+
+#: templates/marketing_content/script_detail.html:27
+msgid "Show:"
+msgstr "Onyesha:"
+
+#: templates/marketing_content/script_detail.html:29
+msgid "Based on:"
+msgstr "Imetokana na:"
+
+#: templates/marketing_content/script_detail.html:35
+msgid "Post"
+msgstr "Chapisho"
+
+#: templates/marketing_content/script_detail.html:44
+msgid "Business information the AI was given"
+msgstr "Taarifa za biashara ambazo AI ilipewa"
+
+#: templates/marketing_content/script_detail.html:50
+#, python-format
+msgid "%(counter)s earlier version"
+msgid_plural "%(counter)s earlier versions"
+msgstr[0] "Toleo %(counter)s la awali"
+msgstr[1] "Matoleo %(counter)s ya awali"
+
+#: templates/marketing_content/script_detail.html:58
+msgid "Restore this version"
+msgstr "Rudisha toleo hili"
+
+#: templates/marketing_content/script_detail.html:68
+msgid "Approve"
+msgstr "Idhinisha"
+
+#: templates/marketing_content/script_detail.html:69
+msgid ""
+"Approve this script when every statement in it is true for your business."
+msgstr ""
+"Idhinisha skripti hii pale kila kauli ndani yake ikiwa kweli kwa biashara "
+"yako."
+
+#: templates/marketing_content/script_detail.html:78
+msgid "Approve script"
+msgstr "Idhinisha skripti"
+
+#: templates/marketing_content/script_detail.html:82
+#, python-format
+msgid "Approved on %(when)s. Editing it will require approval again."
+msgstr "Imeidhinishwa %(when)s. Ukiihariri itahitaji kuidhinishwa tena."
+
+#: templates/marketing_content/script_detail.html:84
+msgid "Make a video from this script"
+msgstr "Tengeneza video kutoka skripti hii"
+
+#: templates/marketing_content/script_detail.html:85
+msgid "Make a poster from this script"
+msgstr "Tengeneza bango kutoka skripti hii"
+
+#: templates/marketing_content/script_edit.html:4
+#: templates/marketing_content/script_edit.html:8
+msgid "Edit script"
+msgstr "Hariri skripti"
+
+#: templates/marketing_content/script_edit.html:16
+#, python-format
+msgid "Scene %(number)s"
+msgstr "Onyesho %(number)s"
+
+#: templates/marketing_content/script_edit.html:21
+msgid "Save"
+msgstr "Hifadhi"
+
+#: templates/media_production/video_detail.html:4
+#: templates/media_production/video_detail.html:10
+#: templates/media_production/videos.html:31
+msgid "Video"
+msgstr "Video"
+
+#: templates/media_production/video_detail.html:9
+#: templates/media_production/video_form.html:7
+#: templates/media_production/videos.html:4
+#: templates/media_production/videos.html:9
+#: templates/projects/project_detail.html:79
+msgid "Videos"
+msgstr "Video"
+
+#: templates/media_production/video_detail.html:16
+msgid "Waiting for the background worker."
+msgstr "Inasubiri worker ya nyuma."
+
+#: templates/media_production/video_detail.html:17
+msgid ""
+"This page refreshes automatically. A preview usually takes under a minute; "
+"final quality takes longer."
+msgstr ""
+"Ukurasa huu unajisasisha wenyewe. Video ya majaribio kwa kawaida huchukua "
+"chini ya dakika moja; ubora wa mwisho huchukua muda zaidi."
+
+#: templates/media_production/video_detail.html:25
+msgid "The video could not be made"
+msgstr "Video haikuweza kutengenezwa"
+
+#: templates/media_production/video_detail.html:29
+msgid "Try again"
+msgstr "Jaribu tena"
+
+#: templates/media_production/video_detail.html:34
+msgid "Your browser cannot play this video. Download it instead."
+msgstr "Kivinjari chako hakiwezi kucheza video hii. Ipakue badala yake."
+
+#: templates/media_production/video_detail.html:36
+#, python-format
+msgid "%(w)s × %(h)s · %(d)s seconds · checked after rendering"
+msgstr "%(w)s × %(h)s · sekunde %(d)s · imekaguliwa baada ya kutengenezwa"
+
+#: templates/media_production/video_detail.html:38
+msgid "Download MP4"
+msgstr "Pakua MP4"
+
+#: templates/media_production/video_detail.html:40
+msgid "Make final quality"
+msgstr "Tengeneza ubora wa mwisho"
+
+#: templates/media_production/video_detail.html:46
+msgid "Delete this video permanently?"
+msgstr "Ufute video hii kabisa?"
+
+#: templates/media_production/video_detail.html:48
+msgid "Delete video"
+msgstr "Futa video"
+
+#: templates/media_production/video_form.html:4
+#: templates/media_production/video_form.html:9
+#: templates/media_production/videos.html:10
+msgid "Make a video"
+msgstr "Tengeneza video"
+
+#: templates/media_production/video_form.html:11
+msgid "FFmpeg is not installed, so the video cannot be made. See README."
+msgstr ""
+"FFmpeg haijasakinishwa, hivyo video haiwezi kutengenezwa. Angalia README."
+
+#: templates/media_production/video_form.html:16
+msgid "Make video"
+msgstr "Tengeneza video"
+
+#: templates/media_production/videos.html:15
+msgid "FFmpeg is not installed"
+msgstr "FFmpeg haijasakinishwa"
+
+#: templates/media_production/videos.html:16
+msgid ""
+"Video making needs the free FFmpeg program on the computer running this "
+"application. See README for how to install it."
+msgstr ""
+"Kutengeneza video kunahitaji programu ya bure ya FFmpeg kwenye kompyuta "
+"inayoendesha mfumo huu. Angalia README jinsi ya kuisakinisha."
+
+#: templates/media_production/videos.html:20
+msgid "Approve a script first"
+msgstr "Kwanza idhinisha skripti"
+
+#: templates/media_production/videos.html:21
+msgid ""
+"Videos are made from an approved script, so every statement has been checked."
+msgstr ""
+"Video zinatengenezwa kutoka skripti iliyoidhinishwa, hivyo kila kauli "
+"imeshakaguliwa."
+
+#: templates/media_production/videos.html:22
+msgid "Go to marketing content"
+msgstr "Nenda kwenye maudhui ya matangazo"
+
+#: templates/media_production/videos.html:39
+msgid "Music and voice-over"
+msgstr "Muziki na sauti ya msimulizi"
+
+#: templates/media_production/videos.html:40
+msgid ""
+"Use music you have a licence for, or record your own voice reading the "
+"script on your phone. Automatic AI narration is not available yet."
+msgstr ""
+"Tumia muziki ulio na leseni yake, au rekodi sauti yako ukisoma skripti kwa "
+"simu. Masimulizi ya AI ya moja kwa moja bado hayapatikani."
+
+#: templates/media_production/videos.html:48
+msgid "Remove this recording? Videos already made are kept."
+msgstr "Uondoe rekodi hii? Video zilizokwisha tengenezwa zitabaki."
+
+#: templates/media_production/videos.html:59
+msgid "Upload audio"
+msgstr "Pakia sauti"
+
+#: templates/projects/project_confirm_delete.html:4
+msgid "Delete project"
+msgstr "Futa mradi"
+
+#: templates/projects/project_confirm_delete.html:8
+msgid "Delete project?"
+msgstr "Ufute mradi?"
+
+#: templates/projects/project_confirm_delete.html:9
+#, python-format
+msgid ""
+"This permanently deletes “%(name)s” and everything saved in it. This cannot "
+"be undone."
+msgstr ""
+"Hii inafuta kabisa “%(name)s” na kila kitu kilichohifadhiwa ndani yake. "
+"Haiwezi kurudishwa."
+
+#: templates/projects/project_confirm_delete.html:13
+msgid "Delete permanently"
+msgstr "Futa kabisa"
+
+#: templates/projects/project_detail.html:15
+#: templates/projects/project_detail.html:18
+#: templates/projects/project_detail.html:21
+msgid "Not provided"
+msgstr "Haijatolewa"
+
+#: templates/projects/project_detail.html:20
+msgid "Business details (entered by you)"
+msgstr "Maelezo ya biashara (uliyoandika wewe)"
+
+#: templates/projects/project_detail.html:25
+msgid "Getting started"
+msgstr "Hatua za kuanza"
+
+#: templates/projects/project_detail.html:29
+msgid "Done"
+msgstr "Imekamilika"
+
+#: templates/projects/project_detail.html:29
+msgid "Next"
+msgstr "Inayofuata"
+
+#: templates/projects/project_detail.html:29
+msgid "Not needed"
+msgstr "Haihitajiki"
+
+#: templates/projects/project_detail.html:29
+msgid "Later"
+msgstr "Baadaye"
+
+#: templates/projects/project_detail.html:38
+#: templates/website_analyzer/analysis_detail.html:4
+#: templates/website_analyzer/analysis_detail.html:10
+msgid "Website analysis"
+msgstr "Uchambuzi wa tovuti"
+
+#: templates/projects/project_detail.html:40
+msgid ""
+"This project has no website address. Add one to analyze the website, or "
+"continue with the details you entered."
+msgstr ""
+"Mradi huu hauna anwani ya tovuti. Iongeze ili tovuti ichambuliwe, au endelea "
+"na maelezo uliyoandika."
+
+#: templates/projects/project_detail.html:44
+msgid "Latest analysis:"
+msgstr "Uchambuzi wa karibuni:"
+
+#: templates/projects/project_detail.html:49
+msgid ""
+"We will read the public pages of your website (up to 8 pages), respecting "
+"the website's robots.txt, and show you what we found. Nothing is published "
+"or changed on your website."
+msgstr ""
+"Tutasoma kurasa za wazi za tovuti yako (hadi kurasa 8), tukiheshimu robots."
+"txt ya tovuti, kisha tukuonyeshe tulichopata. Hakuna kinachochapishwa wala "
+"kubadilishwa kwenye tovuti yako."
+
+#: templates/projects/project_detail.html:54
+msgid "Analyze again"
+msgstr "Chambua tena"
+
+#: templates/projects/project_detail.html:54
+msgid "Analyze website"
+msgstr "Chambua tovuti"
+
+#: templates/projects/project_detail.html:62
+msgid ""
+"Review the information found on your website, correct it, and add anything "
+"missing. Only confirmed information will be used for marketing content."
+msgstr ""
+"Kagua taarifa zilizopatikana kwenye tovuti yako, zirekebishe, na uongeze "
+"zinazokosekana. Taarifa zilizothibitishwa pekee ndizo zitakazotumika kwenye "
+"maudhui ya matangazo."
+
+#: templates/projects/project_detail.html:68
+msgid ""
+"Let AI draft video concepts and scripts from your confirmed business "
+"information. You review and approve everything."
+msgstr ""
+"AI iandae mawazo ya video na skripti kutoka taarifa za biashara "
+"ulizothibitisha. Wewe unakagua na kuidhinisha kila kitu."
+
+#: templates/projects/project_detail.html:69
+msgid "Create marketing content"
+msgstr "Tengeneza maudhui ya matangazo"
+
+#: templates/projects/project_detail.html:74
+msgid ""
+"Keep your photos and logo in one place and turn approved text into posters."
+msgstr ""
+"Weka picha na nembo yako sehemu moja na ugeuze maandishi yaliyoidhinishwa "
+"kuwa mabango."
+
+#: templates/projects/project_detail.html:75
+msgid "Open images and posters"
+msgstr "Fungua picha na mabango"
+
+#: templates/projects/project_detail.html:80
+msgid ""
+"Turn an approved script and your photos into a short MP4 video with "
+"captions, and optional music or your own voice-over."
+msgstr ""
+"Geuza skripti iliyoidhinishwa na picha zako kuwa video fupi ya MP4 yenye "
+"maandishi, na ukipenda muziki au sauti yako ya msimulizi."
+
+#: templates/projects/project_detail.html:81
+msgid "Open videos"
+msgstr "Fungua video"
+
+#: templates/projects/project_detail.html:84
+msgid "Delete this project"
+msgstr "Futa mradi huu"
+
+#: templates/projects/project_form.html:4
+#: templates/projects/project_form.html:8
+#: templates/projects/project_list.html:9
+msgid "New project"
+msgstr "Mradi mpya"
+
+#: templates/projects/project_form.html:4
+#: templates/projects/project_form.html:8
+msgid "Edit project"
+msgstr "Hariri mradi"
+
+#: templates/projects/project_form.html:10
+msgid ""
+"Add your website address, describe your business, or both. We check that the "
+"website address is a public site before saving it; nothing is downloaded "
+"from it yet."
+msgstr ""
+"Ongeza anwani ya tovuti yako, eleza biashara yako, au vyote viwili. "
+"Tunahakikisha anwani ni tovuti ya wazi kabla ya kuihifadhi; hakuna "
+"kinachopakuliwa kutoka kwake kwa sasa."
+
+#: templates/projects/project_form.html:16
+msgid "Create project"
+msgstr "Fungua mradi"
+
+#: templates/projects/project_form.html:16
+msgid "Save changes"
+msgstr "Hifadhi mabadiliko"
+
+#: templates/projects/project_list.html:19
+msgid "No website — details entered manually"
+msgstr "Hakuna tovuti — maelezo yameandikwa kwa mkono"
+
+#: templates/projects/project_list.html:26
+msgid "You have no projects yet."
+msgstr "Bado huna mradi wowote."
+
+#: templates/projects/project_list.html:27
+msgid ""
+"A project holds the information about one business. Start by adding its "
+"website address or describing it."
+msgstr ""
+"Mradi mmoja unabeba taarifa za biashara moja. Anza kwa kuongeza anwani ya "
+"tovuti yake au kuieleza."
+
+#: templates/projects/project_list.html:28
+msgid "Create your first project"
+msgstr "Fungua mradi wako wa kwanza"
+
+#: templates/registration/login.html:15
+msgid "No account yet?"
+msgstr "Bado huna akaunti?"
+
+#: templates/website_analyzer/analysis_detail.html:16
+msgid ""
+"Waiting for the analysis worker to start. This page refreshes automatically."
+msgstr "Inasubiri worker ya uchambuzi ianze. Ukurasa huu unajisasisha wenyewe."
+
+#: templates/website_analyzer/analysis_detail.html:22
+#, python-format
+msgid ""
+"Reading pages: %(done)s of up to %(limit)s attempted so far. This page "
+"refreshes automatically."
+msgstr ""
+"Inasoma kurasa: %(done)s kati ya hadi %(limit)s zimejaribiwa mpaka sasa. "
+"Ukurasa huu unajisasisha wenyewe."
+
+#: templates/website_analyzer/analysis_detail.html:24
+msgid "The analysis failed."
+msgstr "Uchambuzi umeshindikana."
+
+#: templates/website_analyzer/analysis_detail.html:25
+msgid ""
+"You can try again later, check the website address, or describe your "
+"business manually on the project page."
+msgstr ""
+"Unaweza kujaribu tena baadaye, kukagua anwani ya tovuti, au kueleza biashara "
+"yako mwenyewe kwenye ukurasa wa mradi."
+
+#: templates/website_analyzer/analysis_detail.html:27
+#, python-format
+msgid "%(ok)s of %(total)s pages analyzed successfully."
+msgstr "Kurasa %(ok)s kati ya %(total)s zimechambuliwa kwa mafanikio."
+
+#: templates/website_analyzer/analysis_detail.html:33
+msgid "Pages"
+msgstr "Kurasa"
+
+#: templates/website_analyzer/analysis_detail.html:34
+msgid ""
+"This is the content as it appears on the website. It has not been checked or "
+"interpreted yet."
+msgstr ""
+"Haya ni maudhui kama yanavyoonekana kwenye tovuti. Bado hayajakaguliwa wala "
+"kufasiriwa."
+
+#: templates/website_analyzer/analysis_detail.html:44
+msgid "Language:"
+msgstr "Lugha:"
+
+#: templates/website_analyzer/analysis_detail.html:45
+#, python-format
+msgid "%(counter)s image found"
+msgid_plural "%(counter)s images found"
+msgstr[0] "Picha %(counter)s imepatikana"
+msgstr[1] "Picha %(counter)s zimepatikana"
+
+#: templates/website_analyzer/analysis_detail.html:46
+msgid "Structured data:"
+msgstr "Data iliyopangiliwa:"
+
+#: templates/website_analyzer/analysis_detail.html:49
+msgid "Show extracted content"
+msgstr "Onyesha maudhui yaliyotolewa"
+
+#: templates/website_analyzer/analysis_detail.html:51
+msgid "Headings"
+msgstr "Vichwa"
+
+#: templates/website_analyzer/analysis_detail.html:54
+msgid "Text"
+msgstr "Maandishi"
+
+#: templates/website_analyzer/analysis_detail.html:55
+msgid "No text found."
+msgstr "Hakuna maandishi yaliyopatikana."
+
+#: templates/website_analyzer/analysis_detail.html:56
+msgid "The text was shortened because the page is very long."
+msgstr "Maandishi yamefupishwa kwa sababu ukurasa ni mrefu sana."
+
+#: templates/website_analyzer/analysis_detail.html:58
+msgid "Images"
+msgstr "Picha"
+
+#: templates/website_analyzer/analysis_detail.html:63
+#, python-format
+msgid "The website answered with status %(code)s."
+msgstr "Tovuti ilijibu kwa hali (status) %(code)s."

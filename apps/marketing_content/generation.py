@@ -10,7 +10,8 @@ import logging
 from datetime import timedelta
 
 from django.db import IntegrityError, transaction
-from django.utils import timezone
+from django.utils import timezone, translation
+from django.utils.translation import gettext_noop
 
 from apps.business_profiles.models import FactKey, ProfileFact
 from integrations.ai import ProviderError, TextGenerationRequest
@@ -45,7 +46,10 @@ def confirmed_facts(project):
     facts = ProfileFact.objects.filter(
         profile__project=project, status=ProfileFact.Status.CONFIRMED
     ).order_by("key", "id")
-    labels = dict(FactKey.choices)
+    # Stored and sent to the AI in English, whatever the user's language;
+    # templates translate the label when showing it.
+    with translation.override("en"):
+        labels = {key: str(label) for key, label in FactKey.choices}
     return [
         {"ref": f"F{index}", "fact_id": fact.pk, "key": fact.key,
          "label": labels.get(fact.key, fact.key), "value": fact.value}
@@ -91,7 +95,7 @@ def fail_stale_jobs():
     ).update(
         status=GenerationJob.Status.FAILED,
         error_code="interrupted",
-        error_message="Writing was interrupted. Please try again.",
+        error_message=gettext_noop("Writing was interrupted. Please try again."),
         finished_at=timezone.now(),
     )
 
@@ -103,7 +107,7 @@ def _unknown_reference_flags(unknown):
         "code": "unknown_reference",
         "location": "fact references",
         "text": ", ".join(sorted(set(unknown))),
-        "message": "The AI referred to information that is not in your confirmed facts. Check the text carefully.",
+        "message": gettext_noop("The AI referred to information that is not in your confirmed facts. Check the text carefully."),
     }]
 
 
@@ -128,8 +132,8 @@ def run_job(job, provider=None):
     try:
         if not facts:
             job.error_code = "no_facts"
-            job.error_message = ("There is no confirmed business information yet. "
-                                 "Confirm or add information in the business profile first.")
+            job.error_message = gettext_noop("There is no confirmed business information yet. "
+                                              "Confirm or add information in the business profile first.")
             raise _JobFailed()
         provider = provider or get_text_provider()
         if job.kind == GenerationJob.Kind.CONCEPTS:
@@ -175,12 +179,12 @@ def run_job(job, provider=None):
     except InvalidOutput:
         job.status = GenerationJob.Status.FAILED
         job.error_code = "bad_output"
-        job.error_message = "The AI's answer could not be used. Please try again."
+        job.error_message = gettext_noop("The AI's answer could not be used. Please try again.")
     except Exception:
         logger.exception("Generation job %s crashed", job.pk)
         job.status = GenerationJob.Status.FAILED
         job.error_code = "internal_error"
-        job.error_message = "Something went wrong on our side. Please try again later."
+        job.error_message = gettext_noop("Something went wrong on our side. Please try again later.")
     job.finished_at = timezone.now()
     job.save()
     return job

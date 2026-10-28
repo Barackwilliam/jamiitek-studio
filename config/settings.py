@@ -179,6 +179,8 @@ LANGUAGES = [
     ("sw", "Kiswahili"),
 ]
 LOCALE_PATHS = [BASE_DIR / "locale"]
+LANGUAGE_COOKIE_HTTPONLY = True
+LANGUAGE_COOKIE_SAMESITE = "Lax"
 
 TIME_ZONE = os.environ.get("DJANGO_TIME_ZONE", "Africa/Dar_es_Salaam")
 USE_I18N = True
@@ -246,6 +248,7 @@ if not DEBUG:
     SECURE_SSL_REDIRECT = env_bool("DJANGO_SECURE_SSL_REDIRECT", default=True)
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
+    LANGUAGE_COOKIE_SECURE = True
     SECURE_HSTS_SECONDS = int(os.environ.get("DJANGO_SECURE_HSTS_SECONDS", "3600"))
     SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool(
         "DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS", default=False

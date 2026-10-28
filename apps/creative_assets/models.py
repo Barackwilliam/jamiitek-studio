@@ -3,6 +3,7 @@ import uuid
 
 from django.core.files.base import ContentFile
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
@@ -28,12 +29,12 @@ class Asset(models.Model):
     """An image the project may use, with where it came from and the user's rights confirmation."""
 
     class Kind(models.TextChoices):
-        IMAGE = "image", "Photo or image"
-        LOGO = "logo", "Logo"
+        IMAGE = "image", _("Photo or image")
+        LOGO = "logo", _("Logo")
 
     class Origin(models.TextChoices):
-        UPLOAD = "upload", "Uploaded by you"
-        WEBSITE = "website", "From your website"
+        UPLOAD = "upload", _("Uploaded by you")
+        WEBSITE = "website", _("From your website")
 
     project = models.ForeignKey("projects.Project", on_delete=models.CASCADE, related_name="assets")
     kind = models.CharField(max_length=20, choices=Kind.choices, default=Kind.IMAGE)
@@ -89,10 +90,10 @@ class ImageImportJob(models.Model):
     """Images from the analyzed website that the user chose to import."""
 
     class Status(models.TextChoices):
-        QUEUED = "queued", "Waiting to start"
-        RUNNING = "running", "Importing"
-        COMPLETED = "completed", "Completed"
-        FAILED = "failed", "Failed"
+        QUEUED = "queued", _("Waiting to start")
+        RUNNING = "running", _("Importing")
+        COMPLETED = "completed", _("Completed")
+        FAILED = "failed", _("Failed")
 
     ACTIVE_STATUSES = (Status.QUEUED, Status.RUNNING)
 
@@ -121,9 +122,9 @@ class ImageImportJob(models.Model):
 
 class Poster(models.Model):
     class Format(models.TextChoices):
-        SQUARE = "square", "Square 1:1 (1080 × 1080)"
-        PORTRAIT = "portrait", "Vertical 9:16 (1080 × 1920)"
-        LANDSCAPE = "landscape", "Horizontal 16:9 (1920 × 1080)"
+        SQUARE = "square", _("Square 1:1 (1080 × 1080)")
+        PORTRAIT = "portrait", _("Vertical 9:16 (1080 × 1920)")
+        LANDSCAPE = "landscape", _("Horizontal 16:9 (1920 × 1080)")
 
     SIZES = {"square": (1080, 1080), "portrait": (1080, 1920), "landscape": (1920, 1080)}
 

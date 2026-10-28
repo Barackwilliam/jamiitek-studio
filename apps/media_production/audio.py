@@ -9,6 +9,8 @@ import tempfile
 from dataclasses import dataclass
 from pathlib import Path
 
+from django.utils.translation import gettext_lazy as _
+
 from .ffmpeg import FFmpegError, duration_of, ffmpeg, probe, streams
 
 ACCEPTED_CONTAINERS = {"mp3", "mov", "mp4", "m4a", "3gp", "3g2", "mj2", "wav", "ogg", "matroska", "webm", "aac"}
@@ -19,7 +21,7 @@ MAX_SECONDS = 600
 class InvalidAudio(ValueError):
     def __init__(self, message):
         super().__init__(message)
-        self.message = message
+        self.message = str(message)  # translated in the active language
 
 
 @dataclass(frozen=True)
@@ -36,12 +38,12 @@ def process_audio(data):
         try:
             info = probe(source)
         except FFmpegError:
-            raise InvalidAudio("This file is not a supported audio file.")
+            raise InvalidAudio(_("This file is not a supported audio file."))
         container = set(info.get("format", {}).get("format_name", "").split(","))
         if not container & ACCEPTED_CONTAINERS:
-            raise InvalidAudio("Please upload MP3, M4A, WAV or OGG audio.")
+            raise InvalidAudio(_("Please upload MP3, M4A, WAV or OGG audio."))
         if not streams(info, "audio"):
-            raise InvalidAudio("The file has no sound.")
+            raise InvalidAudio(_("The file has no sound."))
         duration = duration_of(info)
         if not MIN_SECONDS <= duration <= MAX_SECONDS:
             raise InvalidAudio(f"Audio must last between {MIN_SECONDS} second and {MAX_SECONDS // 60} minutes.")
@@ -50,4 +52,4 @@ def process_audio(data):
                     "-ac", "2", "-ar", "44100", "-c:a", "aac", "-b:a", "128k", str(output)], timeout=180)
             return ProcessedAudio(content=output.read_bytes(), duration=round(duration_of(probe(output)), 2))
         except FFmpegError:
-            raise InvalidAudio("The audio could not be processed. It may be damaged.")
+            raise InvalidAudio(_("The audio could not be processed. It may be damaged."))

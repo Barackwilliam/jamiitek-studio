@@ -259,6 +259,24 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-025: Kiswahili and English Interface, Usability Basics
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- The interface is available in English and Kiswahili with Django's translation system. A button in the header switches language and stores the choice in a cookie; no account setting is needed.
+- The compiled catalog (`locale/sw/LC_MESSAGES/django.mo`) is committed, so Windows users do not need GNU gettext. Only people who change texts need gettext to run `makemessages` and `compilemessages`. A test fails if any text is untranslated, if a placeholder is lost, or if the `.mo` file is out of date.
+- Messages saved in the database (job errors, import results, video progress) are stored in English and translated when shown, so a page always follows the viewer's current language. Claim-check flags are rebuilt from their code and text.
+- AI prompts and the fact snapshot given to the AI are always in English, whatever the screen language; the output language is chosen in the brief.
+- Each project page shows a "Getting started" checklist worked out from saved work, with the next step linked.
+- Delete actions ask for confirmation with a small static script (allowed by the CSP); without JavaScript they still work.
+- Friendly 403, CSRF, 404 and 500 pages; the 500 page does not depend on the database.
+- Every page is checked with axe-core (WCAG 2.1 A/AA and best practices) at 375 px and 1280 px, in both languages.
+
+**Review conditions:** Revisit translations after usability sessions with Kiswahili-speaking business owners (`docs/USABILITY_TEST_PLAN.md`).
+
 ### DEC-024: Reliability and Security Hardening Before Public Use
 
 **Status:** Accepted

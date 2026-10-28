@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Not allowed" %} · JamiiTek{% endblock %}
+
+{% block content %}
+<h1>{% translate "Not allowed" %}</h1>
+<p>{% translate "You do not have permission to do this." %}</p>
+<p><a href="{% url 'projects:list' %}" class="button">{% translate "Go to my projects" %}</a></p>
+{% endblock %}

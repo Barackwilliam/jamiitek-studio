@@ -193,6 +193,18 @@ Files are never served directly from the bucket: the application checks that the
 - `python manage.py cleanup` lists leftover temporary folders and stored files that no record uses. Nothing is deleted unless you add `--delete`. Files changed in the last hour are always kept, because they may belong to work in progress.
 - Log-in is limited to 5 failed attempts per username and 20 per network address in 15 minutes; sign-up to 10 per address per hour. Behind a reverse proxy, make sure the proxy passes the real client address, or every visitor will share one limit.
 
+### Languages
+
+The interface is in English and Kiswahili; the button at the top right switches between them. The translations live in `locale/sw/LC_MESSAGES/django.po`, and the compiled `django.mo` is committed, so nothing extra is needed to use them. If you change any text, install GNU gettext and run:
+
+```bash
+python manage.py makemessages -l sw --ignore=.venv --ignore=staticfiles --no-obsolete
+# translate the new entries in locale/sw/LC_MESSAGES/django.po, then:
+python manage.py compilemessages -l sw --ignore=.venv
+```
+
+The tests fail if a text is untranslated or the `.mo` file is out of date.
+
 ### Running checks and tests
 
 ```bash
@@ -243,20 +255,17 @@ Before making significant changes, AI coding assistants and developers should re
 - `docs/DECISIONS.md` — Important decisions and their rationale.
 - `docs/TASKS.md` — Development tasks and priorities.
 - `docs/TESTING.md` — Testing strategy and verification procedures.
+- `docs/USABILITY_TEST_PLAN.md` — How to run usability sessions with real business owners.
 
 Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, AI-written video concepts and scripts based only on confirmed information (with unsupported claims flagged and approval required), a private image library (uploads and website images, validated and re-encoded), posters in three formats made from approved text, MP4 videos made from approved scripts with captions and optional music or a user-recorded voice-over (each video checked with FFprobe), and PostgreSQL/Supabase support with automatic row level security. AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, AI-written video concepts and scripts based only on confirmed information (with unsupported claims flagged and approval required), a private image library (uploads and website images, validated and re-encoded), posters in three formats made from approved text, MP4 videos made from approved scripts with captions and optional music or a user-recorded voice-over (each video checked with FFprobe), and PostgreSQL/Supabase support with automatic row level security. The interface is available in English and Kiswahili, and every page passes an automated accessibility check. AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
 - AI-generated images, AI narration (text-to-speech) or AI video footage, or browser automation for JavaScript-only websites.
-- AI provider integrations.
-- Image, audio, or video generation.
-- Video rendering and exporting.
-- File uploads and Supabase Storage.
 - Deployment infrastructure.
 
 As development progresses, update the project status documentation with implemented features, test results, known limitations, and the next development priorities.

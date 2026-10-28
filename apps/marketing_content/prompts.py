@@ -8,6 +8,8 @@ treated as wishes, not facts.
 
 import json
 
+from django.utils import translation
+
 PROMPT_VERSION = "2026-10-28.1"
 
 LANGUAGE_NAMES = {"sw": "Kiswahili (Tanzanian usage)", "en": "English"}
@@ -33,15 +35,17 @@ def _facts_block(facts):
 
 
 def _brief_block(brief):
-    return json.dumps({
-        "objective": brief.get_objective_display(),
-        "audience": brief.audience,
-        "platform": brief.get_platform_display(),
-        "video_length_seconds": brief.duration_seconds,
-        "tone": brief.get_tone_display(),
-        "output_language": LANGUAGE_NAMES[brief.language],
-        "user_notes_not_facts": brief.notes,
-    }, ensure_ascii=False, indent=1)
+    # Prompts are always in English, whatever language the user's screen is in.
+    with translation.override("en"):
+        return json.dumps({
+            "objective": str(brief.get_objective_display()),
+            "audience": brief.audience,
+            "platform": str(brief.get_platform_display()),
+            "video_length_seconds": brief.duration_seconds,
+            "tone": str(brief.get_tone_display()),
+            "output_language": LANGUAGE_NAMES[brief.language],
+            "user_notes_not_facts": brief.notes,
+        }, ensure_ascii=False, indent=1)
 
 
 def concepts_prompt(brief, facts):

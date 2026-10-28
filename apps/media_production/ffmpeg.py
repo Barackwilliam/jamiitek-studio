@@ -9,6 +9,7 @@ import logging
 import subprocess
 
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
 
 logger = logging.getLogger(__name__)
 
@@ -18,7 +19,7 @@ class FFmpegError(Exception):
 
     def __init__(self, message, detail=""):
         super().__init__(message)
-        self.message = message
+        self.message = str(message)  # translated in the active language
         self.detail = detail
 
 
@@ -26,9 +27,9 @@ def _run(args, timeout):
     try:
         result = subprocess.run(args, capture_output=True, timeout=timeout, stdin=subprocess.DEVNULL)
     except FileNotFoundError as exc:
-        raise FFmpegError("FFmpeg is not installed or could not be found. See README.") from exc
+        raise FFmpegError(_("FFmpeg is not installed or could not be found. See README.")) from exc
     except subprocess.TimeoutExpired as exc:
-        raise FFmpegError("Video processing took too long and was stopped.") from exc
+        raise FFmpegError(_("Video processing took too long and was stopped.")) from exc
     return result
 
 
@@ -39,7 +40,7 @@ def ffmpeg(args, timeout=600):
     if result.returncode != 0:
         detail = result.stderr.decode(errors="replace")[-2000:]
         logger.error("ffmpeg failed (%s): %s", result.returncode, detail)
-        raise FFmpegError("Video processing failed.", detail)
+        raise FFmpegError(_("Video processing failed."), detail)
     return result
 
 
@@ -49,12 +50,12 @@ def probe(path, timeout=60):
                "-show_format", "-show_streams", str(path)]
     result = _run(command, timeout)
     if result.returncode != 0:
-        raise FFmpegError("The file is not a readable media file.",
+        raise FFmpegError(_("The file is not a readable media file."),
                           result.stderr.decode(errors="replace")[-2000:])
     try:
         return json.loads(result.stdout)
     except ValueError as exc:
-        raise FFmpegError("The file is not a readable media file.") from exc
+        raise FFmpegError(_("The file is not a readable media file.")) from exc
 
 
 def tools_available():

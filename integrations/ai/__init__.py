@@ -7,11 +7,16 @@ below; which provider is used is configuration (DEC-011, DEC-021).
 from dataclasses import dataclass, field
 
 
+def gettext_noop(message):
+    """Mark a message for translation without importing Django (see makemessages)."""
+    return message
+
+
 class ProviderError(Exception):
     """Base error. `message` is safe to show users; details stay in the logs."""
 
     code = "provider_error"
-    message = "The AI service could not complete the request. Please try again later."
+    message = gettext_noop("The AI service could not complete the request. Please try again later.")
 
     def __init__(self, detail=""):
         super().__init__(detail or self.message)
@@ -20,28 +25,30 @@ class ProviderError(Exception):
 
 class ProviderNotConfigured(ProviderError):
     code = "not_configured"
-    message = "AI text generation is not set up on this installation yet."
+    message = gettext_noop("AI text generation is not set up on this installation yet.")
 
 
 class ProviderAuthError(ProviderError):
     code = "auth_error"
-    message = "The AI service rejected our access key. The administrator needs to check the configuration."
+    message = gettext_noop("The AI service rejected our access key. "
+                           "The administrator needs to check the configuration.")
 
 
 class ProviderRateLimited(ProviderError):
     code = "rate_limited"
-    message = ("The free AI quota has been reached for now. Your work is saved; "
-               "please try again later.")
+    message = gettext_noop("The free AI quota has been reached for now. Your work is saved; "
+                           "please try again later.")
 
 
 class ProviderUnavailable(ProviderError):
     code = "unavailable"
-    message = "The AI service is not responding right now. Your work is saved; please try again later."
+    message = gettext_noop("The AI service is not responding right now. "
+                           "Your work is saved; please try again later.")
 
 
 class ProviderBadResponse(ProviderError):
     code = "bad_response"
-    message = "The AI service returned an answer we could not use. Please try again."
+    message = gettext_noop("The AI service returned an answer we could not use. Please try again.")
 
 
 @dataclass(frozen=True)

@@ -2,6 +2,7 @@ import hashlib
 
 from django.core.files.base import ContentFile
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils import timezone
 
@@ -18,8 +19,8 @@ def video_upload_to(instance, filename):
 
 class AudioTrack(models.Model):
     class Kind(models.TextChoices):
-        MUSIC = "music", "Background music"
-        VOICEOVER = "voiceover", "Voice-over recording"
+        MUSIC = "music", _("Background music")
+        VOICEOVER = "voiceover", _("Voice-over recording")
 
     project = models.ForeignKey("projects.Project", on_delete=models.CASCADE, related_name="audio_tracks")
     kind = models.CharField(max_length=20, choices=Kind.choices)
@@ -54,19 +55,19 @@ class AudioTrack(models.Model):
 
 class VideoRender(models.Model):
     class Aspect(models.TextChoices):
-        PORTRAIT = "portrait", "Vertical 9:16 (Reels, TikTok, Status)"
-        SQUARE = "square", "Square 1:1"
-        LANDSCAPE = "landscape", "Horizontal 16:9 (YouTube, website)"
+        PORTRAIT = "portrait", _("Vertical 9:16 (Reels, TikTok, Status)")
+        SQUARE = "square", _("Square 1:1")
+        LANDSCAPE = "landscape", _("Horizontal 16:9 (YouTube, website)")
 
     class Quality(models.TextChoices):
-        PREVIEW = "preview", "Preview (fast, 540p)"
-        FINAL = "final", "Final (1080p, slower)"
+        PREVIEW = "preview", _("Preview (fast, 540p)")
+        FINAL = "final", _("Final (1080p, slower)")
 
     class Status(models.TextChoices):
-        QUEUED = "queued", "Waiting to start"
-        RUNNING = "running", "Rendering"
-        COMPLETED = "completed", "Ready"
-        FAILED = "failed", "Failed"
+        QUEUED = "queued", _("Waiting to start")
+        RUNNING = "running", _("Rendering")
+        COMPLETED = "completed", _("Ready")
+        FAILED = "failed", _("Failed")
 
     ACTIVE_STATUSES = (Status.QUEUED, Status.RUNNING)
 

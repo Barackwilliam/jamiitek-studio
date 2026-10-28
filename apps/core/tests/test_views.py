@@ -13,11 +13,15 @@ class HomePageTests(TestCase):
         self.assertTemplateUsed(response, "core/home.html")
         self.assertContains(response, "JamiiTek")
 
-    def test_home_page_states_development_status_honestly(self):
+    def test_home_page_describes_what_exists_without_overpromising(self):
         response = self.client.get(reverse("core:home"))
 
-        self.assertContains(response, "Website analysis and content creation are not available yet")
-        self.assertNotContains(response, "<form")
+        self.assertContains(response, "only uses business information you have confirmed")
+        self.assertContains(response, "Nothing is posted anywhere for you.")
+        self.assertNotContains(response, "not available yet")
+        # The only form is the language switcher.
+        self.assertContains(response, "<form", count=1)
+        self.assertContains(response, 'action="/i18n/setlang/"')
 
     def test_home_page_declares_language_and_skip_link(self):
         response = self.client.get(reverse("core:home"))

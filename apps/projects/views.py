@@ -6,6 +6,7 @@ from django.views.decorators.http import require_http_methods, require_safe
 
 from .forms import ProjectForm
 from .models import Project
+from .progress import project_steps
 
 
 def _get_owned_project(request, pk):
@@ -42,7 +43,7 @@ def project_detail(request, pk):
     return render(
         request,
         "projects/project_detail.html",
-        {"project": project, "latest_analysis": latest_analysis},
+        {"project": project, "latest_analysis": latest_analysis, "steps": project_steps(project)},
     )
 
 

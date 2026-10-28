@@ -13,6 +13,8 @@ from dataclasses import dataclass, field
 from urllib import robotparser
 from urllib.parse import urlsplit, urlunsplit
 
+from django.utils.translation import gettext_noop
+
 from .extract import extract_page, is_probably_page
 from .fetch import FetchError, safe_fetch
 from .url_safety import UnsafeURLError
@@ -208,7 +210,7 @@ def crawl(
         if not robots.allowed(url):
             record(CrawledPage(
                 url=url, status="skipped", depth=depth, error_code="robots",
-                error_message="The website's robots.txt asks crawlers not to read this page.",
+                error_message=gettext_noop("The website's robots.txt asks crawlers not to read this page."),
             ))
             continue
 

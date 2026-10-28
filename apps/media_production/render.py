@@ -14,6 +14,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from django.conf import settings
+from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_noop
 
 from .ffmpeg import FFmpegError, check_video, ffmpeg
 from .frames import background_layer, end_card, text_layer
@@ -57,23 +59,25 @@ def total_duration(scenes):
 class PlanError(ValueError):
     def __init__(self, message):
         super().__init__(message)
-        self.message = message
+        self.message = str(message)  # translated in the active language
 
 
 def validate_plan(scenes, voice_duration=None):
     """Check timing before spending time on rendering."""
     if not scenes:
-        raise PlanError("The script has no scenes.")
+        raise PlanError(_("The script has no scenes."))
     for number, scene in enumerate(scenes, start=1):
         if not MIN_SCENE_SECONDS <= scene["duration"] <= MAX_SCENE_SECONDS:
-            raise PlanError(f"Scene {number} must last between {MIN_SCENE_SECONDS} and "
-                            f"{MAX_SCENE_SECONDS} seconds.")
+            raise PlanError(_("Scene %(number)s must last between %(min)s and %(max)s seconds.") % {
+                "number": number, "min": MIN_SCENE_SECONDS, "max": MAX_SCENE_SECONDS})
     total = total_duration(scenes)
     if total > MAX_TOTAL_SECONDS:
-        raise PlanError(f"The video would last {total:.0f} seconds; the limit is {MAX_TOTAL_SECONDS}.")
+        raise PlanError(_("The video would last %(total).0f seconds; the limit is %(limit)s.") % {
+            "total": total, "limit": MAX_TOTAL_SECONDS})
     if voice_duration and voice_duration > total + 0.5:
-        raise PlanError(f"The voice-over lasts {voice_duration:.0f} seconds but the video only "
-                        f"{total:.0f}. Lengthen the scenes or shorten the recording.")
+        raise PlanError(_("The voice-over lasts %(voice).0f seconds but the video only %(total).0f. "
+                          "Lengthen the scenes or shorten the recording.") % {
+            "voice": voice_duration, "total": total})
     return total
 
 
@@ -173,15 +177,16 @@ def render_video(plan, *, profile, aspect, brand_color, logo_bytes=None, end_car
                 progress(f"Rendering scene {index + 1} of {len(scenes)}")
             clips.append(_render_scene(index, scene, size, profile, workdir))
         if progress:
-            progress("Joining scenes and adding sound")
+            progress(gettext_noop("Joining scenes and adding sound"))
         output = workdir / "video.mp4"
         _join(clips, scenes, music_path, voice_path, output, profile, total)
         if progress:
-            progress("Checking the finished video")
+            progress(gettext_noop("Checking the finished video"))
         problems = check_video(output, width=size[0], height=size[1], duration=total,
                                has_audio=bool(music_path or voice_path))
         if problems:
-            raise FFmpegError("The finished video did not pass its checks: " + " ".join(problems))
+            raise FFmpegError(_("The finished video did not pass its quality checks. Please try again."),
+                              " ".join(problems))
         data = output.read_bytes()
         return data, {"width": size[0], "height": size[1], "duration": round(total, 2),
                       "scenes": len(scenes), "has_audio": bool(music_path or voice_path)}

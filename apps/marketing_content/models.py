@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils import timezone
 
@@ -7,33 +8,33 @@ class MarketingBrief(models.Model):
     """What the user wants to create: goal, audience, language, format."""
 
     class Objective(models.TextChoices):
-        AWARENESS = "awareness", "Make more people know the business"
-        PRODUCT = "product", "Promote a product"
-        SERVICE = "service", "Promote a service"
-        LEADS = "leads", "Get enquiries or bookings"
-        SALES = "sales", "Increase sales"
-        EVENT = "event", "Promote an event"
+        AWARENESS = "awareness", _("Make more people know the business")
+        PRODUCT = "product", _("Promote a product")
+        SERVICE = "service", _("Promote a service")
+        LEADS = "leads", _("Get enquiries or bookings")
+        SALES = "sales", _("Increase sales")
+        EVENT = "event", _("Promote an event")
 
     class Language(models.TextChoices):
-        SWAHILI = "sw", "Kiswahili"
-        ENGLISH = "en", "English"
+        SWAHILI = "sw", _("Kiswahili")
+        ENGLISH = "en", _("English")
 
     class Tone(models.TextChoices):
-        FRIENDLY = "friendly", "Friendly"
-        PROFESSIONAL = "professional", "Professional"
-        ENERGETIC = "energetic", "Energetic"
-        WARM = "warm", "Warm and personal"
-        LUXURY = "luxury", "Premium"
+        FRIENDLY = "friendly", _("Friendly")
+        PROFESSIONAL = "professional", _("Professional")
+        ENERGETIC = "energetic", _("Energetic")
+        WARM = "warm", _("Warm and personal")
+        LUXURY = "luxury", _("Premium")
 
     class Platform(models.TextChoices):
-        INSTAGRAM = "instagram", "Instagram Reels"
-        TIKTOK = "tiktok", "TikTok"
-        FACEBOOK = "facebook", "Facebook"
-        WHATSAPP = "whatsapp", "WhatsApp Status"
-        YOUTUBE = "youtube", "YouTube"
-        WEBSITE = "website", "Website"
+        INSTAGRAM = "instagram", _("Instagram Reels")
+        TIKTOK = "tiktok", _("TikTok")
+        FACEBOOK = "facebook", _("Facebook")
+        WHATSAPP = "whatsapp", _("WhatsApp Status")
+        YOUTUBE = "youtube", _("YouTube")
+        WEBSITE = "website", _("Website")
 
-    DURATION_CHOICES = [(15, "15 seconds"), (30, "30 seconds"), (60, "60 seconds")]
+    DURATION_CHOICES = [(15, _("15 seconds")), (30, _("30 seconds")), (60, _("60 seconds"))]
 
     project = models.ForeignKey("projects.Project", on_delete=models.CASCADE, related_name="briefs")
     objective = models.CharField(max_length=20, choices=Objective.choices)
@@ -60,14 +61,14 @@ class GenerationJob(models.Model):
     """A queued request to the AI provider, processed by the worker."""
 
     class Kind(models.TextChoices):
-        CONCEPTS = "concepts", "Concepts"
-        SCRIPT = "script", "Script"
+        CONCEPTS = "concepts", _("Concepts")
+        SCRIPT = "script", _("Script")
 
     class Status(models.TextChoices):
-        QUEUED = "queued", "Waiting to start"
-        RUNNING = "running", "Writing"
-        COMPLETED = "completed", "Completed"
-        FAILED = "failed", "Failed"
+        QUEUED = "queued", _("Waiting to start")
+        RUNNING = "running", _("Writing")
+        COMPLETED = "completed", _("Completed")
+        FAILED = "failed", _("Failed")
 
     ACTIVE_STATUSES = (Status.QUEUED, Status.RUNNING)
 
@@ -121,13 +122,13 @@ class ContentDraft(models.Model):
     """
 
     class Kind(models.TextChoices):
-        CONCEPT = "concept", "Concept"
-        SCRIPT = "script", "Script"
+        CONCEPT = "concept", _("Concept")
+        SCRIPT = "script", _("Script")
 
     class Status(models.TextChoices):
-        GENERATED = "generated", "AI draft"
-        EDITED = "edited", "Edited by you"
-        APPROVED = "approved", "Approved"
+        GENERATED = "generated", _("AI draft")
+        EDITED = "edited", _("Edited by you")
+        APPROVED = "approved", _("Approved")
 
     brief = models.ForeignKey(MarketingBrief, on_delete=models.CASCADE, related_name="drafts")
     job = models.ForeignKey(GenerationJob, on_delete=models.SET_NULL, null=True, blank=True,

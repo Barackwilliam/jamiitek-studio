@@ -15,7 +15,7 @@
 <div class="actions">
   <a href="{{ poster.file_url }}?download=1" class="button">{% translate "Download JPEG" %}</a>
   <a href="{% url 'creative_assets:poster_create' project.pk %}{% if poster.script_id %}?script={{ poster.script_id }}{% endif %}" class="button button-secondary">{% translate "Make another" %}</a>
-  <form method="post" action="{% url 'creative_assets:poster_delete' project.pk poster.pk %}" class="inline-form">
+  <form method="post" action="{% url 'creative_assets:poster_delete' project.pk poster.pk %}" class="inline-form" data-confirm="{% translate 'Delete this poster permanently?' %}">
     {% csrf_token %}
     <button type="submit" class="link-button danger-link">{% translate "Delete" %}</button>
   </form>

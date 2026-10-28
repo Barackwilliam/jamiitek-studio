@@ -21,7 +21,7 @@
   {% elif analysis.status == "running" %}
     <p>{% blocktranslate with done=analysis.pages_attempted limit=analysis.max_pages %}Reading pages: {{ done }} of up to {{ limit }} attempted so far. This page refreshes automatically.{% endblocktranslate %}</p>
   {% elif analysis.status == "failed" %}
-    <p>{{ analysis.error_message|default:_("The analysis failed.") }}</p>
+    <p>{% if analysis.error_message %}{% translate analysis.error_message %}{% else %}{% translate "The analysis failed." %}{% endif %}</p>
     <p>{% translate "You can try again later, check the website address, or describe your business manually on the project page." %}</p>
   {% else %}
     <p>{% blocktranslate with ok=analysis.pages_succeeded total=analysis.pages_attempted %}{{ ok }} of {{ total }} pages analyzed successfully.{% endblocktranslate %}</p>
@@ -60,7 +60,7 @@
             {% endif %}
           </details>
         {% else %}
-          <p>{{ page.error_message }}</p>
+          <p>{% if page.error_code == "http_status" and page.http_status %}{% blocktranslate with code=page.http_status %}The website answered with status {{ code }}.{% endblocktranslate %}{% else %}{% translate page.error_message %}{% endif %}</p>
         {% endif %}
       </li>
     {% endfor %}

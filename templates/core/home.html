@@ -6,9 +6,9 @@
   <h1>{% translate "Turn your website into marketing content" %}</h1>
   <p class="lead">
     {% blocktranslate trimmed %}
-      JamiiTek AI Marketing Studio will read the public information on your
-      business website, let you check and correct it, and help you create
-      accurate marketing content from it.
+      JamiiTek AI Marketing Studio reads the public information on your
+      business website, lets you check and correct it, and helps you create
+      accurate scripts, posters and short videos from it.
     {% endblocktranslate %}
   </p>
   {% if user.is_authenticated %}
@@ -18,25 +18,25 @@
   {% endif %}
 </section>
 
-<section class="notice" aria-labelledby="status-heading">
-  <h2 id="status-heading">{% translate "Project status" %}</h2>
-  <p>
-    {% blocktranslate trimmed %}
-      This application is in early development. You can create an account
-      and save projects with your website address and business details.
-      Website analysis and content creation are not available yet.
-    {% endblocktranslate %}
-  </p>
-</section>
-
-<section aria-labelledby="plan-heading">
-  <h2 id="plan-heading">{% translate "Planned workflow" %}</h2>
+<section aria-labelledby="how-heading">
+  <h2 id="how-heading">{% translate "How it works" %}</h2>
   <ol class="steps">
     <li>{% translate "Create a project and enter your website address, or type your business details yourself." %}</li>
     <li>{% translate "Review what was found on your website and correct anything that is wrong." %}</li>
-    <li>{% translate "Choose your goal, audience, language, and format." %}</li>
-    <li>{% translate "Review and edit the generated script before anything is produced." %}</li>
-    <li>{% translate "Preview and download the finished content." %}</li>
+    <li>{% translate "Choose your goal, audience, language, and format, and let AI draft concepts and a script." %}</li>
+    <li>{% translate "Edit and approve the script. Nothing is produced from text you have not approved." %}</li>
+    <li>{% translate "Make posters and short MP4 videos with your photos, then download them." %}</li>
   </ol>
+</section>
+
+<section class="notice" aria-labelledby="promise-heading">
+  <h2 id="promise-heading">{% translate "Your information stays accurate" %}</h2>
+  <p>
+    {% blocktranslate trimmed %}
+      The AI only uses business information you have confirmed, and any
+      number or strong claim it cannot match to that information is
+      highlighted for you to check. Nothing is posted anywhere for you.
+    {% endblocktranslate %}
+  </p>
 </section>
 {% endblock %}

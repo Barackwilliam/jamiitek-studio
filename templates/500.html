@@ -1,0 +1,18 @@
+{% load i18n static %}<!doctype html>
+{% comment %}Kept independent of base.html and the database: it must render even when something is broken.{% endcomment %}
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% translate "Something went wrong" %} · JamiiTek</title>
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+<body>
+  <main id="main" class="container site-main">
+    <h1>{% translate "Something went wrong" %}</h1>
+    <p>{% translate "Sorry, an error happened on our side. Your saved work is safe. Please try again in a few minutes." %}</p>
+    <p><a href="/" class="button">{% translate "Go to the home page" %}</a></p>
+  </main>
+</body>
+</html>

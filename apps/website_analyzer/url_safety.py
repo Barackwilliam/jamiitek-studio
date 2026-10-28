@@ -14,6 +14,8 @@ import socket
 from dataclasses import dataclass
 from urllib.parse import urlsplit, urlunsplit
 
+from django.utils.translation import gettext_lazy as _
+
 ALLOWED_SCHEMES = ("http", "https")
 DEFAULT_PORTS = {"http": 80, "https": 443}
 DEFAULT_ALLOWED_PORTS = frozenset({80, 443})
@@ -46,7 +48,7 @@ class UnsafeURLError(ValueError):
     def __init__(self, code, message):
         super().__init__(message)
         self.code = code
-        self.message = message
+        self.message = str(message)  # translated in the active language
 
 
 @dataclass(frozen=True)
@@ -81,8 +83,8 @@ def resolve_host(hostname, port):
     except (socket.gaierror, UnicodeError) as exc:
         raise UnsafeURLError(
             "dns_failed",
-            "We could not find this website address. Check the spelling, "
-            "or enter your business details manually.",
+            _("We could not find this website address. Check the spelling, "
+            "or enter your business details manually."),
         ) from exc
     addresses = []
     for _family, _type, _proto, _canonname, sockaddr in results:
@@ -100,11 +102,11 @@ def normalize_url(raw_url, allowed_ports=DEFAULT_ALLOWED_PORTS):
     """
     url = (raw_url or "").strip()
     if not url:
-        raise UnsafeURLError("empty", "Enter a website address.")
+        raise UnsafeURLError("empty", _("Enter a website address."))
     if len(url) > MAX_URL_LENGTH:
-        raise UnsafeURLError("too_long", "This website address is too long.")
+        raise UnsafeURLError("too_long", _("This website address is too long."))
     if any(char in url for char in "\\\r\n\t ") or any(ord(c) < 32 for c in url):
-        raise UnsafeURLError("invalid", "This website address contains invalid characters.")
+        raise UnsafeURLError("invalid", _("This website address contains invalid characters."))
 
     if "://" not in url:
         # "mailto:x" or "javascript:..." name a scheme; "example.com:8080"
@@ -112,7 +114,7 @@ def normalize_url(raw_url, allowed_ports=DEFAULT_ALLOWED_PORTS):
         scheme_match = SCHEME_ONLY_PATTERN.match(url)
         if scheme_match and not url[scheme_match.end():][:1].isdigit():
             raise UnsafeURLError(
-                "scheme", "Only website addresses starting with http:// or https:// are supported."
+                "scheme", _("Only website addresses starting with http:// or https:// are supported.")
             )
         url = "https://" + url
 
@@ -120,21 +122,21 @@ def normalize_url(raw_url, allowed_ports=DEFAULT_ALLOWED_PORTS):
         parts = urlsplit(url)
         port = parts.port
     except ValueError as exc:
-        raise UnsafeURLError("invalid", "This is not a valid website address.") from exc
+        raise UnsafeURLError("invalid", _("This is not a valid website address.")) from exc
 
     scheme = parts.scheme.lower()
     if scheme not in ALLOWED_SCHEMES:
         raise UnsafeURLError(
-            "scheme", "Only website addresses starting with http:// or https:// are supported."
+            "scheme", _("Only website addresses starting with http:// or https:// are supported.")
         )
     if parts.username is not None or parts.password is not None:
         raise UnsafeURLError(
-            "credentials", "Website addresses containing a username or password are not supported."
+            "credentials", _("Website addresses containing a username or password are not supported.")
         )
 
     hostname = (parts.hostname or "").rstrip(".")
     if not hostname:
-        raise UnsafeURLError("invalid", "This website address has no domain name.")
+        raise UnsafeURLError("invalid", _("This website address has no domain name."))
 
     is_ip_literal = True
     try:
@@ -146,22 +148,22 @@ def normalize_url(raw_url, allowed_ports=DEFAULT_ALLOWED_PORTS):
         try:
             hostname = hostname.encode("idna").decode("ascii").lower()
         except UnicodeError as exc:
-            raise UnsafeURLError("invalid", "This website address is not valid.") from exc
+            raise UnsafeURLError("invalid", _("This website address is not valid.")) from exc
         if NUMERIC_HOST_PATTERN.match(hostname):
             raise UnsafeURLError(
-                "numeric_host", "Enter the website's domain name instead of a numeric address."
+                "numeric_host", _("Enter the website's domain name instead of a numeric address.")
             )
         if hostname in BLOCKED_HOSTNAMES or hostname.endswith(BLOCKED_HOST_SUFFIXES):
-            raise UnsafeURLError("blocked_host", "This address points to a private network.")
+            raise UnsafeURLError("blocked_host", _("This address points to a private network."))
         if "." not in hostname:
             raise UnsafeURLError(
-                "invalid", "Enter a full website address, for example example.com."
+                "invalid", _("Enter a full website address, for example example.com.")
             )
 
     if port is None:
         port = DEFAULT_PORTS[scheme]
     if port not in allowed_ports:
-        raise UnsafeURLError("port", "Website addresses with this port number are not supported.")
+        raise UnsafeURLError("port", _("Website addresses with this port number are not supported."))
 
     host_for_url = f"[{hostname}]" if ":" in hostname else hostname
     netloc = host_for_url if port == DEFAULT_PORTS[scheme] else f"{host_for_url}:{port}"
@@ -191,7 +193,7 @@ def validate_public_url(
         resolve = resolver or resolve_host
         addresses = tuple(resolve(hostname, port))
     if not addresses:
-        raise UnsafeURLError("dns_failed", "We could not find this website address.")
+        raise UnsafeURLError("dns_failed", _("We could not find this website address."))
     for address in addresses:
         try:
             allowed = is_allowed_ip(address)
@@ -200,6 +202,6 @@ def validate_public_url(
         if not allowed:
             raise UnsafeURLError(
                 "private_address",
-                "This address points to a private or reserved network and cannot be analyzed.",
+                _("This address points to a private or reserved network and cannot be analyzed."),
             )
     return ValidatedURL(url=url, scheme=scheme, hostname=hostname, port=port, addresses=addresses)

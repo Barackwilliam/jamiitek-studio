@@ -1,22 +1,23 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 
 
 class FactKey(models.TextChoices):
     """The kinds of business information the profile can hold."""
 
-    BUSINESS_NAME = "business_name", "Business name"
-    DESCRIPTION = "description", "Description"
-    OFFERING = "offering", "Product or service"
-    PRICE = "price", "Price"
-    PHONE = "phone", "Phone number"
-    EMAIL = "email", "Email address"
-    ADDRESS = "address", "Address"
-    OPENING_HOURS = "opening_hours", "Opening hours"
-    SOCIAL = "social", "Social media"
-    LOGO = "logo", "Logo"
-    BRAND_COLOR = "brand_color", "Brand colour"
-    OTHER = "other", "Other information"
+    BUSINESS_NAME = "business_name", _("Business name")
+    DESCRIPTION = "description", _("Description")
+    OFFERING = "offering", _("Product or service")
+    PRICE = "price", _("Price")
+    PHONE = "phone", _("Phone number")
+    EMAIL = "email", _("Email address")
+    ADDRESS = "address", _("Address")
+    OPENING_HOURS = "opening_hours", _("Opening hours")
+    SOCIAL = "social", _("Social media")
+    LOGO = "logo", _("Logo")
+    BRAND_COLOR = "brand_color", _("Brand colour")
+    OTHER = "other", _("Other information")
 
 
 # Keys where a business normally has a single value; differing suggestions
@@ -63,13 +64,13 @@ class ProfileFact(models.Model):
     """
 
     class Source(models.TextChoices):
-        WEBSITE = "website", "Found on the website"
-        USER = "user", "Entered by you"
+        WEBSITE = "website", _("Found on the website")
+        USER = "user", _("Entered by you")
 
     class Status(models.TextChoices):
-        SUGGESTED = "suggested", "Needs your review"
-        CONFIRMED = "confirmed", "Confirmed"
-        REJECTED = "rejected", "Rejected"
+        SUGGESTED = "suggested", _("Needs your review")
+        CONFIRMED = "confirmed", _("Confirmed")
+        REJECTED = "rejected", _("Rejected")
 
     profile = models.ForeignKey(BusinessProfile, on_delete=models.CASCADE, related_name="facts")
     key = models.CharField(max_length=30, choices=FactKey.choices)

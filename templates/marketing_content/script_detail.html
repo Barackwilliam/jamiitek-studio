@@ -26,7 +26,7 @@
       {% if scene.on_screen_text %}<p><strong>{% translate "On screen:" %}</strong> {{ scene.on_screen_text }}</p>{% endif %}
       {% if scene.visual %}<p class="muted"><strong>{% translate "Show:" %}</strong> {{ scene.visual }}</p>{% endif %}
       {% if scene.facts %}
-        <p class="fact-meta">{% translate "Based on:" %} {% for fact in scene.facts %}{{ fact.label }}: “{{ fact.value }}”{% if not forloop.last %}; {% endif %}{% endfor %}</p>
+        <p class="fact-meta">{% translate "Based on:" %} {% for fact in scene.facts %}{% translate fact.label %}: “{{ fact.value }}”{% if not forloop.last %}; {% endif %}{% endfor %}</p>
       {% endif %}
     </li>
   {% endfor %}
@@ -42,7 +42,7 @@
 
 <details>
   <summary>{% translate "Business information the AI was given" %}</summary>
-  <ul>{% for fact in script.facts %}<li>{{ fact.label }}: {{ fact.value }}</li>{% endfor %}</ul>
+  <ul>{% for fact in script.facts %}<li>{% translate fact.label %}: {{ fact.value }}</li>{% endfor %}</ul>
 </details>
 
 {% if revisions %}

@@ -12,6 +12,7 @@ import time
 from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.utils import timezone
+from django.utils.translation import gettext_noop
 
 from apps.business_profiles.models import FactKey, ProfileFact
 from apps.website_analyzer.crawler import RobotsCache
@@ -113,14 +114,14 @@ def run_import(job, fetch=safe_fetch, sleep=time.sleep, delay=1.0):
                         source_url=url, alt_text=candidate["alt"][:300], rights_confirmed=True,
                     )
             except IntegrityError:
-                results.append({"url": url, "status": "duplicate", "message": "Already in your library."})
+                results.append({"url": url, "status": "duplicate", "message": gettext_noop("Already in your library.")})
                 continue
             results.append({"url": url, "status": "imported", "message": ""})
         except (FetchError, UnsafeURLError, InvalidImage) as exc:
             results.append({"url": url, "status": "failed", "message": exc.message})
         except Exception:
             logger.exception("Image import failed for %s", url)
-            results.append({"url": url, "status": "failed", "message": "Something went wrong on our side."})
+            results.append({"url": url, "status": "failed", "message": gettext_noop("Something went wrong on our side.")})
     job.results = results
     job.status = (ImageImportJob.Status.COMPLETED
                   if any(r["status"] != "failed" for r in results) else ImageImportJob.Status.FAILED)

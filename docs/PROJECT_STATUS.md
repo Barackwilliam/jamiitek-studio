@@ -99,6 +99,9 @@ Use the following status definitions consistently:
 | Login and sign-up rate limiting | Implemented — Verified | See section 4.8 |
 | Content-Security-Policy | Implemented — Verified | See section 4.8 |
 | Worker health monitoring | Implemented — Verified | `/health/` and admin |
+| Kiswahili interface | Implemented — Verified | DEC-025; native-speaker review pending (TASK-107) |
+| Getting-started checklist | Implemented — Verified | Project page |
+| Accessibility audit | Implemented — Verified | axe-core, see section 4.9 |
 | Script version history | Implemented — Verified | Restore requires new approval |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
@@ -314,6 +317,35 @@ For every important verification, record:
 **Known limitations:**
 - Rate limits use the connecting address; behind a proxy this must be configured (README).
 - Exports never expire automatically.
+
+### 4.9 Verification record: Phase 9 (user experience, Kiswahili, accessibility)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.7, plus GNU gettext 0.21 and axe-core 4.10.3 in Chromium (Playwright)
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 324 tests on each |
+| Translation catalog | `msgfmt --check --statistics` and tests | 469 messages translated; placeholders kept; committed `.mo` matches the `.po` |
+| Language switch | Tests and browser | Switches and stays on the same page; cookie is HttpOnly; unsafe `next` addresses ignored; `<html lang>` follows |
+| Stored messages | Tests | Analysis, AI and import errors and claim flags saved in English are shown in Kiswahili |
+| AI prompts | Test | Prompt and fact labels stay English while the screen is in Kiswahili |
+| Checklist | Unit tests and browser | Follows saved work; failed or running work does not count; no-website projects skip analysis; one "next" step linked |
+| Accessibility | axe-core (WCAG 2.0/2.1 A and AA, best practices) on 25 pages × 2 widths × 2 languages | 0 problems after fixes |
+| Layout | Browser at 375 px and 1280 px | No horizontal overflow on any page |
+| Confirmation | Browser | Dialog shows the Kiswahili question; cancelling keeps the item; no JavaScript errors |
+| Error pages | Tests | 404 hides whether a project exists; 500 renders without request context; CSRF page explains what to do |
+
+**Defects found and fixed during testing:**
+- Rejected facts were faded with opacity, giving text contrast below 4.5:1; they now use a dashed border.
+- Making choice labels translatable put translation objects into JSON fields (11 test errors); prompts and fact snapshots now resolve them in English.
+- The home page still said website analysis and content creation were not available.
+- A failed final video check showed technical FFprobe details to the user; it now shows a plain message and logs the details.
+
+**Known limitations:**
+- Translations were written without review by a native-speaker business owner; TASK-107 covers this.
+- Usability sessions with real users have not taken place yet.
+- Messages from the website itself (page text, image descriptions) are shown as found.
 
 ## 5. Current Blockers and Open Questions
 

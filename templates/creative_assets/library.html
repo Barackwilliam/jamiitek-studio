@@ -21,7 +21,7 @@
       <h2>{% translate "Latest import" %}</h2>
       <ul class="break">
         {% for result in latest_import.results %}
-          <li>{% if result.status == "imported" %}{% translate "Imported" %}{% elif result.status == "duplicate" %}{% translate "Already in library" %}{% else %}{% translate "Failed" %}{% endif %}: {{ result.url }}{% if result.message %} — {{ result.message }}{% endif %}</li>
+          <li>{% if result.status == "imported" %}{% translate "Imported" %}{% elif result.status == "duplicate" %}{% translate "Already in library" %}{% else %}{% translate "Failed" %}{% endif %}: {{ result.url }}{% if result.message %} — {% translate result.message %}{% endif %}</li>
         {% endfor %}
       </ul>
     {% endif %}
@@ -37,9 +37,9 @@
           <img src="{{ asset.thumbnail_url }}" alt="{{ asset.alt_text }}" loading="lazy" width="240" height="240">
           <p class="fact-meta">{{ asset.get_kind_display }} · {{ asset.get_origin_display }} · {{ asset.width }}×{{ asset.height }}</p>
           {% if asset.alt_text %}<p class="asset-alt">{{ asset.alt_text }}</p>{% endif %}
-          <form method="post" action="{% url 'creative_assets:asset_delete' project.pk asset.pk %}" class="inline-form">
+          <form method="post" action="{% url 'creative_assets:asset_delete' project.pk asset.pk %}" class="inline-form" data-confirm="{% translate 'Remove this image? Posters made with it are kept.' %}">
             {% csrf_token %}
-            <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+            <button type="submit" class="link-button danger-link">{% translate "Remove" %}<span class="visually-hidden">: {{ asset.alt_text|default:asset.get_kind_display }}</span></button>
           </form>
         </li>
       {% endfor %}

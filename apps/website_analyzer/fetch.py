@@ -13,6 +13,8 @@ import time
 from dataclasses import dataclass, field
 from urllib.parse import urljoin
 
+from django.utils.translation import gettext_lazy as _
+
 from .url_safety import (
     DEFAULT_ALLOWED_PORTS,
     UnsafeURLError,
@@ -32,7 +34,7 @@ class FetchError(Exception):
     def __init__(self, code, message):
         super().__init__(message)
         self.code = code
-        self.message = message
+        self.message = str(message)  # translated in the active language
 
 
 @dataclass(frozen=True)
@@ -101,13 +103,13 @@ def _read_limited(response, max_bytes, deadline):
     total = 0
     while True:
         if time.monotonic() > deadline:
-            raise FetchError("timeout", "The website took too long to respond.")
+            raise FetchError("timeout", _("The website took too long to respond."))
         chunk = response.read(CHUNK_SIZE)
         if not chunk:
             return b"".join(chunks)
         total += len(chunk)
         if total > max_bytes:
-            raise FetchError("too_large", "The page is too large to analyze.")
+            raise FetchError("too_large", _("The page is too large to analyze."))
         chunks.append(chunk)
 
 
@@ -152,12 +154,12 @@ def safe_fetch(
             allowed_ports=allowed_ports,
         )
         if target.url in visited:
-            raise FetchError("redirect_loop", "The website redirects in a loop.")
+            raise FetchError("redirect_loop", _("The website redirects in a loop."))
         visited.add(target.url)
 
         remaining = deadline - time.monotonic()
         if remaining <= 0:
-            raise FetchError("timeout", "The website took too long to respond.")
+            raise FetchError("timeout", _("The website took too long to respond."))
 
         conn = None
         try:
@@ -177,9 +179,9 @@ def safe_fetch(
             if response.status in REDIRECT_STATUSES:
                 location = response.getheader("Location")
                 if not location:
-                    raise FetchError("bad_redirect", "The website sent an invalid redirect.")
+                    raise FetchError("bad_redirect", _("The website sent an invalid redirect."))
                 if len(redirects) >= max_redirects:
-                    raise FetchError("too_many_redirects", "The website redirects too many times.")
+                    raise FetchError("too_many_redirects", _("The website redirects too many times."))
                 redirects.append(target.url)
                 current = urljoin(target.url, location.strip())
                 continue
@@ -187,16 +189,16 @@ def safe_fetch(
             encoding = (response.getheader("Content-Encoding") or "identity").strip().lower()
             if encoding != "identity":
                 raise FetchError(
-                    "unsupported_encoding", "The website sent a compressed response we cannot accept."
+                    "unsupported_encoding", _("The website sent a compressed response we cannot accept.")
                 )
 
             content_type, charset = _parse_content_type(response.getheader("Content-Type"))
             if 200 <= response.status < 300 and content_type not in allowed_content_types:
-                raise FetchError("unsupported_type", "This address does not point to a web page.")
+                raise FetchError("unsupported_type", _("This address does not point to a web page."))
 
             declared_length = response.getheader("Content-Length")
             if declared_length and declared_length.isdigit() and int(declared_length) > max_bytes:
-                raise FetchError("too_large", "The page is too large to analyze.")
+                raise FetchError("too_large", _("The page is too large to analyze."))
 
             body = _read_limited(response, max_bytes, deadline)
             return FetchResult(
@@ -210,15 +212,15 @@ def safe_fetch(
         except (FetchError, UnsafeURLError):
             raise
         except (socket.timeout, TimeoutError) as exc:
-            raise FetchError("timeout", "The website took too long to respond.") from exc
+            raise FetchError("timeout", _("The website took too long to respond.")) from exc
         except ssl.SSLError as exc:
             raise FetchError(
-                "tls_error", "The website's security certificate could not be verified."
+                "tls_error", _("The website's security certificate could not be verified.")
             ) from exc
         except (http.client.HTTPException, ValueError) as exc:
-            raise FetchError("bad_response", "The website sent an invalid response.") from exc
+            raise FetchError("bad_response", _("The website sent an invalid response.")) from exc
         except OSError as exc:
-            raise FetchError("connection_failed", "We could not connect to the website.") from exc
+            raise FetchError("connection_failed", _("We could not connect to the website.")) from exc
         finally:
             if conn is not None:
                 conn.close()

@@ -45,9 +45,9 @@
           <p class="fact-value">{{ track.original_name|default:track.get_kind_display }}</p>
           <p class="fact-meta">{{ track.get_kind_display }} · {{ track.duration|floatformat:0 }} s</p>
           <audio controls preload="none" src="{{ track.file_url }}"></audio>
-          <form method="post" action="{% url 'media_production:audio_delete' project.pk track.pk %}" class="inline-form">
+          <form method="post" action="{% url 'media_production:audio_delete' project.pk track.pk %}" class="inline-form" data-confirm="{% translate 'Remove this recording? Videos already made are kept.' %}">
             {% csrf_token %}
-            <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+            <button type="submit" class="link-button danger-link">{% translate "Remove" %}<span class="visually-hidden">: {{ track.original_name|default:track.get_kind_display }}</span></button>
           </form>
         </li>
       {% endfor %}

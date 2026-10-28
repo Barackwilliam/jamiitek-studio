@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
 from django.utils import timezone
 
@@ -7,11 +8,11 @@ class WebsiteAnalysis(models.Model):
     """One run of website analysis for a project, processed by the worker."""
 
     class Status(models.TextChoices):
-        QUEUED = "queued", "Waiting to start"
-        RUNNING = "running", "Running"
-        COMPLETED = "completed", "Completed"
-        PARTIAL = "partial", "Completed with some pages failing"
-        FAILED = "failed", "Failed"
+        QUEUED = "queued", _("Waiting to start")
+        RUNNING = "running", _("Running")
+        COMPLETED = "completed", _("Completed")
+        PARTIAL = "partial", _("Completed with some pages failing")
+        FAILED = "failed", _("Failed")
 
     ACTIVE_STATUSES = (Status.QUEUED, Status.RUNNING)
 
@@ -54,8 +55,8 @@ class WebsiteAnalysis(models.Model):
     @property
     def stopped_message(self):
         return {
-            "page_limit": "Stopped after reaching the limit of pages for one analysis.",
-            "time_limit": "Stopped after reaching the time limit for one analysis.",
+            "page_limit": _("Stopped after reaching the limit of pages for one analysis."),
+            "time_limit": _("Stopped after reaching the time limit for one analysis."),
         }.get(self.stopped_reason, "")
 
     @property
@@ -74,9 +75,9 @@ class AnalyzedPage(models.Model):
     """The outcome for one page the analysis attempted or skipped."""
 
     class Status(models.TextChoices):
-        SUCCESS = "success", "Analyzed"
-        FAILED = "failed", "Failed"
-        SKIPPED = "skipped", "Skipped"
+        SUCCESS = "success", _("Analyzed")
+        FAILED = "failed", _("Failed")
+        SKIPPED = "skipped", _("Skipped")
 
     analysis = models.ForeignKey(WebsiteAnalysis, on_delete=models.CASCADE, related_name="pages")
     position = models.PositiveSmallIntegerField()

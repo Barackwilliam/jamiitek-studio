@@ -21,6 +21,19 @@
   <dd class="prewrap">{{ project.business_details|default:_("Not provided") }}</dd>
 </dl>
 
+<section class="progress" aria-labelledby="progress-heading">
+  <h2 id="progress-heading">{% translate "Getting started" %}</h2>
+  <ol class="progress-list">
+    {% for step in steps %}
+      <li class="progress-step{% if step.done %} is-done{% elif step.is_next %} is-next{% elif step.skipped %} is-skipped{% endif %}"{% if step.is_next %} aria-current="step"{% endif %}>
+        <span class="progress-state">{% if step.done %}{% translate "Done" %}{% elif step.is_next %}{% translate "Next" %}{% elif step.skipped %}{% translate "Not needed" %}{% else %}{% translate "Later" %}{% endif %}</span>
+        {% if step.is_next %}<a href="{{ step.url }}">{{ step.label }}</a>{% else %}<span>{{ step.label }}</span>{% endif %}
+        {% if step.skipped %}<span class="muted progress-hint">{{ step.hint }}</span>{% endif %}
+      </li>
+    {% endfor %}
+  </ol>
+</section>
+
 <section class="notice" aria-labelledby="analysis-heading">
   <h2 id="analysis-heading">{% translate "Website analysis" %}</h2>
   {% if not project.website_url %}

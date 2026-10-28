@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n video_tags %}
 
 {% block title %}{% translate "Video" %} · {{ project.name }} · JamiiTek{% endblock %}
 
@@ -13,7 +13,7 @@
 {% if video.is_active %}
   <section class="notice" aria-live="polite">
     <h2>{{ video.get_status_display }}…</h2>
-    <p>{{ video.progress|default:_("Waiting for the background worker.") }}</p>
+    <p>{% if video.progress %}{{ video.progress|progress_text }}{% else %}{% translate "Waiting for the background worker." %}{% endif %}</p>
     <p class="muted">{% translate "This page refreshes automatically. A preview usually takes under a minute; final quality takes longer." %}</p>
     {% if video.waiting_too_long %}
       <p><strong>{% translate "This is taking longer than expected." %}</strong>
@@ -23,7 +23,7 @@
 {% elif video.status == "failed" %}
   <section class="notice status-failed">
     <h2>{% translate "The video could not be made" %}</h2>
-    <p>{{ video.error_message }}</p>
+    <p>{% translate video.error_message %}</p>
     <form method="post" action="{% url 'media_production:video_retry' project.pk video.pk %}">
       {% csrf_token %}
       <button type="submit" class="button">{% translate "Try again" %}</button>
@@ -43,7 +43,7 @@
 {% endif %}
 
 {% if not video.is_active %}
-  <form method="post" action="{% url 'media_production:video_delete' project.pk video.pk %}" class="inline-form">
+  <form method="post" action="{% url 'media_production:video_delete' project.pk video.pk %}" class="inline-form" data-confirm="{% translate 'Delete this video permanently?' %}">
     {% csrf_token %}
     <button type="submit" class="link-button danger-link">{% translate "Delete video" %}</button>
   </form>

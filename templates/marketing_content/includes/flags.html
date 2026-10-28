@@ -1,9 +1,9 @@
-{% load i18n %}
+{% load i18n content_tags %}
 {% if flags %}
   <div class="warning" role="note">
     <p><strong>{% translate "Check these possible claims:" %}</strong></p>
     <ul>
-      {% for flag in flags %}<li>{{ flag.message }} <span class="muted">({{ flag.location }})</span></li>{% endfor %}
+      {% for flag in flags %}<li>{{ flag|flag_message }} <span class="muted">({{ flag.location|flag_location }})</span></li>{% endfor %}
     </ul>
   </div>
 {% endif %}

@@ -11,6 +11,7 @@ import io
 from dataclasses import dataclass
 
 from PIL import Image, ImageOps, UnidentifiedImageError
+from django.utils.translation import gettext_lazy as _
 
 ALLOWED_FORMATS = {"JPEG", "PNG", "WEBP", "GIF"}
 MAX_PIXELS = 40_000_000
@@ -29,7 +30,7 @@ class InvalidImage(ValueError):
 
     def __init__(self, message):
         super().__init__(message)
-        self.message = message
+        self.message = str(message)  # translated in the active language
 
 
 @dataclass(frozen=True)
@@ -54,7 +55,7 @@ def _encode(image, has_alpha):
 def process_image(data, max_bytes):
     """Return a ProcessedImage or raise InvalidImage."""
     if not data:
-        raise InvalidImage("The file is empty.")
+        raise InvalidImage(_("The file is empty."))
     if len(data) > max_bytes:
         raise InvalidImage(f"The image is larger than {max_bytes // (1024 * 1024)} MB.")
 
@@ -64,18 +65,18 @@ def process_image(data, max_bytes):
             probe.verify()
         image = Image.open(io.BytesIO(data))
         if image.format not in ALLOWED_FORMATS or image_format not in ALLOWED_FORMATS:
-            raise InvalidImage("Only JPEG, PNG, WebP and GIF images are supported.")
+            raise InvalidImage(_("Only JPEG, PNG, WebP and GIF images are supported."))
         width, height = image.size
         if width > MAX_SIDE or height > MAX_SIDE or width * height > MAX_PIXELS:
-            raise InvalidImage("The image dimensions are too large.")
+            raise InvalidImage(_("The image dimensions are too large."))
         image.seek(0)  # first frame of animated images
         image.load()
     except InvalidImage:
         raise
     except (UnidentifiedImageError, Image.DecompressionBombError):
-        raise InvalidImage("This file is not a supported image, or it is too large.")
+        raise InvalidImage(_("This file is not a supported image, or it is too large."))
     except (OSError, SyntaxError, ValueError, EOFError):
-        raise InvalidImage("The image is damaged or incomplete.")
+        raise InvalidImage(_("The image is damaged or incomplete."))
 
     image = ImageOps.exif_transpose(image)
     if min(image.size) < MIN_SIDE:

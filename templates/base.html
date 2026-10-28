@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}JamiiTek AI Marketing Studio{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <script src="{% static 'js/confirm.js' %}" defer></script>
   {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -26,6 +27,18 @@
             <li><a href="{% url 'login' %}">{% translate "Log in" %}</a></li>
             <li><a href="{% url 'signup' %}" class="button button-small">{% translate "Sign up" %}</a></li>
           {% endif %}
+          <li>
+            {% comment %}Offer the other language; the choice is kept in a cookie (no account needed).{% endcomment %}
+            <form method="post" action="{% url 'set_language' %}" class="inline-form">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ request.get_full_path }}">
+              {% if LANGUAGE_CODE == "sw" %}
+                <button type="submit" name="language" value="en" class="link-button" lang="en">English</button>
+              {% else %}
+                <button type="submit" name="language" value="sw" class="link-button" lang="sw">Kiswahili</button>
+              {% endif %}
+            </form>
+          </li>
         </ul>
       </nav>
     </div>

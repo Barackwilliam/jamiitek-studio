@@ -10,6 +10,7 @@ from datetime import timedelta
 
 from django.db import IntegrityError, transaction
 from django.utils import timezone
+from django.utils.translation import gettext_noop
 
 from .crawler import crawl
 from .models import AnalyzedPage, WebsiteAnalysis
@@ -62,7 +63,7 @@ def fail_stale_analyses(now=None):
     ).update(
         status=WebsiteAnalysis.Status.FAILED,
         error_code="interrupted",
-        error_message="The analysis was interrupted. Please start it again.",
+        error_message=gettext_noop("The analysis was interrupted. Please start it again."),
         finished_at=timezone.now(),
     )
 
@@ -121,7 +122,7 @@ def run_analysis(analysis, crawl_function=None, **crawl_options):
         logger.exception("Website analysis %s crashed", analysis.pk)
         analysis.status = WebsiteAnalysis.Status.FAILED
         analysis.error_code = "internal_error"
-        analysis.error_message = "Something went wrong on our side. Please try again later."
+        analysis.error_message = gettext_noop("Something went wrong on our side. Please try again later.")
     else:
         analysis.stopped_reason = result.stopped_reason
         pages = result.pages
@@ -133,7 +134,7 @@ def run_analysis(analysis, crawl_function=None, **crawl_options):
                 analysis.error_message = start_page.error_message[:500]
             else:
                 analysis.error_code = "no_pages"
-                analysis.error_message = "No pages could be analyzed."
+                analysis.error_message = gettext_noop("No pages could be analyzed.")
         elif any(page.status == "failed" for page in pages):
             analysis.status = WebsiteAnalysis.Status.PARTIAL
         else:

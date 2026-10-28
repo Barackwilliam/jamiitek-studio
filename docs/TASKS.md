@@ -335,14 +335,15 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-100 — P1:** Review the end-to-end user journey.
-- [ ] **TASK-101 — P1:** Improve loading, success, empty, and error states.
-- [ ] **TASK-102 — P1:** Validate desktop and mobile layouts.
-- [ ] **TASK-103 — P1:** Improve form validation and user feedback.
-- [ ] **TASK-104 — P1:** Add confirmations for destructive or potentially expensive actions.
-- [ ] **TASK-105 — P2:** Improve accessibility and keyboard navigation.
-- [ ] **TASK-106 — P2:** Add clearer previews and generation progress.
-- [ ] **TASK-107 — P2:** Conduct usability testing with representative users.
+- [x] **TASK-100 — P1:** Review the end-to-end user journey. *(Getting-started checklist on the project page; home page updated to describe what exists.)*
+- [x] **TASK-101 — P1:** Improve loading, success, empty, and error states. *(Friendly 403, CSRF, 404 and 500 pages; stored errors shown in the user's language.)*
+- [x] **TASK-102 — P1:** Validate desktop and mobile layouts. *(All pages at 375 px and 1280 px, no horizontal overflow.)*
+- [x] **TASK-103 — P1:** Improve form validation and user feedback. *(Every message translatable; video timing errors now say which scene and why.)*
+- [x] **TASK-104 — P1:** Add confirmations for destructive or potentially expensive actions. *(Deleting images, posters, videos, audio and facts asks first; projects have a confirmation page.)*
+- [x] **TASK-105 — P2:** Improve accessibility and keyboard navigation. *(axe-core: 0 problems on every page in both languages; contrast fix; screen-reader context on repeated buttons.)*
+- [x] **TASK-106 — P2:** Add clearer previews and generation progress. *(Video progress per scene, translated.)*
+- [ ] **TASK-107 — P2:** Conduct usability testing with representative users. *(Plan ready in `docs/USABILITY_TEST_PLAN.md`; sessions need real business owners.)*
+- [x] **TASK-107A — P1:** Kiswahili interface. *(DEC-025; 469 texts translated.)*
 
 ### Acceptance criteria
 
