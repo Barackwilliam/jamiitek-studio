@@ -56,7 +56,7 @@ class ExtractFixtureSiteTests(SimpleTestCase):
     def test_links_are_absolute_and_skip_mailto_and_nofollow(self):
         urls = [link["url"] for link in self.info.links]
         self.assertIn(BASE + "kuhusu.html", urls)
-        self.assertIn("https://facebook.example/mamaneema", urls)
+        self.assertIn("https://www.facebook.com/mamaneema", urls)
         self.assertFalse(any(url.startswith("mailto:") for url in urls))
         self.assertNotIn(BASE + "sponsored.html", urls)
 
