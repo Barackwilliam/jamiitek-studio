@@ -10,6 +10,7 @@ from apps.business_profiles.models import FactKey, ProfileFact
 from apps.marketing_content.generation import confirmed_facts
 from apps.marketing_content.models import ContentDraft
 from apps.marketing_content.validation import find_unsupported_claims
+from apps.core.feedback import form_errors_as_messages
 from apps.core.files import stream_private_file
 from apps.projects.models import Project
 
@@ -60,9 +61,7 @@ def upload(request, project_pk):
         except IntegrityError:
             messages.info(request, _("This image is already in your library."))
     else:
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
+        form_errors_as_messages(request, form)
     return redirect("creative_assets:library", project_pk=project.pk)
 
 

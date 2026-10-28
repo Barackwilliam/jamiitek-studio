@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
+from apps.core.feedback import form_errors_as_messages
 from apps.projects.models import Project
 from apps.website_analyzer.models import WebsiteAnalysis
 
@@ -99,9 +100,7 @@ def add_fact(request, project_pk):
         )
         messages.success(request, _("Information added."))
     else:
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
+        form_errors_as_messages(request, form)
     return redirect("business_profiles:detail", project_pk=project.pk)
 
 

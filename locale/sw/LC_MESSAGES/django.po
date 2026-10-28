@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: JamiiTek AI Marketing Studio\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-28 15:56+0300\n"
+"POT-Creation-Date: 2026-10-28 17:15+0300\n"
 "PO-Revision-Date: 2026-10-28 16:00+0300\n"
 "Last-Translator: JamiiTek <https://github.com/Barackwilliam/jamiitek-"
 "studio>\n"
@@ -117,31 +117,36 @@ msgstr "Imethibitishwa"
 msgid "Rejected"
 msgstr "Imekataliwa"
 
-#: apps/business_profiles/views.py:76
+#: apps/business_profiles/views.py:77
 msgid "There is no finished website analysis to take suggestions from."
 msgstr "Hakuna uchambuzi wa tovuti uliokamilika wa kuchukua mapendekezo."
 
-#: apps/business_profiles/views.py:80
+#: apps/business_profiles/views.py:81
 #, python-format
 msgid "Suggestions updated from the latest analysis: %(count)d to review."
 msgstr ""
 "Mapendekezo yamesasishwa kutoka uchambuzi wa karibuni: %(count)d ya kukagua."
 
-#: apps/business_profiles/views.py:100
+#: apps/business_profiles/views.py:101
 msgid "Information added."
 msgstr "Taarifa imeongezwa."
 
-#: apps/business_profiles/views.py:121
+#: apps/business_profiles/views.py:120
 msgid "Information removed."
 msgstr "Taarifa imeondolewa."
 
-#: apps/business_profiles/views.py:124
+#: apps/business_profiles/views.py:123
 msgid "That action is not available for this information."
 msgstr "Kitendo hicho hakipatikani kwa taarifa hii."
 
-#: apps/business_profiles/views.py:151
+#: apps/business_profiles/views.py:150
 msgid "Saved and confirmed."
 msgstr "Imehifadhiwa na kuthibitishwa."
+
+#: apps/core/feedback.py:18
+#, python-format
+msgid "%(field)s: %(error)s"
+msgstr "%(field)s: %(error)s"
 
 #: apps/creative_assets/forms.py:9
 msgid "I own these images or have permission to use them in advertising."
@@ -273,35 +278,35 @@ msgstr "Wima 9:16 (1080 × 1920)"
 msgid "Horizontal 16:9 (1920 × 1080)"
 msgstr "Mlalo 16:9 (1920 × 1080)"
 
-#: apps/creative_assets/views.py:59
+#: apps/creative_assets/views.py:60
 msgid "Image added to your library."
 msgstr "Picha imeongezwa kwenye maktaba yako."
 
-#: apps/creative_assets/views.py:61
+#: apps/creative_assets/views.py:62
 msgid "This image is already in your library."
 msgstr "Picha hii tayari iko kwenye maktaba yako."
 
-#: apps/creative_assets/views.py:79
+#: apps/creative_assets/views.py:78
 msgid "Choose at least one image."
 msgstr "Chagua angalau picha moja."
 
-#: apps/creative_assets/views.py:81
+#: apps/creative_assets/views.py:80
 msgid "An import is already in progress."
 msgstr "Kuna picha zinazoletwa tayari."
 
-#: apps/creative_assets/views.py:83
+#: apps/creative_assets/views.py:82
 msgid "Importing the selected images."
 msgstr "Tunaleta picha ulizochagua."
 
-#: apps/creative_assets/views.py:103
+#: apps/creative_assets/views.py:102
 msgid "Image removed. Posters made with it are kept."
 msgstr "Picha imeondolewa. Mabango yaliyotengenezwa nayo yamebaki."
 
-#: apps/creative_assets/views.py:146
+#: apps/creative_assets/views.py:145
 msgid "Poster created."
 msgstr "Bango limetengenezwa."
 
-#: apps/creative_assets/views.py:174
+#: apps/creative_assets/views.py:173
 msgid "Poster deleted."
 msgstr "Bango limefutwa."
 
@@ -818,36 +823,36 @@ msgstr "Video iliyokamilika haikupita ukaguzi wa ubora. Tafadhali jaribu tena."
 msgid "Rendering scene %(number)s of %(total)s"
 msgstr "Inatengeneza onyesho %(number)s kati ya %(total)s"
 
-#: apps/media_production/views.py:49
+#: apps/media_production/views.py:50
 msgid "Audio added."
 msgstr "Sauti imeongezwa."
 
-#: apps/media_production/views.py:51
+#: apps/media_production/views.py:52
 msgid "This recording is already in the project."
 msgstr "Rekodi hii tayari iko kwenye mradi."
 
-#: apps/media_production/views.py:79 apps/media_production/views.py:117
+#: apps/media_production/views.py:78 apps/media_production/views.py:116
 msgid ""
 "A video for this project is already being made. Please wait for it to finish."
 msgstr "Video ya mradi huu tayari inatengenezwa. Tafadhali subiri ikamilike."
 
-#: apps/media_production/views.py:81
+#: apps/media_production/views.py:80
 msgid "Your video is being made."
 msgstr "Video yako inatengenezwa."
 
-#: apps/media_production/views.py:119
+#: apps/media_production/views.py:118
 msgid "Trying again."
 msgstr "Tunajaribu tena."
 
-#: apps/media_production/views.py:128
+#: apps/media_production/views.py:127
 msgid "Wait until the video is finished before deleting it."
 msgstr "Subiri video ikamilike kabla ya kuifuta."
 
-#: apps/media_production/views.py:131
+#: apps/media_production/views.py:130
 msgid "Video deleted."
 msgstr "Video imefutwa."
 
-#: apps/media_production/views.py:147
+#: apps/media_production/views.py:146
 msgid "Audio removed. Videos already made are kept."
 msgstr "Sauti imeondolewa. Video zilizokwisha tengenezwa zimebaki."
 

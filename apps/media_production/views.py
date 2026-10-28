@@ -6,6 +6,7 @@ from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
 from apps.marketing_content.models import ContentDraft
+from apps.core.feedback import form_errors_as_messages
 from apps.core.files import stream_private_file
 from apps.projects.models import Project
 
@@ -50,9 +51,7 @@ def upload_audio(request, project_pk):
         except IntegrityError:
             messages.info(request, _("This recording is already in the project."))
     else:
-        for errors in form.errors.values():
-            for error in errors:
-                messages.error(request, error)
+        form_errors_as_messages(request, form)
     return redirect("media_production:videos", project_pk=project.pk)
 
 

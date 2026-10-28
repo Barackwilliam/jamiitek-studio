@@ -148,3 +148,17 @@ class PromptLanguageTests(TestCase):
         self.assertIn('"objective": "Increase sales"', prompt)
         self.assertIn('"tone": "Friendly"', prompt)
         self.assertNotIn("Kuongeza mauzo", prompt)
+
+
+class RedirectedFormErrorTests(TestCase):
+    def test_error_message_names_the_field(self):
+        from apps.business_profiles.models import BusinessProfile
+
+        user = get_user_model().objects.create_user("amina", password="test-pass-123!")
+        project = Project.objects.create(owner=user, name="Duka", business_details="x")
+        BusinessProfile.objects.create(project=project)
+        self.client.force_login(user)
+        self.client.post(reverse("set_language"), {"language": "sw", "next": "/"})
+        response = self.client.post(reverse("business_profiles:add_fact", args=[project.pk]),
+                                    {"key": "phone", "value": ""}, follow=True)
+        self.assertContains(response, "Taarifa: Sehemu hii inahitajika")
