@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. The Phase 1 Django foundation has been implemented and verified. No marketing features exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phase 1 (Django foundation) and Phase 2 (accounts and projects) are implemented and verified, together with URL safety checks and a safe page fetcher from Phase 3. Website analysis itself and all marketing features do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -43,7 +43,7 @@ As of 2026-10-27, all planned documentation files exist and have been reviewed t
 | `docs/TASKS.md` | Written; reviewed for consistency |
 | `docs/TESTING.md` | Written; reviewed for consistency |
 
-**Important:** The documentation and code are committed to a local Git repository only. No GitHub repository exists yet, so nothing has been pushed, and the GitHub Actions workflow has not yet run. No deployment exists.
+**Important:** The code is on GitHub at `Barackwilliam/jamiitek-studio` (private). GitHub Actions jobs fail before any step runs, which points to an account-level setting or billing restriction rather than the code; the owner needs to read the job annotation (see section 5.1). No deployment exists, and no Supabase project has been connected yet.
 
 ### 2.1 Key decisions recorded so far
 
@@ -69,13 +69,18 @@ Use the following status definitions consistently:
 | Product requirements | In Progress | Specification written (v1.1); open decisions remain |
 | Technical architecture | In Progress | Proposed architecture written (v1.1), including zero-budget tooling candidates |
 | Testing strategy | In Progress | `docs/TESTING.md` written; foundational tests exist |
-| Repository creation | In Progress | Local Git repository initialized; GitHub repository not yet created |
+| Repository creation | Implemented — Verified | `Barackwilliam/jamiitek-studio` on GitHub |
 | Django application foundation | Implemented — Verified | See section 4.1 |
 | Home page | Implemented — Verified | `/`; states honestly that no features are available yet |
 | Health check | Implemented — Verified | `/health/`; database check, 503 on failure, no internal details |
-| Continuous integration | Implemented — Unverified | `.github/workflows/tests.yml` exists but has not run, because no GitHub repository exists yet |
-| Project and user management | Not Started | No verified implementation recorded |
-| Secure URL validation | Not Started | Security requirements documented |
+| Continuous integration | Blocked | Workflow exists (SQLite and PostgreSQL jobs); GitHub stops the jobs before any step runs (see section 5.1) |
+| User accounts | Implemented — Verified | Sign up, log in, log out (POST only), using Django authentication |
+| PostgreSQL / Supabase support | Implemented — Verified locally | `DATABASE_URL`; tested on local PostgreSQL 16, not yet on a real Supabase project |
+| Row level security for Supabase | Implemented — Verified | See section 4.2 |
+| Project and user management | Implemented — Verified | Create, view, edit, delete; each user sees only their own projects |
+| Secure URL validation | Implemented — Verified | `apps/website_analyzer/url_safety.py`; used when saving a project |
+| Safe page fetching | Implemented — Verified | `apps/website_analyzer/fetch.py`; tested, not yet used by any page |
+| Manual business details (FR-02A) | Implemented — Verified | A project can be saved without a website |
 | Website crawling | Not Started | No verified implementation recorded |
 | JavaScript website analysis | Not Started | Playwright is a planned option |
 | Business profile extraction | Not Started | Requirements documented |
@@ -87,7 +92,7 @@ Use the following status definitions consistently:
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 17 foundational tests passing; feature tests will grow with each feature |
+| Automated tests | In Progress | 84 tests passing on SQLite and on PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -137,8 +142,34 @@ For every important verification, record:
 
 **Known limitations:**
 - Not yet verified on Windows.
-- GitHub Actions has not run, because the repository is not yet on GitHub.
 - No Kiswahili translations exist yet; the template text is marked for translation.
+
+### 4.2 Verification record: Phase 2 (accounts, projects, URL safety, Supabase support)
+
+**Date:** 2026-10-27  
+**Environment:** Linux, Python 3.13.17, Django 5.2.18, psycopg 3.3.6, dj-database-url 3.1.2, PostgreSQL 16
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests on SQLite | `python manage.py test` | Passed: 84 tests (1 PostgreSQL-only test file skipped) |
+| Automated tests on PostgreSQL 16 | Same command with `DATABASE_URL` pointing to a local PostgreSQL 16 server, connecting as a non-superuser role | Passed: 84 tests (1 SQLite-only test skipped) |
+| Missing migrations | `python manage.py makemigrations --check --dry-run` | No changes detected |
+| RLS after migrate | `migrate` on PostgreSQL, then counted tables without RLS | 0 of 11 tables without RLS |
+| Data API protection | Granted `SELECT` on all tables to an `anon` role (as Supabase does), then queried as `anon` | `anon` read 0 projects, 0 users, 0 sessions while Django read its data normally |
+| Negative control | Disabled RLS on the project table and queried as `anon` again | `anon` could read the project, proving the check is meaningful; RLS was then re-enabled |
+| SSRF: unsafe addresses | Unit tests with a fake resolver (no real DNS) | Loopback, private, link-local/metadata, carrier-grade NAT, multicast, reserved, IPv6 equivalents, IPv4-mapped, 6to4 and NAT64 forms, decimal/hex/octal IPv4 forms, credentials in URLs, non-HTTP schemes and blocked hostnames are rejected |
+| SSRF: redirects and rebinding | Local test server | Every redirect hop is revalidated; redirects to private hosts, cloud metadata and `file:` are blocked before connecting; the hostname is resolved once per hop and the connection uses the validated address |
+| Fetch limits | Local test server | Timeouts, oversized responses (declared and streamed), compressed responses, non-HTML content, redirect loops and too many redirects are all refused with clear errors |
+| Ownership | View tests | Another user's project returns 404 on view, edit and delete; edits and deletes of it have no effect |
+| Browser flow | Playwright at 375 px: sign up, submit `http://169.254.169.254/latest/meta-data/`, then save with business details only | Metadata address rejected with a clear message; project saved; no horizontal scrolling |
+
+**Defect found and fixed during verification:** an IP address typed directly into the URL was checked through the DNS resolver rather than on its own. With the real resolver this was still blocked, but the check now validates IP literals directly so it cannot depend on resolver behaviour. A regression test covers it.
+
+**Known limitations:**
+- Not yet tested against a real Supabase project (no connection string available in this environment).
+- Login has no rate limiting yet (brute-force protection is still needed before public launch).
+- Email addresses are not collected, so password reset is not available yet.
+- Supabase Storage is decided but not implemented.
 
 ## 5. Current Blockers and Open Questions
 
@@ -146,7 +177,8 @@ The following items must be resolved or investigated as implementation progresse
 
 ### 5.1 Repository and Environment
 
-- Create the GitHub repository and push the local commits. **This is the current blocker:** the work exists only in a temporary environment until it is pushed.
+- GitHub Actions jobs stop before any step runs. The owner should open the failed run on GitHub and read the annotation; the usual causes are a billing or spending-limit problem on the account, or Actions being disabled. Making the repository public would also make Actions free without limits.
+- Create a Supabase project and test the application against it using the session pooler connection string.
 - Confirm the setup steps on the owner's Windows computer.
 - Confirm that FFmpeg can be installed on the development computer (needed later, not for Phase 1).
 
@@ -188,8 +220,8 @@ The next development priorities should be completed in order, adjusting the sequ
 ### Priority 2 — Create the Repository
 
 - [x] Create a local Git repository and commit the documentation with `.gitignore` and `.gitattributes`.
-- [ ] Create the GitHub repository and push.
-- [ ] Confirm that GitHub Actions runs and passes.
+- [x] Create the GitHub repository and push.
+- [ ] Confirm that GitHub Actions runs and passes (blocked; see section 5.1).
 - [ ] Record the owner's development environment (Windows, Python version).
 
 ### Priority 3 — Establish a Minimal Working Foundation

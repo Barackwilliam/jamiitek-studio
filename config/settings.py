@@ -9,6 +9,7 @@ variables always take precedence over values in `.env`.
 import os
 from pathlib import Path
 
+import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 from dotenv import load_dotenv
 
@@ -74,6 +75,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.core",
+    "apps.accounts",
+    "apps.projects",
+    "apps.website_analyzer",
 ]
 
 MIDDLEWARE = [
@@ -110,21 +114,47 @@ ASGI_APPLICATION = "config.asgi.application"
 
 # Database
 # ------------------------------------------------------------------------------
-# SQLite for initial development (DEC-008). The file lives outside version
-# control; see .gitignore.
+# DATABASE_URL selects PostgreSQL, for example Supabase (DEC-018). Without it,
+# a local SQLite file is used, which keeps tests and offline work free and
+# independent of any hosted quota.
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": env_path("DJANGO_SQLITE_PATH", BASE_DIR / "db.sqlite3"),
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=int(os.environ.get("DJANGO_DB_CONN_MAX_AGE", "60")),
+            conn_health_checks=True,
+            ssl_require=env_bool("DJANGO_DB_SSL_REQUIRE", default=True),
+        )
     }
-}
+    if env_bool("DJANGO_DB_TRANSACTION_POOLER", default=False):
+        # Supabase's transaction pooler (port 6543) cannot keep server-side
+        # cursors or prepared statements between transactions.
+        DATABASES["default"]["DISABLE_SERVER_SIDE_CURSORS"] = True
+        DATABASES["default"].setdefault("OPTIONS", {})["prepare_threshold"] = None
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": env_path("DJANGO_SQLITE_PATH", BASE_DIR / "db.sqlite3"),
+        }
+    }
+
+# On PostgreSQL, row level security is enabled on every table after each
+# migration so Supabase's Data API cannot read Django's tables (DEC-018).
+POSTGRES_ENABLE_RLS = env_bool("DJANGO_DB_ENABLE_RLS", default=True)
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 # Authentication
 # ------------------------------------------------------------------------------
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "projects:list"
+LOGOUT_REDIRECT_URL = "core:home"
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},

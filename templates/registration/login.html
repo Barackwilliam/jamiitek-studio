@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Log in" %} · JamiiTek{% endblock %}
+
+{% block content %}
+<section class="narrow">
+  <h1>{% translate "Log in" %}</h1>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <input type="hidden" name="next" value="{{ next }}">
+    <button type="submit" class="button">{% translate "Log in" %}</button>
+  </form>
+  <p>{% translate "No account yet?" %} <a href="{% url 'signup' %}">{% translate "Sign up" %}</a></p>
+</section>
+{% endblock %}

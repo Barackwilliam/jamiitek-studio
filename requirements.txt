@@ -1,3 +1,6 @@
 # Django 5.2 is a long-term support release (security updates until April 2028).
 Django>=5.2,<5.3
 python-dotenv>=1.0,<2
+# PostgreSQL (Supabase) support; only used when DATABASE_URL is set.
+psycopg[binary]>=3.2,<4
+dj-database-url>=2.2,<4

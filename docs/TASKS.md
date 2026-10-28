@@ -49,9 +49,9 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-001 — P0:** Create the project's Git repository. *(2026-10-27: local Git repository initialized; no GitHub repository exists yet.)*
+- [x] **TASK-001 — P0:** Create the project's Git repository. *(`Barackwilliam/jamiitek-studio`, 2026-10-27.)*
 - [x] **TASK-002 — P0:** Verify which planning documents exist. *(2026-10-27: all ten documents exist.)*
-- [ ] **TASK-003 — P0:** Save and reconcile the agreed project documentation. *(Reconciled and committed locally 2026-10-27; still needs to be pushed to GitHub.)*
+- [x] **TASK-003 — P0:** Save and reconcile the agreed project documentation. *(Pushed to GitHub 2026-10-27.)*
 - [x] **TASK-004 — P0:** Complete `docs/TESTING.md`. *(Written 2026-10-27.)*
 - [x] **TASK-005 — P0:** Review `docs/PROJECT_REQUIREMENTS.md` for consistency with the master specification. *(2026-10-27: added manual business-information entry, robots.txt handling, prompt-injection protection, language and licensing requirements.)*
 - [x] **TASK-006 — P1:** Record important technical and product decisions in `docs/DECISIONS.md`. *(Initial log written; DEC-016 zero budget added 2026-10-27.)*
@@ -86,7 +86,8 @@ Priorities may change when new technical evidence or product decisions justify a
 - [x] **TASK-017 — P0:** Add foundational automated tests. *(17 tests in `apps/core/tests/`; all passing on 2026-10-27.)*
 - [x] **TASK-018 — P1:** Configure Git hygiene, `.gitignore`, `.gitattributes` (consistent line endings between Windows and Linux), and a safe example environment file.
 - [x] **TASK-019 — P1:** Document the actual setup, run, and test commands in `README.md`. *(Linux commands verified; Windows commands not yet verified on Windows.)*
-- [x] **TASK-019A — P1:** Run checks and tests automatically on GitHub Actions. *(`.github/workflows/tests.yml`; will run once the repository is on GitHub.)*
+- [ ] **TASK-019A — P1:** Run checks and tests automatically on GitHub Actions. *(Workflow written with SQLite and PostgreSQL jobs; blocked because GitHub stops the jobs before they start. See `docs/PROJECT_STATUS.md`, section 5.1.)*
+- [x] **TASK-019B — P1:** Support PostgreSQL through `DATABASE_URL`, with automatic row level security for Supabase (DEC-018).
 
 ### Acceptance criteria
 
@@ -106,14 +107,16 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-020 — P0:** Define the initial data model and ownership rules.
-- [ ] **TASK-021 — P0:** Implement the initial project model.
-- [ ] **TASK-022 — P0:** Implement project creation and retrieval.
-- [ ] **TASK-023 — P0:** Implement server-side validation for project input.
-- [ ] **TASK-024 — P0:** Add appropriate authentication and authorization for private projects.
-- [ ] **TASK-025 — P0:** Add tests for project ownership and unauthorized access.
-- [ ] **TASK-026 — P1:** Build the initial project dashboard.
-- [ ] **TASK-027 — P1:** Add project editing and deletion behavior with appropriate safeguards.
+- [x] **TASK-020 — P0:** Define the initial data model and ownership rules. *(Each project has one owner; other users get 404.)*
+- [x] **TASK-021 — P0:** Implement the initial project model.
+- [x] **TASK-022 — P0:** Implement project creation and retrieval.
+- [x] **TASK-023 — P0:** Implement server-side validation for project input. *(Website address safety-checked; a website or business details required; length limits.)*
+- [x] **TASK-024 — P0:** Add appropriate authentication and authorization for private projects. *(Sign up, log in, log out; all project pages require login.)*
+- [x] **TASK-025 — P0:** Add tests for project ownership and unauthorized access.
+- [x] **TASK-026 — P1:** Build the initial project dashboard.
+- [x] **TASK-027 — P1:** Add project editing and deletion behavior with appropriate safeguards. *(Deletion requires a confirmation page and POST.)*
+- [ ] **TASK-027A — P1:** Add login rate limiting before any public launch.
+- [ ] **TASK-027B — P2:** Collect email addresses and enable password reset (needs a free email-sending option).
 
 ### Acceptance criteria
 
@@ -133,10 +136,10 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-028 — P0:** Define URL-validation rules and supported protocols.
-- [ ] **TASK-029 — P0:** Implement protection against SSRF and unsafe network destinations.
-- [ ] **TASK-030 — P0:** Validate resolved IP addresses and redirect destinations.
-- [ ] **TASK-031 — P0:** Apply request timeouts and response-size limits.
+- [x] **TASK-028 — P0:** Define URL-validation rules and supported protocols. *(`url_safety.py`: HTTP/HTTPS on ports 80 and 443 only.)*
+- [x] **TASK-029 — P0:** Implement protection against SSRF and unsafe network destinations.
+- [x] **TASK-030 — P0:** Validate resolved IP addresses and redirect destinations. *(Every hop revalidated; connections pinned to validated addresses.)*
+- [x] **TASK-031 — P0:** Apply request timeouts and response-size limits. *(`fetch.py`.)*
 - [ ] **TASK-032 — P0:** Build a controlled test website containing representative HTML content.
 - [ ] **TASK-033 — P0:** Implement basic HTML retrieval and parsing.
 - [ ] **TASK-034 — P0:** Extract page titles, metadata, and relevant text.
@@ -148,7 +151,7 @@ Priorities may change when new technical evidence or product decisions justify a
 - [ ] **TASK-040 — P1:** Display analysis progress and meaningful error messages.
 - [ ] **TASK-041 — P1:** Add security tests for malicious URLs, redirects, and resource exhaustion.
 - [ ] **TASK-041A — P1:** Read and honor `robots.txt`, and apply a per-site request-rate limit.
-- [ ] **TASK-041B — P1:** Allow manual entry of business information when no website is available or analysis fails (FR-02A).
+- [x] **TASK-041B — P1:** Allow manual entry of business information when no website is available or analysis fails (FR-02A). *(Basic free-text version; structured fields come with the business profile in Phase 4.)*
 
 ### Acceptance criteria
 

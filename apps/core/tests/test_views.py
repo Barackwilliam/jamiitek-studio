@@ -16,7 +16,7 @@ class HomePageTests(TestCase):
     def test_home_page_states_development_status_honestly(self):
         response = self.client.get(reverse("core:home"))
 
-        self.assertContains(response, "No marketing features are")
+        self.assertContains(response, "Website analysis and content creation are not available yet")
         self.assertNotContains(response, "<form")
 
     def test_home_page_declares_language_and_skip_link(self):
