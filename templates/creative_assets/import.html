@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Images from your website" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'creative_assets:library' project.pk %}">&larr; {% translate "Images and posters" %}</a></p>
+<h1>{% translate "Images from your website" %}</h1>
+<p class="muted">{% translate "To protect your privacy, images are not loaded from the website on this page. Choose them by their address and description; you will see them after importing. Up to 12 at a time." %}</p>
+
+{% if candidates %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <ul class="candidate-list">
+      {% for candidate in candidates %}
+        <li>
+          <label class="checkbox-field">
+            <input type="checkbox" name="urls" value="{{ candidate.url }}">
+            <span class="break">
+              {% if candidate.is_logo %}<strong>{% translate "Logo:" %}</strong> {% endif %}
+              {% if candidate.alt %}“{{ candidate.alt }}” — {% endif %}{{ candidate.url }}
+              {% if candidate.page %}<br><span class="muted">{% translate "Found on" %} {{ candidate.page }}</span>{% endif %}
+            </span>
+          </label>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="field checkbox-field{% if form.rights_confirmed.errors %} field-invalid{% endif %}">
+      <label><input type="checkbox" name="rights_confirmed" value="on"> {{ form.rights_confirmed.label }}</label>
+      {% for error in form.rights_confirmed.errors %}<p class="error">{{ error }}</p>{% endfor %}
+    </div>
+    <button type="submit" class="button">{% translate "Import selected images" %}</button>
+  </form>
+{% else %}
+  <p>{% translate "No images were found. Analyze your website first, or upload images yourself." %}</p>
+{% endif %}
+{% endblock %}

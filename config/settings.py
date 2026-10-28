@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     "apps.website_analyzer",
     "apps.business_profiles",
     "apps.marketing_content",
+    "apps.creative_assets",
 ]
 
 MIDDLEWARE = [
@@ -193,6 +194,39 @@ STATIC_ROOT = env_path("DJANGO_STATIC_ROOT", BASE_DIR / "staticfiles")
 
 MEDIA_URL = "media/"
 MEDIA_ROOT = env_path("DJANGO_MEDIA_ROOT", BASE_DIR / "media")
+
+# Uploaded, imported and generated files are private. They are never served
+# from MEDIA_URL; the application streams them after checking ownership.
+# With STORAGE_S3_BUCKET set, files go to an S3-compatible bucket such as a
+# private Supabase Storage bucket (DEC-018); otherwise to MEDIA_ROOT.
+STORAGE_S3_BUCKET = os.environ.get("STORAGE_S3_BUCKET", "").strip()
+
+if STORAGE_S3_BUCKET:
+    _default_storage = {
+        "BACKEND": "storages.backends.s3.S3Storage",
+        "OPTIONS": {
+            "bucket_name": STORAGE_S3_BUCKET,
+            "endpoint_url": os.environ.get("STORAGE_S3_ENDPOINT_URL", "").strip() or None,
+            "region_name": os.environ.get("STORAGE_S3_REGION", "").strip() or None,
+            "access_key": os.environ.get("STORAGE_S3_ACCESS_KEY_ID", "").strip(),
+            "secret_key": os.environ.get("STORAGE_S3_SECRET_ACCESS_KEY", "").strip(),
+            "addressing_style": "path",
+            "signature_version": "s3v4",
+            "default_acl": None,
+            "file_overwrite": False,
+            "querystring_auth": True,
+        },
+    }
+else:
+    _default_storage = {"BACKEND": "django.core.files.storage.FileSystemStorage"}
+
+STORAGES = {
+    "default": _default_storage,
+    "staticfiles": {"BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage"},
+}
+
+# Largest image a user may upload or import.
+MAX_IMAGE_BYTES = int(os.environ.get("MAX_IMAGE_BYTES", str(8 * 1024 * 1024)))
 
 
 # HTTPS and cookie security for non-debug environments

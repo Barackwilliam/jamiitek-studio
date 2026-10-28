@@ -259,6 +259,22 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-022: Image Library and Template Posters Without AI Image Generation
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- Images come from user uploads and from images found on the analyzed website. The user must confirm they own each image or have permission to use it in advertising.
+- Every image is validated with Pillow and re-encoded to JPEG or PNG, removing metadata (including GPS location) and anything hidden in the original file. Limits: 8 MB, 10,000 px per side, 40 megapixels; stored copies are at most 2,400 px.
+- Files are private: stored under random names (locally or in a private Supabase Storage bucket through the S3 protocol, DEC-018) and streamed by the application only to the project owner.
+- Posters are drawn with Pillow from a template: photo, logo, headline, supporting text and a call-to-action button, in 1:1, 9:16 and 16:9. Text shading and button colours are chosen for readable contrast. Poster text is checked against confirmed facts like scripts are.
+- Fonts: DejaVu Sans, bundled with its licence (Bitstream Vera licence: free to use, copy and embed, including commercially; the font itself may not be sold on its own).
+- **AI image generation is deferred.** No free option whose terms clearly allow commercial use was confirmed, and generated pictures risk showing things the business does not have (DEC-002). Authentic photos are preferred.
+
+**Review conditions:** Revisit AI images if a free, commercially licensed option appears, with clear labelling of generated images.
+
 ### DEC-021: AI Text Generation Through an OpenAI-Compatible Adapter
 
 **Status:** Accepted (implementation verified with mocks; real provider not yet tried)

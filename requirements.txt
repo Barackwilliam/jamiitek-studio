@@ -6,3 +6,7 @@ psycopg[binary]>=3.2,<4
 dj-database-url>=2.2,<4
 # HTML parsing for website analysis (uses Python's built-in parser; no compiler needed on Windows).
 beautifulsoup4>=4.12,<5
+# Image validation and poster rendering.
+Pillow>=11,<14
+# Private file storage in an S3-compatible bucket (Supabase Storage); only used when STORAGE_S3_BUCKET is set.
+django-storages[s3]>=1.14,<2

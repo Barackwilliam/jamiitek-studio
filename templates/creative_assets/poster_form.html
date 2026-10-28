@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Make a poster" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'creative_assets:library' project.pk %}">&larr; {% translate "Images and posters" %}</a></p>
+<section class="narrow">
+  <h1>{% translate "Make a poster" %}</h1>
+  {% if script %}
+    <p class="muted">{% blocktranslate with title=script.title %}Text taken from your approved script “{{ title }}”.{% endblocktranslate %}</p>
+  {% endif %}
+  {% if not has_images %}
+    <p class="muted">{% translate "You have no images yet, so the poster will use your brand colour as the background." %}
+      <a href="{% url 'creative_assets:library' project.pk %}">{% translate "Add images" %}</a></p>
+  {% endif %}
+  <p class="muted">{% translate "Only write what is true for your business. Text that is not supported by your confirmed information will be highlighted." %}</p>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% if script %}<input type="hidden" name="script" value="{{ script.pk }}">{% endif %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="button">{% translate "Create poster" %}</button>
+  </form>
+</section>
+{% endblock %}

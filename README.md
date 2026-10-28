@@ -168,6 +168,16 @@ Without `DATABASE_URL`, the application uses a local SQLite file. To use Supabas
 
 On Supabase's free plan, a project is paused after about a week without activity; restore it from the dashboard when that happens. Automated tests never connect to Supabase.
 
+### Storing images in Supabase Storage
+
+Without `STORAGE_S3_BUCKET`, uploaded images and posters are stored in the `media` folder on your computer (not committed to Git). To use Supabase Storage instead (DEC-018):
+
+1. In Supabase, create a **private** bucket (do not make it public).
+2. Open the storage S3 connection settings and create S3 access keys.
+3. Set `STORAGE_S3_BUCKET`, `STORAGE_S3_ENDPOINT_URL`, `STORAGE_S3_REGION`, `STORAGE_S3_ACCESS_KEY_ID` and `STORAGE_S3_SECRET_ACCESS_KEY` in `.env`.
+
+Files are never served directly from the bucket: the application checks that the user owns the project and then streams the file. Supabase's free plan includes about 1 GB of storage.
+
 ### Running checks and tests
 
 ```bash
@@ -223,11 +233,11 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, AI-written video concepts and scripts based only on confirmed information (with unsupported claims flagged and approval required), and PostgreSQL/Supabase support with automatic row level security. AI writing has not yet been tried with a real provider. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, AI-written video concepts and scripts based only on confirmed information (with unsupported claims flagged and approval required), a private image library (uploads and website images, validated and re-encoded), posters in three formats made from approved text, and PostgreSQL/Supabase support with automatic row level security. AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- Images, posters, narration or video, or browser automation for JavaScript-only websites.
+- AI-generated images, narration or video, or browser automation for JavaScript-only websites.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.

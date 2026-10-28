@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 5 are implemented and verified with automated tests, a local test website and a local stand-in for the AI service: Django foundation, accounts and projects, secure website analysis for HTML websites, a reviewable business profile, and AI-written concepts and scripts based only on confirmed facts. Analysis has not yet been tried against real public websites, and AI writing has not yet been tried with a real provider. Images, narration and video do not exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 5 are implemented and verified with automated tests, a local test website and a local stand-in for the AI service: Django foundation, accounts and projects, secure website analysis for HTML websites, a reviewable business profile, AI-written concepts and scripts based only on confirmed facts, and a private image library with poster generation. Analysis has not yet been tried against real public websites, AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. AI images, narration and video do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -86,13 +86,16 @@ Use the following status definitions consistently:
 | Business profile extraction and review | Implemented — Verified locally | See section 4.4 |
 | Source-grounded marketing scripts | Implemented — Verified locally | See section 4.5 |
 | AI provider integration | Implemented — Unverified with a real provider | OpenAI-compatible adapter (DEC-021); tested with mocks and a local stand-in server |
-| Image generation | Not Started | Requirements documented |
+| Image library (uploads and website images) | Implemented — Verified locally | See section 4.6 |
+| Posters | Implemented — Verified locally | Template-based, no AI; see section 4.6 |
+| AI image generation | Deferred | DEC-022 |
+| Supabase Storage | Implemented — Unverified | Configured through `STORAGE_S3_*`; not tried with a real bucket |
 | Speech and audio generation | Not Started | Requirements documented |
 | Video rendering | Not Started | FFmpeg is a planned option |
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 224 tests passing on SQLite and PostgreSQL 16 |
+| Automated tests | In Progress | 258 tests passing on SQLite and PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -236,6 +239,29 @@ For every important verification, record:
 - Claim checks are word and number rules. They catch common unsupported claims but not every possible one; human approval remains essential.
 - Concepts cannot be edited (choose one and edit the script).
 - Remaining free quota is not shown.
+
+### 4.6 Verification record: Phase 6 (images and posters)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.3, plus Pillow 13.0.0 and django-storages 1.14.6
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 258 tests on each |
+| Image validation | Unit tests | JPEG, PNG, WebP and GIF accepted; empty files, text, HTML, SVG, PHP disguised as JPEG, truncated JPEG, BMP, too small, too wide and a 90-megapixel decompression bomb rejected; EXIF camera and GPS data removed; orientation applied; large images scaled down |
+| Uploads | View tests | Random storage names (a `../../etc/passwd.jpg` upload name is not used); rights confirmation required; size limit enforced |
+| Private files | View tests | Files stream only to the owner, with `nosniff` and private caching; other users get 404, including when mixing their project ID with someone else's asset ID; unknown URL variants are not routed |
+| Clean-up | View tests | Deleting an image, a poster or a whole project removes the stored files |
+| Website images | Unit tests with a fake fetcher | Only images found by the analysis can be imported (a metadata address was dropped); robots.txt honoured; non-images rejected; duplicates detected |
+| Posters | Unit tests and visual checks | Exact sizes for 1:1, 9:16 and 16:9; long text shrinks to fit; text contrast at least 8.7:1 even on a pure white photo (measured); button text contrast at least 4.5:1 for any brand colour; claims checked against confirmed facts |
+| Full workflow | Browser at 375 px | Photo and logo uploaded; poster made from an approved script with text prefilled; 1080×1080 JPEG displayed and downloadable; no horizontal scrolling |
+
+**Defect found and fixed during development:** in the first poster layout, headline text could sit on bright parts of the photo; the shading now starts just above the measured text block.
+
+**Known limitations:**
+- Supabase Storage not tried with a real bucket.
+- One poster layout; the logo is always in the top-left corner.
+- Images cannot be cropped or edited in the application.
 
 ## 5. Current Blockers and Open Questions
 
