@@ -129,6 +129,16 @@ python manage.py runserver
 
 Then open <http://127.0.0.1:8000/>. The health check is at <http://127.0.0.1:8000/health/>.
 
+### Running the analysis worker
+
+Website analysis runs in the background so pages stay responsive. Open a **second terminal**, activate the virtual environment the same way, and run:
+
+```bash
+python manage.py run_analysis_worker
+```
+
+Keep it running while you use the application; stop it with Ctrl+C. Without it, analyses stay at "Waiting to start". `python manage.py run_analysis_worker --once` processes whatever is queued and exits.
+
 If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use `.venv\Scripts\activate.bat` from Command Prompt.
 
 ### Configuration
@@ -204,11 +214,11 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-27, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, a safe single-page fetcher, and PostgreSQL/Supabase support with automatic row level security. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), and PostgreSQL/Supabase support with automatic row level security. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- Website analysis (crawling, extraction, business profiles) or browser automation.
+- Business profiles built from the analysis, or browser automation for JavaScript-only websites.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.

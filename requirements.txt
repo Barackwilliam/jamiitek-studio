@@ -4,3 +4,5 @@ python-dotenv>=1.0,<2
 # PostgreSQL (Supabase) support; only used when DATABASE_URL is set.
 psycopg[binary]>=3.2,<4
 dj-database-url>=2.2,<4
+# HTML parsing for website analysis (uses Python's built-in parser; no compiler needed on Windows).
+beautifulsoup4>=4.12,<5

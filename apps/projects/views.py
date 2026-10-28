@@ -38,7 +38,12 @@ def project_create(request):
 @require_safe
 def project_detail(request, pk):
     project = _get_owned_project(request, pk)
-    return render(request, "projects/project_detail.html", {"project": project})
+    latest_analysis = project.analyses.first()
+    return render(
+        request,
+        "projects/project_detail.html",
+        {"project": project, "latest_analysis": latest_analysis},
+    )
 
 
 @login_required

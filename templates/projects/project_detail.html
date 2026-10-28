@@ -21,9 +21,28 @@
   <dd class="prewrap">{{ project.business_details|default:_("Not provided") }}</dd>
 </dl>
 
-<section class="notice" aria-labelledby="next-heading">
-  <h2 id="next-heading">{% translate "What happens next" %}</h2>
-  <p>{% translate "Website analysis is not available yet. When it is, you will be able to review what was found on your website and correct it here." %}</p>
+<section class="notice" aria-labelledby="analysis-heading">
+  <h2 id="analysis-heading">{% translate "Website analysis" %}</h2>
+  {% if not project.website_url %}
+    <p>{% translate "This project has no website address. Add one to analyze the website, or continue with the details you entered." %}</p>
+  {% else %}
+    {% if latest_analysis %}
+      <p>
+        {% translate "Latest analysis:" %}
+        <a href="{{ latest_analysis.get_absolute_url }}">{{ latest_analysis.get_status_display }}</a>
+        ({{ latest_analysis.created_at|date:"j M Y, H:i" }})
+      </p>
+    {% else %}
+      <p>{% translate "We will read the public pages of your website (up to 8 pages), respecting the website's robots.txt, and show you what we found. Nothing is published or changed on your website." %}</p>
+    {% endif %}
+    {% if not latest_analysis or not latest_analysis.is_active %}
+      <form method="post" action="{% url 'website_analyzer:start' project.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="button">{% if latest_analysis %}{% translate "Analyze again" %}{% else %}{% translate "Analyze website" %}{% endif %}</button>
+      </form>
+    {% endif %}
+  {% endif %}
+  <p class="muted">{% translate "Business profile review and content creation are not available yet." %}</p>
 </section>
 
 <p><a href="{% url 'projects:delete' project.pk %}" class="danger-link">{% translate "Delete this project" %}</a></p>

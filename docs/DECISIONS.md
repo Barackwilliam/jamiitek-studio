@@ -259,6 +259,23 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-019: Website Analysis Design for Phase 3
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- Analyze HTML with Beautiful Soup using Python's built-in `html.parser`, which needs no compiled extension and installs cleanly on Windows.
+- Crawl politely: honour `robots.txt` (RFC 9309, including treating an unreachable robots.txt as "do not crawl"), wait at least 1 second between requests (more if `Crawl-delay` asks, up to 10 seconds), and limit each analysis to 8 pages, depth 2 and 120 seconds by default.
+- Prefer pages whose links mention about, services, products, prices, contact and similar words in English and Kiswahili.
+- Run analyses in a background worker started with `python manage.py run_analysis_worker`, using the database as the job queue. No Redis or Celery (DEC-016, DEC-012).
+- Store only observed content. Nothing is inferred or summarized in this phase, and website text is displayed as plain text.
+- Do not load the analyzed site's images in our pages; list their addresses instead. This avoids leaking users' IP addresses to third-party sites and avoids mixed content.
+- **Defer Playwright.** JavaScript-only websites will produce little content for now. A headless browser uses several hundred megabytes per page, which is significant on the 8 GB development laptop, and needs careful network isolation (TASK-037, TASK-038). It will be reconsidered when real-site testing shows how many target websites need it.
+
+**Review conditions:** Revisit page limits and Playwright after testing against real websites from target industries.
+
 ### DEC-018: Supabase for PostgreSQL and File Storage
 
 **Status:** Accepted (database implemented; storage decided, not yet implemented)

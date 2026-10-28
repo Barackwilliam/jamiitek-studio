@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Phase 1 (Django foundation) and Phase 2 (accounts and projects) are implemented and verified, together with URL safety checks and a safe page fetcher from Phase 3. Website analysis itself and all marketing features do not exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phase 1 (Django foundation), Phase 2 (accounts and projects) and Phase 3 (secure website analysis for HTML websites) are implemented and verified with automated tests and a local test website. Analysis has not yet been tried against real public websites. Business profiles and all marketing features do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -79,10 +79,10 @@ Use the following status definitions consistently:
 | Row level security for Supabase | Implemented — Verified | See section 4.2 |
 | Project and user management | Implemented — Verified | Create, view, edit, delete; each user sees only their own projects |
 | Secure URL validation | Implemented — Verified | `apps/website_analyzer/url_safety.py`; used when saving a project |
-| Safe page fetching | Implemented — Verified | `apps/website_analyzer/fetch.py`; tested, not yet used by any page |
+| Safe page fetching | Implemented — Verified | `apps/website_analyzer/fetch.py`; used by the crawler |
 | Manual business details (FR-02A) | Implemented — Verified | A project can be saved without a website |
-| Website crawling | Not Started | No verified implementation recorded |
-| JavaScript website analysis | Not Started | Playwright is a planned option |
+| Website analysis (HTML sites) | Implemented — Verified locally | Crawler, extraction, robots.txt, background worker and results page; see section 4.3 |
+| JavaScript website analysis | Deferred | DEC-019 |
 | Business profile extraction | Not Started | Requirements documented |
 | Source-grounded marketing scripts | Not Started | Requirements documented |
 | AI provider integration | Not Started | Must use free options (DEC-016); specific provider remains open (OPEN-013) |
@@ -92,7 +92,7 @@ Use the following status definitions consistently:
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 84 tests passing on SQLite and on PostgreSQL 16 |
+| Automated tests | In Progress | 142 tests passing on SQLite and PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -170,6 +170,26 @@ For every important verification, record:
 - Login has no rate limiting yet (brute-force protection is still needed before public launch).
 - Email addresses are not collected, so password reset is not available yet.
 - Supabase Storage is decided but not implemented.
+
+### 4.3 Verification record: Phase 3 (website analysis)
+
+**Date:** 2026-10-28  
+**Environment:** Linux, Python 3.13.17, Django 5.2.18, beautifulsoup4 4.15.0, PostgreSQL 16
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 142 tests on each |
+| Extraction | Unit tests on the fixture site and malformed HTML | Title, description, language, canonical, Open Graph, headings, main text (without scripts, styles, navigation or footer), images (no inline data), links (no mailto or nofollow) and JSON-LD extracted; broken HTML and invalid JSON-LD handled |
+| Crawling | Unit tests with a fake fetcher, plus an end-to-end test with the real `safe_fetch` against a local server | Relevant pages first; external, file and low-value links skipped; duplicates fetched once; page, depth and time limits enforced; robots.txt honoured; failed pages recorded while the crawl continues |
+| Jobs | Unit tests | One active analysis per project (also enforced by a database constraint); a worker claims each job once; interrupted jobs are marked failed; crashes are recorded without internal details |
+| Full workflow | Fixture site served locally, analysis run through the worker code path, results viewed in a browser at 375 px | Result "partial": 4 of 5 pages analyzed, the missing page shown as HTTP 404, the robots-disallowed page shown as skipped; no horizontal scrolling; no images from the analyzed site are loaded |
+| Real websites | Worker run against `https://example.com/` and `https://www.python.org/` | Not possible here: the development container has no direct DNS access. This exposed a defect, now fixed: an unreachable site was reported as a robots.txt refusal. It is now reported as unreachable, with a regression test |
+
+**Known limitations:**
+- Not yet tried against real public websites (needs the owner's computer or a deployed environment).
+- JavaScript-only websites will show little or no content (Playwright deferred, DEC-019).
+- Sitemaps are not used yet.
+- The worker must be started separately (`python manage.py run_analysis_worker`).
 
 ## 5. Current Blockers and Open Questions
 

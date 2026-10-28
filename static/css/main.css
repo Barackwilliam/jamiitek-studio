@@ -324,3 +324,43 @@ a {
   padding: 0.6rem 1rem;
   margin: 0 0 0.5rem;
 }
+
+/* Website analysis */
+.break {
+  overflow-wrap: anywhere;
+}
+
+.page-status {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--muted);
+}
+
+.page-failed .page-status,
+.status-failed h2 {
+  color: var(--danger);
+}
+
+.card h3 {
+  font-size: 1.05rem;
+  margin: 0.25rem 0;
+}
+
+.extracted-text {
+  white-space: pre-wrap;
+  max-height: 24rem;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+}
+
+details summary {
+  cursor: pointer;
+  color: var(--accent);
+  margin-top: 0.5rem;
+}

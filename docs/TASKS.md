@@ -140,17 +140,19 @@ Priorities may change when new technical evidence or product decisions justify a
 - [x] **TASK-029 — P0:** Implement protection against SSRF and unsafe network destinations.
 - [x] **TASK-030 — P0:** Validate resolved IP addresses and redirect destinations. *(Every hop revalidated; connections pinned to validated addresses.)*
 - [x] **TASK-031 — P0:** Apply request timeouts and response-size limits. *(`fetch.py`.)*
-- [ ] **TASK-032 — P0:** Build a controlled test website containing representative HTML content.
-- [ ] **TASK-033 — P0:** Implement basic HTML retrieval and parsing.
-- [ ] **TASK-034 — P0:** Extract page titles, metadata, and relevant text.
-- [ ] **TASK-035 — P1:** Discover relevant internal pages and avoid duplicate URLs.
-- [ ] **TASK-036 — P1:** Add configurable page-count, crawl-depth, and resource limits.
-- [ ] **TASK-037 — P1:** Evaluate Playwright for JavaScript-rendered websites.
-- [ ] **TASK-038 — P1:** Isolate browser automation and restrict unnecessary network access.
-- [ ] **TASK-039 — P1:** Record individual page outcomes and analysis failures.
-- [ ] **TASK-040 — P1:** Display analysis progress and meaningful error messages.
-- [ ] **TASK-041 — P1:** Add security tests for malicious URLs, redirects, and resource exhaustion.
-- [ ] **TASK-041A — P1:** Read and honor `robots.txt`, and apply a per-site request-rate limit.
+- [x] **TASK-032 — P0:** Build a controlled test website containing representative HTML content. *(`apps/website_analyzer/tests/fixtures/site/`: Kiswahili business site with JSON-LD, robots.txt, a disallowed page, a missing page and a prompt-injection sentence.)*
+- [x] **TASK-033 — P0:** Implement basic HTML retrieval and parsing. *(`fetch.py` and `extract.py` with Beautiful Soup's built-in parser.)*
+- [x] **TASK-034 — P0:** Extract page titles, metadata, and relevant text. *(Title, description, language, canonical, Open Graph, headings, main text, images, JSON-LD.)*
+- [x] **TASK-035 — P1:** Discover relevant internal pages and avoid duplicate URLs. *(English and Kiswahili relevance keywords; low-value pages such as login and cart skipped.)*
+- [x] **TASK-036 — P1:** Add configurable page-count, crawl-depth, and resource limits. *(Defaults: 8 pages, depth 2, 120 seconds, at least 1 second between requests.)*
+- [ ] **TASK-037 — P1:** Evaluate Playwright for JavaScript-rendered websites. *(Deferred: see DEC-019.)*
+- [ ] **TASK-038 — P1:** Isolate browser automation and restrict unnecessary network access. *(Deferred with TASK-037.)*
+- [x] **TASK-039 — P1:** Record individual page outcomes and analysis failures.
+- [x] **TASK-040 — P1:** Display analysis progress and meaningful error messages. *(Status page refreshes every 5 seconds while active; warns if the worker seems not to be running.)*
+- [x] **TASK-041 — P1:** Add security tests for malicious URLs, redirects, and resource exhaustion.
+- [x] **TASK-041A — P1:** Read and honor `robots.txt`, and apply a per-site request-rate limit. *(RFC 9309 behaviour; `Crawl-delay` honoured up to 10 seconds.)*
+- [ ] **TASK-041C — P2:** Use sitemaps to find relevant pages.
+- [ ] **TASK-041D — P2:** Test analysis against a set of real public websites from different industries (not possible in the development container, which has no direct internet access).
 - [x] **TASK-041B — P1:** Allow manual entry of business information when no website is available or analysis fails (FR-02A). *(Basic free-text version; structured fields come with the business profile in Phase 4.)*
 
 ### Acceptance criteria

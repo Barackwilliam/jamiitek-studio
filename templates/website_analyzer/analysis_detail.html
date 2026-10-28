@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Website analysis" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block extra_head %}{% if analysis.is_active %}<meta http-equiv="refresh" content="5">{% endif %}{% endblock %}
+
+{% block content %}
+<p><a href="{{ project.get_absolute_url }}">&larr; {{ project.name }}</a></p>
+<h1>{% translate "Website analysis" %}</h1>
+<p class="muted break">{{ analysis.start_url }}</p>
+
+<section class="notice status-{{ analysis.status }}" aria-live="polite">
+  <h2>{{ analysis.get_status_display }}</h2>
+  {% if analysis.status == "queued" %}
+    <p>{% translate "Waiting for the analysis worker to start. This page refreshes automatically." %}</p>
+    {% if analysis.waiting_too_long %}
+      <p><strong>{% translate "This is taking longer than expected." %}</strong>
+      {% translate "The analysis worker may not be running. Start it with: python manage.py run_analysis_worker" %}</p>
+    {% endif %}
+  {% elif analysis.status == "running" %}
+    <p>{% blocktranslate with done=analysis.pages_attempted limit=analysis.max_pages %}Reading pages: {{ done }} of up to {{ limit }} attempted so far. This page refreshes automatically.{% endblocktranslate %}</p>
+  {% elif analysis.status == "failed" %}
+    <p>{{ analysis.error_message|default:_("The analysis failed.") }}</p>
+    <p>{% translate "You can try again later, check the website address, or describe your business manually on the project page." %}</p>
+  {% else %}
+    <p>{% blocktranslate with ok=analysis.pages_succeeded total=analysis.pages_attempted %}{{ ok }} of {{ total }} pages analyzed successfully.{% endblocktranslate %}</p>
+    {% if analysis.stopped_message %}<p class="muted">{{ analysis.stopped_message }}</p>{% endif %}
+  {% endif %}
+</section>
+
+{% if pages %}
+  <h2>{% translate "Pages" %}</h2>
+  <p class="muted">{% translate "This is the content as it appears on the website. It has not been checked or interpreted yet." %}</p>
+  <ul class="card-list">
+    {% for page in pages %}
+      <li class="card page-{{ page.status }}">
+        <p class="page-status">{{ page.get_status_display }}{% if page.http_status %} · HTTP {{ page.http_status }}{% endif %}</p>
+        <h3 class="break">{{ page.title|default:page.url }}</h3>
+        <p class="muted break">{{ page.url }}</p>
+        {% if page.status == "success" %}
+          {% if page.meta_description %}<p>{{ page.meta_description }}</p>{% endif %}
+          <p class="muted">
+            {% if page.language %}{% translate "Language:" %} {{ page.language }} · {% endif %}
+            {% blocktranslate count counter=page.images|length %}{{ counter }} image found{% plural %}{{ counter }} images found{% endblocktranslate %}
+            {% if page.structured_types %} · {% translate "Structured data:" %} {{ page.structured_types|join:", " }}{% endif %}
+          </p>
+          <details>
+            <summary>{% translate "Show extracted content" %}</summary>
+            {% if page.headings %}
+              <h4>{% translate "Headings" %}</h4>
+              <ul>{% for heading in page.headings %}<li>H{{ heading.level }}: {{ heading.text }}</li>{% endfor %}</ul>
+            {% endif %}
+            <h4>{% translate "Text" %}</h4>
+            <div class="extracted-text">{{ page.text|default:_("No text found.") }}</div>
+            {% if page.text_truncated %}<p class="muted">{% translate "The text was shortened because the page is very long." %}</p>{% endif %}
+            {% if page.images %}
+              <h4>{% translate "Images" %}</h4>
+              <ul class="break">{% for image in page.images %}<li>{{ image.url }}{% if image.alt %} — “{{ image.alt }}”{% endif %}</li>{% endfor %}</ul>
+            {% endif %}
+          </details>
+        {% else %}
+          <p>{{ page.error_message }}</p>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+{% endblock %}
