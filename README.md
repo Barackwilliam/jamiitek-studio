@@ -214,11 +214,11 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), and PostgreSQL/Supabase support with automatic row level security. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, and PostgreSQL/Supabase support with automatic row level security. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- Business profiles built from the analysis, or browser automation for JavaScript-only websites.
+- AI-assisted suggestions or content, or browser automation for JavaScript-only websites.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.

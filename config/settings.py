@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.projects",
     "apps.website_analyzer",
+    "apps.business_profiles",
 ]
 
 MIDDLEWARE = [

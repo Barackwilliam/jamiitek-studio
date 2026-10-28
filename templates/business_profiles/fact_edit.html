@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Edit information" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<section class="narrow">
+  <h1>{% blocktranslate with label=fact.get_key_display %}Edit: {{ label }}{% endblocktranslate %}</h1>
+  {% if fact.source == "website" %}
+    <p class="muted">{% translate "Saving confirms this information. The original wording from the website is kept for reference." %}</p>
+  {% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <div class="actions">
+      <button type="submit" class="button">{% translate "Save and confirm" %}</button>
+      <a href="{{ fact.profile.get_absolute_url }}">{% translate "Cancel" %}</a>
+    </div>
+  </form>
+</section>
+{% endblock %}

@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Phase 1 (Django foundation), Phase 2 (accounts and projects) and Phase 3 (secure website analysis for HTML websites) are implemented and verified with automated tests and a local test website. Analysis has not yet been tried against real public websites. Business profiles and all marketing features do not exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 4 are implemented and verified with automated tests and a local test website: Django foundation, accounts and projects, secure website analysis for HTML websites, and a reviewable business profile built from the analysis. Analysis has not yet been tried against real public websites. AI and all marketing content features do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -83,7 +83,7 @@ Use the following status definitions consistently:
 | Manual business details (FR-02A) | Implemented — Verified | A project can be saved without a website |
 | Website analysis (HTML sites) | Implemented — Verified locally | Crawler, extraction, robots.txt, background worker and results page; see section 4.3 |
 | JavaScript website analysis | Deferred | DEC-019 |
-| Business profile extraction | Not Started | Requirements documented |
+| Business profile extraction and review | Implemented — Verified locally | See section 4.4 |
 | Source-grounded marketing scripts | Not Started | Requirements documented |
 | AI provider integration | Not Started | Must use free options (DEC-016); specific provider remains open (OPEN-013) |
 | Image generation | Not Started | Requirements documented |
@@ -92,7 +92,7 @@ Use the following status definitions consistently:
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 142 tests passing on SQLite and PostgreSQL 16 |
+| Automated tests | In Progress | 176 tests passing on SQLite and PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -190,6 +190,29 @@ For every important verification, record:
 - JavaScript-only websites will show little or no content (Playwright deferred, DEC-019).
 - Sitemaps are not used yet.
 - The worker must be started separately (`python manage.py run_analysis_worker`).
+
+### 4.4 Verification record: Phase 4 (business profile)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.3
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 176 tests on each |
+| Suggestions | Unit tests | Business name, description, phone, email, address, opening hours, logo, social profiles, offerings and prices from structured data; description, name, sharing image and theme colour from the home page; phones and emails from page text; offerings from list lines on services pages only; duplicates merged with all evidence; share buttons, invalid colours, failed pages and dates are not suggested |
+| No invention | Unit test with page text claiming an award, a certification and prices | No suggestions created |
+| User decisions | Unit tests | After re-analysis: confirmed facts kept (and gain new evidence), rejected values not suggested again, user entries untouched, an edited value's original wording not suggested again, unreviewed suggestions replaced |
+| Mutation check | Temporarily disabled the preservation logic | 3 tests failed as expected; logic restored |
+| Ownership and safety | View tests | Other users' profiles and facts return 404 (including mixing a project ID with another user's fact ID); actions are POST only; website values are HTML-escaped |
+| Full workflow | Fixture site analyzed through the worker code path, then the profile page used in a browser at 375 px | 17 sourced suggestions created automatically; confirm and reject worked; conflicting descriptions and logos flagged; no horizontal scrolling |
+
+**Defect found and fixed during testing:** the "update suggestions" action crashed because `_` was used both for translations and as a throwaway variable in the same function.
+
+**Known limitations:**
+- Suggestions are rule-based. Businesses whose websites lack structured data will mostly get name, description and contact suggestions; products and services must often be added by hand.
+- Prices are suggested only from structured data, never from free text.
+- Brand colours come only from the `theme-color` meta tag.
+- There is no "confirm all" action, deliberately, so each fact is reviewed.
 
 ## 5. Current Blockers and Open Questions
 

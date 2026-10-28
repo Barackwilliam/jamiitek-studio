@@ -41,6 +41,7 @@ class PageInfo:
     meta_description: str = ""
     canonical_url: str = ""
     language: str = ""
+    theme_color: str = ""
     open_graph: dict = field(default_factory=dict)
     headings: list = field(default_factory=list)
     text: str = ""
@@ -129,6 +130,8 @@ def extract_page(html_bytes, page_url, charset=""):
             continue
         if name == "description" and not info.meta_description:
             info.meta_description = content
+        elif name == "theme-color" and not info.theme_color:
+            info.theme_color = content[:30]
         elif name.startswith("og:") and name[3:] in {"title", "description", "image", "site_name", "type", "locale"}:
             info.open_graph.setdefault(name[3:], content)
 

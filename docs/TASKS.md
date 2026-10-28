@@ -174,15 +174,15 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-042 — P0:** Define the initial business-profile schema.
-- [ ] **TASK-043 — P0:** Extract business names, descriptions, products, and services where available.
-- [ ] **TASK-044 — P0:** Associate extracted information with its source where practical.
-- [ ] **TASK-045 — P0:** Distinguish source facts, user-confirmed facts, inferences, and unknowns.
-- [ ] **TASK-046 — P0:** Build the business-profile review interface.
-- [ ] **TASK-047 — P0:** Allow users to correct extracted information.
-- [ ] **TASK-048 — P0:** Persist user-confirmed corrections.
-- [ ] **TASK-049 — P1:** Extract relevant logos, brand colors, and images where feasible.
-- [ ] **TASK-050 — P1:** Add tests for incomplete, conflicting, and unsupported website information.
+- [x] **TASK-042 — P0:** Define the initial business-profile schema. *(`BusinessProfile` and `ProfileFact`: key, value, source, status, evidence; DEC-020.)*
+- [x] **TASK-043 — P0:** Extract business names, descriptions, products, and services where available. *(From structured data, meta tags, the home page title, and list lines on services/products pages; no AI.)*
+- [x] **TASK-044 — P0:** Associate extracted information with its source where practical. *(Every website fact lists each page and the part of the page it came from.)*
+- [x] **TASK-045 — P0:** Distinguish source facts, user-confirmed facts, inferences, and unknowns. *("Needs your review" vs "Confirmed" vs "Entered by you"; missing essential information listed. No inferences exist yet; AI suggestions in Phase 5 must be stored with their own source.)*
+- [x] **TASK-046 — P0:** Build the business-profile review interface.
+- [x] **TASK-047 — P0:** Allow users to correct extracted information. *(Confirm, edit, reject, undo, add, remove own entries.)*
+- [x] **TASK-048 — P0:** Persist user-confirmed corrections. *(Kept across re-analysis; rejected and edited website values are not suggested again.)*
+- [ ] **TASK-049 — P1:** Extract relevant logos, brand colors, and images where feasible. *(Partial: logo from structured data or Open Graph, brand colour from `theme-color`; colours from CSS and image selection not done.)*
+- [x] **TASK-050 — P1:** Add tests for incomplete, conflicting, and unsupported website information. *(Including text that tries to instruct the AI.)*
 
 ### Acceptance criteria
 

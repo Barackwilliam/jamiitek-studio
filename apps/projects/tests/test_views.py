@@ -186,7 +186,8 @@ class ProjectDetailUpdateDeleteTests(ProjectTestCase):
 
         self.assertContains(response, "Duka la Amina")
         self.assertContains(response, "Analyze website")
-        self.assertContains(response, "Business profile review and content creation are not available yet.")
+        self.assertContains(response, "Review business profile")
+        self.assertContains(response, "Content creation is not available yet.")
 
     def test_user_content_is_escaped(self):
         self.project.business_details = "<script>alert('x')</script>"

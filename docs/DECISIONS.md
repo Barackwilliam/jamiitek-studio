@@ -259,6 +259,22 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-020: Business Profile as Reviewed, Sourced Facts
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- The business profile is a list of facts. Each fact has a type (name, description, product or service, price, phone, email, address, opening hours, social media, logo, brand colour, other), a value, a source (website or user), a status (needs review, confirmed, rejected) and, for website facts, evidence: every page and part of the page where it was found.
+- Website suggestions are rule-based and quote the website; nothing is inferred, translated or summarized, and no AI is used in this phase.
+- **Only confirmed facts (including facts the user adds) may be used for content creation.** Suggestions that were never reviewed must not be used.
+- Re-analysis replaces unreviewed suggestions but never changes confirmed, rejected or user-entered facts. Rejected and edited website values are not suggested again.
+- There is deliberately no "confirm all" action.
+- A finished analysis updates suggestions automatically through a signal, so the analyzer does not depend on the profile app.
+
+**Consequences:** Users must spend a few minutes reviewing, but every claim used later can be traced to the website or to the user. Phase 5 AI output must be stored as a separate, clearly marked source and must also require confirmation before it can be treated as a fact.
+
 ### DEC-019: Website Analysis Design for Phase 3
 
 **Status:** Accepted

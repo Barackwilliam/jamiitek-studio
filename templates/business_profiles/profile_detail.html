@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Business profile" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{{ project.get_absolute_url }}">&larr; {{ project.name }}</a></p>
+<h1>{% translate "Business profile" %}</h1>
+<p class="lead">
+  {% translate "Check this information carefully. Only information you confirm or add yourself will be used to create marketing content." %}
+</p>
+
+<section class="notice" aria-labelledby="summary-heading">
+  <h2 id="summary-heading">{% translate "Summary" %}</h2>
+  <p>
+    {% blocktranslate count counter=to_review %}{{ counter }} item needs your review{% plural %}{{ counter }} items need your review{% endblocktranslate %} ·
+    {% blocktranslate count counter=confirmed %}{{ counter }} confirmed{% plural %}{{ counter }} confirmed{% endblocktranslate %}
+  </p>
+  {% if missing %}
+    <p><strong>{% translate "Missing:" %}</strong> {{ missing|join:", " }}.
+    {% translate "Add these below if they apply to your business." %}</p>
+  {% endif %}
+  {% if latest_analysis %}
+    <form method="post" action="{% url 'business_profiles:refresh' project.pk %}" class="inline-form">
+      {% csrf_token %}
+      <button type="submit" class="button button-secondary button-small">{% translate "Update suggestions from the latest website analysis" %}</button>
+    </form>
+    <p class="muted">{% translate "Your confirmed, rejected and added information is kept when suggestions are updated." %}</p>
+  {% elif project.website_url %}
+    <p class="muted">{% translate "Analyze the website to get suggestions." %} <a href="{{ project.get_absolute_url }}">{% translate "Go to the project" %}</a></p>
+  {% endif %}
+</section>
+
+{% if project.business_details %}
+  <section aria-labelledby="details-heading">
+    <h2 id="details-heading">{% translate "Details you wrote" %}</h2>
+    <p class="prewrap">{{ project.business_details }}</p>
+    <p class="muted">{% translate "Add the important points below so they can be used individually." %}</p>
+  </section>
+{% endif %}
+
+{% for section in sections %}
+  <section class="profile-section" aria-labelledby="section-{{ section.key }}">
+    <h2 id="section-{{ section.key }}">{{ section.label }}</h2>
+    {% if section.conflict %}
+      <p class="warning">{% translate "Different values were found. Confirm the correct one and reject the others." %}</p>
+    {% endif %}
+    {% if section.missing %}
+      <p class="muted">{% translate "Nothing found yet." %}</p>
+    {% endif %}
+    <ul class="fact-list">
+      {% for fact in section.facts %}
+        <li class="fact fact-{{ fact.status }}" id="fact-{{ fact.pk }}">
+          <p class="fact-value">{{ fact.value }}</p>
+          <p class="fact-meta">
+            <span class="badge badge-{{ fact.status }}">{{ fact.get_status_display }}</span>
+            {{ fact.get_source_display }}{% if fact.edited_by_user %} · {% translate "edited by you" %}{% endif %}
+          </p>
+          {% if fact.evidence %}
+            <details>
+              <summary>{% blocktranslate count counter=fact.evidence|length %}Where this was found ({{ counter }} place){% plural %}Where this was found ({{ counter }} places){% endblocktranslate %}</summary>
+              <ul class="break">
+                {% for item in fact.evidence %}
+                  <li>{{ item.detail }} — <a href="{{ item.url }}" rel="noopener noreferrer nofollow" target="_blank">{{ item.url }}</a></li>
+                {% endfor %}
+              </ul>
+              {% if fact.original_value %}<p class="muted">{% translate "Original wording on the website:" %} {{ fact.original_value }}</p>{% endif %}
+            </details>
+          {% endif %}
+          <div class="fact-actions">
+            {% if fact.status != "confirmed" and fact.status != "rejected" %}
+              <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
+                {% csrf_token %}<input type="hidden" name="action" value="confirm">
+                <button type="submit" class="button button-small">{% translate "Confirm" %}</button>
+              </form>
+            {% endif %}
+            {% if fact.status != "rejected" %}
+              <a href="{% url 'business_profiles:edit_fact' project.pk fact.pk %}" class="button button-secondary button-small">{% translate "Edit" %}</a>
+            {% endif %}
+            {% if fact.source == "website" %}
+              {% if fact.status == "suggested" %}
+                <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
+                  {% csrf_token %}<input type="hidden" name="action" value="reject">
+                  <button type="submit" class="link-button danger-link">{% translate "Reject" %}</button>
+                </form>
+              {% else %}
+                <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
+                  {% csrf_token %}<input type="hidden" name="action" value="undo">
+                  <button type="submit" class="link-button">{% translate "Undo" %}</button>
+                </form>
+              {% endif %}
+            {% else %}
+              <form method="post" action="{% url 'business_profiles:set_status' project.pk fact.pk %}" class="inline-form">
+                {% csrf_token %}<input type="hidden" name="action" value="delete">
+                <button type="submit" class="link-button danger-link">{% translate "Remove" %}</button>
+              </form>
+            {% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}
+
+<section class="narrow" aria-labelledby="add-heading">
+  <h2 id="add-heading">{% translate "Add information" %}</h2>
+  <form method="post" action="{% url 'business_profiles:add_fact' project.pk %}" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" with form=add_form %}
+    <button type="submit" class="button">{% translate "Add" %}</button>
+  </form>
+</section>
+{% endblock %}

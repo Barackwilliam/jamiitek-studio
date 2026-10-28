@@ -13,6 +13,7 @@ from django.utils import timezone
 
 from .crawler import crawl
 from .models import AnalyzedPage, WebsiteAnalysis
+from .signals import analysis_finished
 
 logger = logging.getLogger(__name__)
 
@@ -81,12 +82,14 @@ def _save_page(analysis, position, page):
         meta_description=info.meta_description if info else "",
         canonical_url=info.canonical_url if info else "",
         language=info.language if info else "",
+        theme_color=info.theme_color if info else "",
         open_graph=info.open_graph if info else {},
         headings=info.headings if info else [],
         text=info.text if info else "",
         text_truncated=info.text_truncated if info else False,
         images=info.images if info else [],
         structured_data=info.structured_data if info else [],
+        links=info.links if info else [],
         links_found=len(info.links) if info else 0,
     )
 
@@ -140,4 +143,10 @@ def run_analysis(analysis, crawl_function=None, **crawl_options):
     analysis.pages_succeeded = succeeded
     analysis.finished_at = timezone.now()
     analysis.save()
+    if analysis.status in (WebsiteAnalysis.Status.COMPLETED, WebsiteAnalysis.Status.PARTIAL):
+        try:
+            analysis_finished.send(sender=WebsiteAnalysis, analysis=analysis)
+        except Exception:
+            # A problem in a follow-up step must not undo a finished analysis.
+            logger.exception("Post-analysis processing failed for analysis %s", analysis.pk)
     return analysis
