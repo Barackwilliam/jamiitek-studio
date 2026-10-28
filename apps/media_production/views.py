@@ -1,14 +1,12 @@
-import mimetypes
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError, transaction
-from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
 
 from apps.marketing_content.models import ContentDraft
+from apps.core.files import stream_private_file
 from apps.projects.models import Project
 
 from .ffmpeg import tools_available
@@ -20,17 +18,6 @@ from .render import PlanError
 
 def _owned_project(request, project_pk):
     return get_object_or_404(Project, pk=project_pk, owner=request.user)
-
-
-def _stream(field, filename, download=False):
-    try:
-        handle = field.open("rb")
-    except (FileNotFoundError, OSError, ValueError):
-        raise Http404("File missing")
-    content_type = mimetypes.guess_type(field.name)[0] or "application/octet-stream"
-    response = FileResponse(handle, content_type=content_type, as_attachment=download, filename=filename)
-    response["Cache-Control"] = "private, max-age=300"
-    return response
 
 
 @login_required
@@ -110,8 +97,27 @@ def video_detail(request, project_pk, pk):
 def video_file(request, project_pk, pk):
     video = get_object_or_404(VideoRender, pk=pk, project_id=project_pk, project__owner=request.user,
                               status=VideoRender.Status.COMPLETED)
-    return _stream(video.file, f"video-{video.pk}-{video.aspect}-{video.quality}.mp4",
+    return stream_private_file(request, video.file, f"video-{video.pk}-{video.aspect}-{video.quality}.mp4",
                    download=request.GET.get("download") == "1")
+
+
+@login_required
+@require_POST
+def video_retry(request, project_pk, pk):
+    video = get_object_or_404(VideoRender, pk=pk, project_id=project_pk, project__owner=request.user,
+                              status=VideoRender.Status.FAILED)
+    try:
+        check_plan(video.plan, video.voiceover)
+        retry = request_render(video.project, script=video.script, aspect=video.aspect, quality=video.quality,
+                               music=video.music, voiceover=video.voiceover, plan=video.plan)
+    except PlanError as exc:
+        messages.error(request, exc.message)
+        return redirect(video)
+    except RenderAlreadyRunning:
+        messages.info(request, _("A video for this project is already being made. Please wait for it to finish."))
+        return redirect(video)
+    messages.success(request, _("Trying again."))
+    return redirect(retry)
 
 
 @login_required
@@ -130,7 +136,7 @@ def video_delete(request, project_pk, pk):
 @require_safe
 def audio_file(request, project_pk, pk):
     track = get_object_or_404(AudioTrack, pk=pk, project_id=project_pk, project__owner=request.user)
-    return _stream(track.file, f"audio-{track.pk}.m4a")
+    return stream_private_file(request, track.file, f"audio-{track.pk}.m4a")
 
 
 @login_required

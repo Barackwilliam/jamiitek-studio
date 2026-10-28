@@ -11,7 +11,7 @@ from integrations.ai.registry import text_provider_is_configured
 
 from .forms import ApproveForm, BriefForm, SceneFormSet, ScriptForm
 from .generation import GenerationAlreadyRunning, confirmed_facts, request_concepts, request_script
-from .models import ContentDraft, MarketingBrief
+from .models import ContentDraft, DraftRevision, MarketingBrief
 from .validation import find_unsupported_claims, script_texts
 
 
@@ -137,7 +137,24 @@ def _script_context(script, **extra):
 def script_detail(request, project_pk, pk):
     script = _owned_draft(request, project_pk, pk, ContentDraft.Kind.SCRIPT)
     return render(request, "marketing_content/script_detail.html", _script_context(
-        script, approve_form=ApproveForm(needs_check=bool(script.flags))))
+        script, approve_form=ApproveForm(needs_check=bool(script.flags)),
+        revisions=script.revisions.all()[:DraftRevision.MAX_PER_DRAFT]))
+
+
+@login_required
+@require_POST
+def script_restore(request, project_pk, pk, revision_pk):
+    script = _owned_draft(request, project_pk, pk, ContentDraft.Kind.SCRIPT)
+    revision = get_object_or_404(DraftRevision, pk=revision_pk, draft=script)
+    DraftRevision.save_from(script)
+    script.data = revision.data
+    script.flags = find_unsupported_claims(script_texts(script.data), script.facts)
+    # A restored version must be reviewed and approved again.
+    script.status = ContentDraft.Status.EDITED
+    script.approved_at = None
+    script.save()
+    messages.success(request, _("Earlier version restored. Review it before approving."))
+    return redirect(script)
 
 
 @login_required
@@ -157,6 +174,7 @@ def script_edit(request, project_pk, pk):
             # Keep the fact references of scenes that already existed.
             scene["fact_ids"] = old_scenes[index].get("fact_ids", []) if index < len(old_scenes) else []
             scenes.append(scene)
+        DraftRevision.save_from(script)
         script.data = {**data, **form.cleaned_data, "scenes": scenes}
         script.flags = find_unsupported_claims(script_texts(script.data), script.facts)
         script.status = ContentDraft.Status.EDITED

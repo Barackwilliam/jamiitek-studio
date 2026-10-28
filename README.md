@@ -187,6 +187,12 @@ Without `STORAGE_S3_BUCKET`, uploaded images and posters are stored in the `medi
 
 Files are never served directly from the bucket: the application checks that the user owns the project and then streams the file. Supabase's free plan includes about 1 GB of storage.
 
+### Maintenance
+
+- `/health/` reports whether the database works and whether the background worker has been seen in the last two minutes (`"worker": "ok"`, `"stale"` or `"not_seen"`).
+- `python manage.py cleanup` lists leftover temporary folders and stored files that no record uses. Nothing is deleted unless you add `--delete`. Files changed in the last hour are always kept, because they may belong to work in progress.
+- Log-in is limited to 5 failed attempts per username and 20 per network address in 15 minutes; sign-up to 10 per address per hour. Behind a reverse proxy, make sure the proxy passes the real client address, or every visitor will share one limit.
+
 ### Running checks and tests
 
 ```bash

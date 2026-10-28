@@ -13,4 +13,5 @@ urlpatterns = [
     path("scripts/<int:pk>/", views.script_detail, name="script"),
     path("scripts/<int:pk>/edit/", views.script_edit, name="script_edit"),
     path("scripts/<int:pk>/approve/", views.script_approve, name="script_approve"),
+    path("scripts/<int:pk>/revisions/<int:revision_pk>/restore/", views.script_restore, name="script_restore"),
 ]

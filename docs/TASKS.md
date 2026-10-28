@@ -115,7 +115,7 @@ Priorities may change when new technical evidence or product decisions justify a
 - [x] **TASK-025 — P0:** Add tests for project ownership and unauthorized access.
 - [x] **TASK-026 — P1:** Build the initial project dashboard.
 - [x] **TASK-027 — P1:** Add project editing and deletion behavior with appropriate safeguards. *(Deletion requires a confirmation page and POST.)*
-- [ ] **TASK-027A — P1:** Add login rate limiting before any public launch.
+- [x] **TASK-027A — P1:** Add login rate limiting before any public launch. *(5 failures per username, 20 per address per 15 minutes; sign-up 10 per address per hour; only hashes stored.)*
 - [ ] **TASK-027B — P2:** Collect email addresses and enable password reset (needs a free email-sending option).
 
 ### Acceptance criteria
@@ -283,7 +283,7 @@ Priorities may change when new technical evidence or product decisions justify a
 - [ ] **TASK-086 — P2:** Add a hybrid workflow with supplementary generated footage. *(Deferred.)*
 - [x] **TASK-087 — P2:** Evaluate 9:16, 16:9, and 1:1 output profiles.
 - [ ] **TASK-088 — P2:** Add scene-level preview and revision where practical. *(Whole-video preview quality only.)*
-- [ ] **TASK-088A — P2:** Support seeking in long videos (HTTP range requests) and video clips as scene sources.
+- [x] **TASK-088A — P2:** Support seeking in long videos (HTTP range requests). *(Video clips as scene sources still open.)*
 
 ### Acceptance criteria
 
@@ -304,17 +304,18 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-089 — P1:** Define job states and allowed state transitions.
-- [ ] **TASK-090 — P1:** Decide when background workers become necessary.
-- [ ] **TASK-091 — P1:** Implement background processing for the first long-running operation.
-- [ ] **TASK-092 — P1:** Persist job status and sanitized error information.
-- [ ] **TASK-093 — P1:** Prevent unnecessary duplicate generation or rendering.
-- [ ] **TASK-094 — P1:** Implement export metadata and authorized downloads.
-- [ ] **TASK-095 — P1:** Add retry behavior for recoverable failures.
-- [ ] **TASK-096 — P1:** Add cleanup rules for temporary files and expired exports.
-- [ ] **TASK-097 — P1:** Test worker interruption and failed-job recovery.
-- [ ] **TASK-098 — P2:** Add project history and version tracking.
-- [ ] **TASK-099 — P2:** Add operational logs and basic health monitoring.
+- [x] **TASK-089 — P1:** Define job states and allowed state transitions. *(`docs/ARCHITECTURE.md`, section 11.)*
+- [x] **TASK-090 — P1:** Decide when background workers become necessary. *(DEC-019, DEC-021: one database-backed worker.)*
+- [x] **TASK-091 — P1:** Implement background processing for the first long-running operation.
+- [x] **TASK-092 — P1:** Persist job status and sanitized error information.
+- [x] **TASK-093 — P1:** Prevent unnecessary duplicate generation or rendering. *(One active job per project or brief, enforced by database constraints.)*
+- [x] **TASK-094 — P1:** Implement export metadata and authorized downloads. *(Owner-only streaming with range support.)*
+- [x] **TASK-095 — P1:** Add retry behavior for recoverable failures. *("Try again" for videos; "Analyze again" and "Write new concepts" already existed; AI calls retry once automatically.)*
+- [x] **TASK-096 — P1:** Add cleanup rules for temporary files and expired exports. *(`manage.py cleanup`, dry run by default. Exports do not expire; users delete them.)*
+- [x] **TASK-097 — P1:** Test worker interruption and failed-job recovery. *(Stale jobs failed on start; an error in one job type does not stop the worker.)*
+- [x] **TASK-098 — P2:** Add project history and version tracking. *(Script versions with restore; last 20 kept.)*
+- [x] **TASK-099 — P2:** Add operational logs and basic health monitoring. *(Worker heartbeat in `/health/` and the admin.)*
+- [x] **TASK-099A — P1:** Add a Content-Security-Policy and Permissions-Policy. *(No inline scripts or styles; verified in a browser on all application and admin pages.)*
 
 ### Acceptance criteria
 

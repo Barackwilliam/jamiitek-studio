@@ -421,6 +421,17 @@ Job handling should define:
 
 Repeated submissions should not unintentionally create duplicate charges or duplicate final outputs. Where practical, use idempotency keys or equivalent deduplication controls.
 
+**Implemented job states (2026-10-28).** Website analyses, AI writing, image imports and video renders all use the same states and transitions:
+
+```text
+queued --(worker claims it with a conditional update)--> running
+running --(work finished and its output verified)------> completed (analyses: completed or partial)
+running --(expected failure, safe message stored)------> failed
+running --(worker stopped; found by the next worker)---> failed ("interrupted")
+```
+
+Jobs never move backwards. Trying again creates a new job with the same settings. At most one queued or running job of each kind exists per project (per brief for AI writing), enforced by database constraints.
+
 ## 12. Error Handling and Observability
 
 Errors should be categorized by component and severity.

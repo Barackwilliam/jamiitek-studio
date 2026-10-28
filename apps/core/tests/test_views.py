@@ -37,7 +37,7 @@ class HealthCheckTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(
-            response.json(), {"status": "ok", "checks": {"database": "ok"}}
+            response.json(), {"status": "ok", "checks": {"database": "ok", "worker": "not_seen"}}
         )
 
     def test_health_is_not_cached(self):

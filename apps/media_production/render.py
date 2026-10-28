@@ -165,7 +165,7 @@ def render_video(plan, *, profile, aspect, brand_color, logo_bytes=None, end_car
         })
     total = validate_plan(scenes, voice_duration)
 
-    workdir = Path(tempfile.mkdtemp(prefix="jamii-render-"))
+    workdir = Path(tempfile.mkdtemp(prefix="jamiitek-tmp-render-"))
     try:
         clips = []
         for index, scene in enumerate(scenes):

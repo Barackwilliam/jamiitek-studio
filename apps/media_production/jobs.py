@@ -86,14 +86,14 @@ def _read(field):
 
 def _local_path(field, folder):
     """FFmpeg needs a file path; copy from storage into the render's temp folder."""
-    target = Path(tempfile.mkdtemp(prefix="jamii-audio-", dir=folder)) / "track.m4a"
+    target = Path(tempfile.mkdtemp(prefix="jamiitek-tmp-audio-", dir=folder)) / "track.m4a"
     target.write_bytes(_read(field))
     return target
 
 
 def run_render(render):
     project = render.project
-    workdir = tempfile.mkdtemp(prefix="jamii-job-")
+    workdir = tempfile.mkdtemp(prefix="jamiitek-tmp-job-")
 
     def progress(text):
         VideoRender.objects.filter(pk=render.pk).update(progress=text[:200])

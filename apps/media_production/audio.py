@@ -29,7 +29,7 @@ class ProcessedAudio:
 
 
 def process_audio(data):
-    with tempfile.TemporaryDirectory(prefix="jamii-audio-") as folder:
+    with tempfile.TemporaryDirectory(prefix="jamiitek-tmp-audio-") as folder:
         source = Path(folder) / "input"
         output = Path(folder) / "audio.m4a"
         source.write_bytes(data)

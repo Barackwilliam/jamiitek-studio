@@ -259,6 +259,22 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-024: Reliability and Security Hardening Before Public Use
+
+**Status:** Accepted
+
+**Date:** 2026-10-28
+
+**Decision:**
+- Rate-limit log-in (5 failures per username and 20 per address in 15 minutes) and sign-up (10 per address per hour) using a database table of hashed keys, so it works across processes without Redis.
+- Send a strict Content-Security-Policy (no inline scripts or styles, nothing from other sites, no framing) and a restrictive Permissions-Policy on every response.
+- Stream all private files through one helper with single-range support so videos can be seeked.
+- The worker isolates errors per job type, records a heartbeat, and `/health/` reports its state without exposing details.
+- Keep the last 20 versions of each script; restoring one requires approval again.
+- `cleanup` is a dry run unless `--delete` is given, touches only folders with the application's own prefix, and keeps files changed in the last hour.
+
+**Review conditions:** Revisit limits after real usage; add proxy-aware client address handling when a deployment is chosen.
+
 ### DEC-023: Template Videos With FFmpeg
 
 **Status:** Accepted
