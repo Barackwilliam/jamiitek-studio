@@ -9,5 +9,6 @@ urlpatterns = [
     path("projects/<int:project_pk>/profile/", include("apps.business_profiles.urls")),
     path("projects/<int:project_pk>/content/", include("apps.marketing_content.urls")),
     path("projects/<int:project_pk>/media/", include("apps.creative_assets.urls")),
+    path("projects/<int:project_pk>/videos/", include("apps.media_production.urls")),
     path("", include("apps.core.urls")),
 ]

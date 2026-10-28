@@ -62,6 +62,9 @@
   </section>
 {% else %}
   <p class="muted">{% blocktranslate with when=script.approved_at|date:"j M Y, H:i" %}Approved on {{ when }}. Editing it will require approval again.{% endblocktranslate %}</p>
-  <a href="{% url 'creative_assets:poster_create' project.pk %}?script={{ script.pk }}" class="button">{% translate "Make a poster from this script" %}</a>
+  <div class="actions">
+    <a href="{% url 'media_production:create' project.pk %}?script={{ script.pk }}" class="button">{% translate "Make a video from this script" %}</a>
+    <a href="{% url 'creative_assets:poster_create' project.pk %}?script={{ script.pk }}" class="button button-secondary">{% translate "Make a poster from this script" %}</a>
+  </div>
 {% endif %}
 {% endblock %}

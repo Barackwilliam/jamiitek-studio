@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Video" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block extra_head %}{% if video.is_active %}<meta http-equiv="refresh" content="5">{% endif %}{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'media_production:videos' project.pk %}">&larr; {% translate "Videos" %}</a></p>
+<h1>{{ video.script.title|default:_("Video") }}</h1>
+<p class="muted">{{ video }}</p>
+
+{% if video.is_active %}
+  <section class="notice" aria-live="polite">
+    <h2>{{ video.get_status_display }}…</h2>
+    <p>{{ video.progress|default:_("Waiting for the background worker.") }}</p>
+    <p class="muted">{% translate "This page refreshes automatically. A preview usually takes under a minute; final quality takes longer." %}</p>
+    {% if video.waiting_too_long %}
+      <p><strong>{% translate "This is taking longer than expected." %}</strong>
+      {% translate "The background worker may not be running. Start it with: python manage.py run_worker" %}</p>
+    {% endif %}
+  </section>
+{% elif video.status == "failed" %}
+  <section class="notice status-failed">
+    <h2>{% translate "The video could not be made" %}</h2>
+    <p>{{ video.error_message }}</p>
+  </section>
+{% else %}
+  <video class="video-preview" controls preload="metadata" src="{{ video.file_url }}" width="{{ video.width }}" height="{{ video.height }}">
+    {% translate "Your browser cannot play this video. Download it instead." %}
+  </video>
+  <p class="muted">{% blocktranslate with w=video.width h=video.height d=video.duration|floatformat:1 %}{{ w }} × {{ h }} · {{ d }} seconds · checked after rendering{% endblocktranslate %}</p>
+  <div class="actions">
+    <a href="{{ video.file_url }}?download=1" class="button">{% translate "Download MP4" %}</a>
+    {% if video.quality == "preview" and video.script %}
+      <a href="{% url 'media_production:create' project.pk %}?script={{ video.script.pk }}" class="button button-secondary">{% translate "Make final quality" %}</a>
+    {% endif %}
+  </div>
+{% endif %}
+
+{% if not video.is_active %}
+  <form method="post" action="{% url 'media_production:video_delete' project.pk video.pk %}" class="inline-form">
+    {% csrf_token %}
+    <button type="submit" class="link-button danger-link">{% translate "Delete video" %}</button>
+  </form>
+{% endif %}
+{% endblock %}

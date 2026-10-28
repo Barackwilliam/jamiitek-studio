@@ -525,3 +525,36 @@ details summary {
   border-radius: 8px;
   border: 1px solid var(--border);
 }
+
+/* Videos */
+.video-preview {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 80vh;
+  width: auto;
+  margin: 1rem 0;
+  border-radius: 8px;
+  background: #000;
+}
+
+.fact audio {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.field ul {
+  list-style: none;
+  padding: 0;
+}
+
+.field ul label {
+  font-weight: 400;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.field ul input {
+  width: auto;
+}

@@ -6,22 +6,22 @@ from django.db import models
 from django.urls import reverse
 
 
-def _random_path(instance, filename, folder):
+def random_path(instance, filename, folder):
     # Random names: user-supplied file names are never used for storage.
     extension = filename.rsplit(".", 1)[-1].lower()
     return f"projects/{instance.project_id}/{folder}/{uuid.uuid4().hex}.{extension}"
 
 
 def asset_upload_to(instance, filename):
-    return _random_path(instance, filename, "assets")
+    return random_path(instance, filename, "assets")
 
 
 def thumbnail_upload_to(instance, filename):
-    return _random_path(instance, filename, "thumbnails")
+    return random_path(instance, filename, "thumbnails")
 
 
 def poster_upload_to(instance, filename):
-    return _random_path(instance, filename, "posters")
+    return random_path(instance, filename, "posters")
 
 
 class Asset(models.Model):

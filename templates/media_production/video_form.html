@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Make a video" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'media_production:videos' project.pk %}">&larr; {% translate "Videos" %}</a></p>
+<section class="narrow">
+  <h1>{% translate "Make a video" %}</h1>
+  {% if not ffmpeg_ready %}
+    <p class="warning">{% translate "FFmpeg is not installed, so the video cannot be made. See README." %}</p>
+  {% endif %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% include "includes/form_fields.html" %}
+    <button type="submit" class="button">{% translate "Make video" %}</button>
+  </form>
+</section>
+{% endblock %}

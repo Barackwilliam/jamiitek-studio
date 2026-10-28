@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 5 are implemented and verified with automated tests, a local test website and a local stand-in for the AI service: Django foundation, accounts and projects, secure website analysis for HTML websites, a reviewable business profile, AI-written concepts and scripts based only on confirmed facts, and a private image library with poster generation. Analysis has not yet been tried against real public websites, AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. AI images, narration and video do not exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 5 are implemented and verified with automated tests, a local test website and a local stand-in for the AI service: Django foundation, accounts and projects, secure website analysis for HTML websites, a reviewable business profile, AI-written concepts and scripts based only on confirmed facts, a private image library with poster generation, and MP4 videos made from approved scripts. Analysis has not yet been tried against real public websites, AI writing has not yet been tried with a real provider, and Supabase Storage has not yet been tried with a real bucket. AI images, narration and video do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -90,12 +90,12 @@ Use the following status definitions consistently:
 | Posters | Implemented — Verified locally | Template-based, no AI; see section 4.6 |
 | AI image generation | Deferred | DEC-022 |
 | Supabase Storage | Implemented — Unverified | Configured through `STORAGE_S3_*`; not tried with a real bucket |
-| Speech and audio generation | Not Started | Requirements documented |
-| Video rendering | Not Started | FFmpeg is a planned option |
+| Speech and audio generation | Partial | User-uploaded music and voice-over supported; AI narration not available (OPEN-014) |
+| Video rendering | Implemented — Verified locally | See section 4.7 |
 | Editing and preview | Not Started | Requirements documented |
-| MP4 export | Not Started | Requirements documented |
+| MP4 export | Implemented — Verified locally | Download from the video page |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 258 tests passing on SQLite and PostgreSQL 16 |
+| Automated tests | In Progress | 283 tests passing on SQLite and PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -262,6 +262,28 @@ For every important verification, record:
 - Supabase Storage not tried with a real bucket.
 - One poster layout; the logo is always in the top-left corner.
 - Images cannot be cropped or edited in the application.
+
+### 4.7 Verification record: Phase 7 (videos)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.3, plus FFmpeg 6.1.1 (Linux)
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 283 tests on each; render tests make real (tiny) videos with FFmpeg |
+| Output checks | Unit tests | Every finished video is checked with FFprobe (MP4, one H.264 stream, exact size, yuv420p, duration within 0.6 s, sound present only when expected) and fully decoded; tests confirm the checks catch a wrong size, missing sound, wrong duration, a half-written file and a non-video file |
+| Safety | Unit tests | FFmpeg runs without a shell and never receives user text (text is drawn into images); hostile text such as `'; rm -rf /` renders harmlessly; a missing FFmpeg is reported clearly |
+| Audio | Unit tests | M4A, WAV and OGG accepted and re-encoded to AAC without tags; images, text, recordings under 1 s or over 10 minutes rejected |
+| Timing | Unit tests | Scene lengths, the total length and voice-over length are checked before queueing |
+| Jobs | Unit tests | One render at a time per project; deleted images fall back to the brand colour; failures recorded without internal details; temporary folders removed |
+| Ownership | View tests | Other users get 404 on every video and audio page and file; only approved scripts and the user's own images can be used; unfinished videos are not served |
+| Full workflow | Browser at 375 px, real worker | 31.5 s portrait video from an approved script: preview 540×960 ready in about 11 s, final 1080×1920 in about 47 s (on this development machine; an 8 GB laptop will be slower); both play in the browser |
+
+**Known limitations:**
+- No AI narration (OPEN-014); users can upload their own recording.
+- Text is static on screen; motion is a slow zoom and cross-fades.
+- The browser player cannot seek before the video has loaded (no HTTP range support yet).
+- Not yet tried on Windows.
 
 ## 5. Current Blockers and Open Questions
 
