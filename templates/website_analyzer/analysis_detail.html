@@ -16,7 +16,7 @@
     <p>{% translate "Waiting for the analysis worker to start. This page refreshes automatically." %}</p>
     {% if analysis.waiting_too_long %}
       <p><strong>{% translate "This is taking longer than expected." %}</strong>
-      {% translate "The analysis worker may not be running. Start it with: python manage.py run_analysis_worker" %}</p>
+      {% translate "The background worker may not be running. Start it with: python manage.py run_worker" %}</p>
     {% endif %}
   {% elif analysis.status == "running" %}
     <p>{% blocktranslate with done=analysis.pages_attempted limit=analysis.max_pages %}Reading pages: {{ done }} of up to {{ limit }} attempted so far. This page refreshes automatically.{% endblocktranslate %}</p>

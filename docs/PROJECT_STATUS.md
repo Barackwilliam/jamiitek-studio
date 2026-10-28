@@ -26,7 +26,7 @@ The purpose is to prevent:
 
 ## 2. Current Project State
 
-The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 4 are implemented and verified with automated tests and a local test website: Django foundation, accounts and projects, secure website analysis for HTML websites, and a reviewable business profile built from the analysis. Analysis has not yet been tried against real public websites. AI and all marketing content features do not exist yet.
+The product vision, initial requirements, and proposed architecture have been documented. Phases 1 to 5 are implemented and verified with automated tests, a local test website and a local stand-in for the AI service: Django foundation, accounts and projects, secure website analysis for HTML websites, a reviewable business profile, and AI-written concepts and scripts based only on confirmed facts. Analysis has not yet been tried against real public websites, and AI writing has not yet been tried with a real provider. Images, narration and video do not exist yet.
 
 As of 2026-10-27, all planned documentation files exist and have been reviewed together for consistency:
 
@@ -84,15 +84,15 @@ Use the following status definitions consistently:
 | Website analysis (HTML sites) | Implemented — Verified locally | Crawler, extraction, robots.txt, background worker and results page; see section 4.3 |
 | JavaScript website analysis | Deferred | DEC-019 |
 | Business profile extraction and review | Implemented — Verified locally | See section 4.4 |
-| Source-grounded marketing scripts | Not Started | Requirements documented |
-| AI provider integration | Not Started | Must use free options (DEC-016); specific provider remains open (OPEN-013) |
+| Source-grounded marketing scripts | Implemented — Verified locally | See section 4.5 |
+| AI provider integration | Implemented — Unverified with a real provider | OpenAI-compatible adapter (DEC-021); tested with mocks and a local stand-in server |
 | Image generation | Not Started | Requirements documented |
 | Speech and audio generation | Not Started | Requirements documented |
 | Video rendering | Not Started | FFmpeg is a planned option |
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Not Started | Requirements documented |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 176 tests passing on SQLite and PostgreSQL 16 |
+| Automated tests | In Progress | 224 tests passing on SQLite and PostgreSQL 16 |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -213,6 +213,29 @@ For every important verification, record:
 - Prices are suggested only from structured data, never from free text.
 - Brand colours come only from the `theme-color` meta tag.
 - There is no "confirm all" action, deliberately, so each fact is reviewed.
+
+### 4.5 Verification record: Phase 5 (AI concepts and scripts)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.3
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 224 tests on each |
+| Provider adapter | Unit tests with a fake HTTP opener | Correct request and headers; JSON mode optional; 401/403, 429, 4xx, 5xx, network errors and timeouts mapped to user-safe errors; one retry only for server and network errors; truncated, empty, malformed and oversized answers rejected; API key never logged |
+| Grounding | Unit tests | Only confirmed facts reach the prompt (a suggested price and a rejected "award" did not); user notes are labelled as not facts; the system prompt tells the AI to ignore instructions inside data |
+| Claim checks | Unit tests | Numbers not in confirmed facts flagged with exact matching ("15" is flagged even if "15000" is a fact); risky phrases flagged in English and Kiswahili with whole-word matching; phrases present in facts not flagged; unknown fact references flagged and removed |
+| Failures | Unit tests | Unusable answers retried once then failed cleanly; quota exhaustion and missing configuration explained; brief and earlier drafts kept |
+| Ownership | View tests | Other users get 404 on every content page and action; no jobs created |
+| Full workflow | Local stand-in for an OpenAI-compatible API, the real worker, and a browser at 375 px | 3 concepts written; script written with "Based on" sources per scene; "bora zaidi" flagged; approval refused until the claim box was ticked, then approved; no horizontal scrolling |
+
+**Defects found and fixed during testing:** numbers from different facts were joined when checking claims; a repeated fact reference was reported as unknown.
+
+**Known limitations:**
+- Not tried with Gemini or Groq: no key is available here and the development container cannot reach those services. JSON mode support on Gemini's compatibility endpoint is unverified (it can be turned off).
+- Claim checks are word and number rules. They catch common unsupported claims but not every possible one; human approval remains essential.
+- Concepts cannot be edited (choose one and edit the script).
+- Remaining free quota is not shown.
 
 ## 5. Current Blockers and Open Questions
 

@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ brief }} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block extra_head %}{% if latest_job.is_active %}<meta http-equiv="refresh" content="5">{% endif %}{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'marketing_content:home' project.pk %}">&larr; {% translate "Marketing content" %}</a></p>
+<h1>{{ brief }}</h1>
+<p class="muted">{{ brief.audience }} · {{ brief.get_language_display }} · {{ brief.get_tone_display }} · {{ brief.get_duration_seconds_display }}</p>
+{% if brief.notes %}<p class="prewrap">{{ brief.notes }}</p>{% endif %}
+
+{% if latest_job %}
+  <section class="notice status-{{ latest_job.status }}" aria-live="polite">
+    {% if latest_job.is_active %}
+      <h2>{% blocktranslate with kind=latest_job.get_kind_display|lower %}The AI is writing the {{ kind }}…{% endblocktranslate %}</h2>
+      <p>{% translate "This usually takes less than a minute. This page refreshes automatically." %}</p>
+      {% if latest_job.waiting_too_long %}
+        <p><strong>{% translate "This is taking longer than expected." %}</strong>
+        {% translate "The background worker may not be running. Start it with: python manage.py run_worker" %}</p>
+      {% endif %}
+    {% elif latest_job.status == "failed" %}
+      <h2>{% translate "Writing failed" %}</h2>
+      <p>{{ latest_job.error_message }}</p>
+    {% endif %}
+  </section>
+{% endif %}
+
+<section aria-labelledby="concepts-heading">
+  <div class="page-heading">
+    <h2 id="concepts-heading">{% translate "Concepts" %}</h2>
+    {% if ai_ready and not latest_job.is_active %}
+      <form method="post" action="{% url 'marketing_content:regenerate_concepts' project.pk brief.pk %}" class="inline-form">
+        {% csrf_token %}
+        <button type="submit" class="button button-secondary button-small">{% translate "Write new concepts" %}</button>
+      </form>
+    {% endif %}
+  </div>
+  {% if concepts %}
+    <ul class="card-list">
+      {% for concept in concepts %}
+        <li class="card">
+          <p class="page-status">{{ concept.get_status_display }}</p>
+          <h3>{{ concept.data.title }}</h3>
+          <p><strong>{% translate "Angle:" %}</strong> {{ concept.data.angle }}</p>
+          <p><strong>{% translate "Key message:" %}</strong> {{ concept.data.key_message }}</p>
+          {% if concept.data.why_it_fits %}<p class="muted">{{ concept.data.why_it_fits }}</p>{% endif %}
+          {% include "marketing_content/includes/flags.html" with flags=concept.flags %}
+          {% if ai_ready and not latest_job.is_active %}
+            <form method="post" action="{% url 'marketing_content:write_script' project.pk concept.pk %}">
+              {% csrf_token %}
+              <button type="submit" class="button button-small">{% translate "Write a script from this concept" %}</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% elif not latest_job.is_active %}
+    <p class="muted">{% translate "No concepts yet." %}</p>
+  {% endif %}
+</section>
+
+{% if scripts %}
+  <section aria-labelledby="scripts-heading">
+    <h2 id="scripts-heading">{% translate "Scripts" %}</h2>
+    <ul class="card-list">
+      {% for script in scripts %}
+        <li class="card">
+          <p class="page-status">{{ script.get_status_display }}{% if script.flags %} · {% blocktranslate count counter=script.flags|length %}{{ counter }} claim to check{% plural %}{{ counter }} claims to check{% endblocktranslate %}{% endif %}</p>
+          <h3><a href="{{ script.get_absolute_url }}">{{ script.title }}</a></h3>
+          <p class="muted">{{ script.created_at|date:"j M Y, H:i" }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endif %}
+{% endblock %}

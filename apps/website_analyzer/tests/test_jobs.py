@@ -192,12 +192,12 @@ class WorkerCommandTests(JobTestCase):
 
         analysis.refresh_from_db()
         self.assertEqual(analysis.status, WebsiteAnalysis.Status.COMPLETED)
-        self.assertIn("Finished analysis", out.getvalue())
+        self.assertIn("Finished website analysis", out.getvalue())
 
     def test_once_with_empty_queue_exits(self):
         out = StringIO()
         call_command("run_analysis_worker", "--once", stdout=out)
-        self.assertIn("worker started", out.getvalue())
+        self.assertIn("Worker started", out.getvalue())
 
 
 class AnalysisViewTests(JobTestCase):
@@ -258,7 +258,7 @@ class AnalysisViewTests(JobTestCase):
 
         response = self.client.get(analysis.get_absolute_url())
 
-        self.assertContains(response, "run_analysis_worker")
+        self.assertContains(response, "run_worker")
 
     def test_finished_analysis_shows_pages_escaped_and_no_refresh(self):
         analysis = request_analysis(self.project)

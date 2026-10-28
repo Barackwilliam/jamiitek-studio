@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "apps.projects",
     "apps.website_analyzer",
     "apps.business_profiles",
+    "apps.marketing_content",
 ]
 
 MIDDLEWARE = [
@@ -214,6 +215,21 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 SECURE_REFERRER_POLICY = "same-origin"
 X_FRAME_OPTIONS = "DENY"
 SESSION_COOKIE_HTTPONLY = True
+
+
+# AI text generation (DEC-021)
+# ------------------------------------------------------------------------------
+# Any service with an OpenAI-compatible chat completions API. Leave empty to
+# disable AI features. The key is a secret and must never reach the browser.
+
+AI_TEXT_PROVIDER_NAME = os.environ.get("AI_TEXT_PROVIDER_NAME", "").strip() or "AI service"
+AI_TEXT_BASE_URL = os.environ.get("AI_TEXT_BASE_URL", "").strip()
+AI_TEXT_API_KEY = os.environ.get("AI_TEXT_API_KEY", "").strip()
+AI_TEXT_MODEL = os.environ.get("AI_TEXT_MODEL", "").strip()
+AI_TEXT_TIMEOUT = float(os.environ.get("AI_TEXT_TIMEOUT", "60"))
+AI_TEXT_JSON_MODE = env_bool("AI_TEXT_JSON_MODE", default=True)
+# Shown to users before their business information is sent to the provider.
+AI_TEXT_DATA_NOTICE = os.environ.get("AI_TEXT_DATA_NOTICE", "").strip()
 
 
 # Logging

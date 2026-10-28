@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "New content" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'marketing_content:home' project.pk %}">&larr; {% translate "Marketing content" %}</a></p>
+<section class="narrow">
+  <h1>{% translate "What do you want to create?" %}</h1>
+  {% include "marketing_content/includes/readiness.html" %}
+  {% if ai_ready and fact_count %}
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% include "includes/form_fields.html" %}
+      <button type="submit" class="button">{% translate "Write three concepts" %}</button>
+    </form>
+  {% endif %}
+</section>
+{% endblock %}
