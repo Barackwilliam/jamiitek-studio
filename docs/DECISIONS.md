@@ -259,6 +259,28 @@ See `docs/ARCHITECTURE.md`, section 17, for the candidate zero-budget tools and 
 - FFmpeg rendering must use short, low-resolution previews during development, with bounded concurrency.
 - Database work does not need local resources, because PostgreSQL runs on Supabase (DEC-018) and tests use SQLite.
 
+### DEC-021: AI Text Generation Through an OpenAI-Compatible Adapter
+
+**Status:** Accepted (implementation verified with mocks; real provider not yet tried)
+
+**Date:** 2026-10-28
+
+**Context:** Phase 5 needs a free text-generation service (OPEN-013). Local models are impractical on the 8 GB development laptop (DEC-012).
+
+**Findings (third-party sources, 2026-10-28; the owner must re-check official terms when creating keys):**
+- Google Gemini ranks highest for Kiswahili among the compared models and has a free tier, but content sent on the free tier may be used by Google to improve its products.
+- Groq has a free tier with open-weight models; secondary sources say its agreement forbids training on customer inputs and outputs. Its models are expected to be weaker in Kiswahili.
+- Both offer an OpenAI-compatible chat completions API.
+
+**Decision:**
+- Implement one provider adapter for OpenAI-compatible APIs (`integrations/ai/`), using only the standard library. The provider is chosen in `.env`; switching needs no code change.
+- Recommend Gemini for Kiswahili quality, with `AI_TEXT_DATA_NOTICE` telling users that free-tier data may be used by Google; Groq when privacy matters more than Kiswahili quality.
+- Send only user-confirmed facts (DEC-020) and the brief. No personal data about end customers is sent.
+- AI writing runs in the background worker, now generalized as `manage.py run_worker` for all job types.
+- AI output is untrusted: it is parsed, validated, length-limited, and checked for unsupported numbers and claim words; flagged drafts need explicit confirmation before approval.
+
+**Review conditions:** Revisit after trying both providers with real Kiswahili briefs, or if free-tier terms change.
+
 ### DEC-020: Business Profile as Reviewed, Sourced Facts
 
 **Status:** Accepted

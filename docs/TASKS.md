@@ -201,20 +201,22 @@ Priorities may change when new technical evidence or product decisions justify a
 
 ### Tasks
 
-- [ ] **TASK-051 — P0:** Define the initial marketing brief and generation request structures.
-- [ ] **TASK-052 — P0:** Decide which free AI text option (hosted free tier or local model) to use first, after verifying its current limits, data-use terms, and license (OPEN-013, DEC-016).
-- [ ] **TASK-053 — P0:** Implement a modular text-generation provider interface appropriate to the selected provider.
-- [ ] **TASK-054 — P0:** Configure credentials securely outside source control.
-- [ ] **TASK-055 — P0:** Implement provider timeouts and error handling.
-- [ ] **TASK-056 — P0:** Generate marketing concepts from the reviewed business profile.
-- [ ] **TASK-057 — P0:** Generate scripts, headlines, captions, and calls to action.
-- [ ] **TASK-058 — P0:** Allow users to edit generated text.
-- [ ] **TASK-059 — P0:** Save drafts and user edits.
-- [ ] **TASK-060 — P1:** Add language, tone, audience, objective, and platform settings.
-- [ ] **TASK-061 — P1:** Add claim-review rules and safeguards against unsupported factual assertions.
-- [ ] **TASK-061A — P1:** Protect generation against instructions embedded in website content (prompt injection).
-- [ ] **TASK-062 — P1:** Add tests using mocked provider responses.
-- [ ] **TASK-063 — P1:** Track generation errors and free-tier quota usage, and handle quota exhaustion without losing user work.
+- [x] **TASK-051 — P0:** Define the initial marketing brief and generation request structures. *(`MarketingBrief`, `GenerationJob`, `ContentDraft`.)*
+- [x] **TASK-052 — P0:** Decide which free AI text option to use first. *(DEC-021: any OpenAI-compatible API; Gemini recommended for Kiswahili, Groq as the privacy-friendlier option. Terms must be re-checked by the owner when creating keys.)*
+- [x] **TASK-053 — P0:** Implement a modular text-generation provider interface appropriate to the selected provider. *(`integrations/ai/`, standard library only.)*
+- [x] **TASK-054 — P0:** Configure credentials securely outside source control. *(`.env`; key never logged or sent to the browser.)*
+- [x] **TASK-055 — P0:** Implement provider timeouts and error handling. *(Timeout, one retry for server errors and unusable answers, no retry for quota or key errors.)*
+- [x] **TASK-056 — P0:** Generate marketing concepts from the reviewed business profile. *(Confirmed facts only.)*
+- [x] **TASK-057 — P0:** Generate scripts, headlines, captions, and calls to action.
+- [x] **TASK-058 — P0:** Allow users to edit generated text. *(Scripts; concepts are chosen, not edited.)*
+- [x] **TASK-059 — P0:** Save drafts and user edits. *(Regenerating creates new drafts; edited and approved drafts are never overwritten.)*
+- [x] **TASK-060 — P1:** Add language, tone, audience, objective, and platform settings.
+- [x] **TASK-061 — P1:** Add claim-review rules and safeguards against unsupported factual assertions. *(Numbers and risky phrases in English and Kiswahili flagged; approval requires ticking that they were checked.)*
+- [x] **TASK-061A — P1:** Protect generation against instructions embedded in website content (prompt injection). *(Only user-confirmed facts are sent, as a JSON data block; the system prompt says to ignore instructions in data; output is validated.)*
+- [x] **TASK-062 — P1:** Add tests using mocked provider responses.
+- [x] **TASK-063 — P1:** Track generation errors and free-tier quota usage, and handle quota exhaustion without losing user work. *(Token usage stored per job; quota errors explained; brief and drafts kept.)*
+- [ ] **TASK-063A — P1:** Try AI writing with a real provider key and review Kiswahili quality with real users.
+- [ ] **TASK-063B — P2:** Allow editing concepts, and show remaining free quota where the provider reports it.
 
 ### Acceptance criteria
 

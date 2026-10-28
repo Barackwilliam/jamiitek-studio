@@ -129,15 +129,24 @@ python manage.py runserver
 
 Then open <http://127.0.0.1:8000/>. The health check is at <http://127.0.0.1:8000/health/>.
 
-### Running the analysis worker
+### Running the background worker
 
-Website analysis runs in the background so pages stay responsive. Open a **second terminal**, activate the virtual environment the same way, and run:
+Website analysis and AI writing run in the background so pages stay responsive. Open a **second terminal**, activate the virtual environment the same way, and run:
 
 ```bash
-python manage.py run_analysis_worker
+python manage.py run_worker
 ```
 
-Keep it running while you use the application; stop it with Ctrl+C. Without it, analyses stay at "Waiting to start". `python manage.py run_analysis_worker --once` processes whatever is queued and exits.
+Keep it running while you use the application; stop it with Ctrl+C. Without it, analyses and AI drafts stay at "Waiting to start". `python manage.py run_worker --once` processes whatever is queued and exits. (`run_analysis_worker` is an older name for the same command.)
+
+### Setting up AI writing
+
+AI writing is off until a provider is configured in `.env` (see `docs/DECISIONS.md`, DEC-021). Both options below have free tiers; check their current limits and terms before relying on them.
+
+- **Google Gemini** (recommended for Kiswahili): create a key in Google AI Studio, then set `AI_TEXT_PROVIDER_NAME=Google Gemini`, `AI_TEXT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai`, `AI_TEXT_API_KEY=<your key>` and `AI_TEXT_MODEL=<a current Flash model name>`. On the free tier Google may use the information you send to improve its products, so set `AI_TEXT_DATA_NOTICE` to tell users.
+- **Groq**: create a key in the Groq console, then set `AI_TEXT_PROVIDER_NAME=Groq`, `AI_TEXT_BASE_URL=https://api.groq.com/openai/v1`, `AI_TEXT_API_KEY=<your key>` and `AI_TEXT_MODEL=<a current model name>`.
+
+If drafts fail with "answer we could not use" right away, try `AI_TEXT_JSON_MODE=False`. Restart the web server and the worker after changing `.env`. Automated tests never call the real AI service.
 
 If PowerShell refuses to run `Activate.ps1`, run `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned` once, or use `.venv\Scripts\activate.bat` from Command Prompt.
 
@@ -214,11 +223,11 @@ Documentation must be kept consistent with the actual implementation.
 
 ## 9. Current Project Status
 
-As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, and PostgreSQL/Supabase support with automatic row level security. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
+As of 2026-10-28, the following exist and are tested: user accounts, private projects (with a website address, manual business details, or both), website address safety checks against SSRF, website analysis of HTML websites (up to 8 relevant pages, respecting robots.txt, run by a background worker), a business profile with sourced suggestions the user confirms, edits or rejects, AI-written video concepts and scripts based only on confirmed information (with unsupported claims flagged and approval required), and PostgreSQL/Supabase support with automatic row level security. AI writing has not yet been tried with a real provider. Analysis has not yet been tried against real public websites. See `docs/PROJECT_STATUS.md` for the verified status.
 
 The following items do not exist yet and must not be assumed to exist until they are verified in the repository:
 
-- AI-assisted suggestions or content, or browser automation for JavaScript-only websites.
+- Images, posters, narration or video, or browser automation for JavaScript-only websites.
 - AI provider integrations.
 - Image, audio, or video generation.
 - Video rendering and exporting.

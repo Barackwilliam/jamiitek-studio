@@ -1,0 +1,19 @@
+{% load i18n %}
+{% if not ai_ready %}
+  <section class="notice status-failed">
+    <h2>{% translate "AI writing is not set up" %}</h2>
+    <p>{% translate "The administrator needs to add an AI provider in the configuration (see README). Your projects and profile are not affected." %}</p>
+  </section>
+{% elif not fact_count %}
+  <section class="notice">
+    <h2>{% translate "Confirm your business information first" %}</h2>
+    <p>{% translate "The AI only uses information you have confirmed, so it cannot write anything yet." %}</p>
+    <a href="{% url 'business_profiles:detail' project.pk %}" class="button button-secondary">{% translate "Review business profile" %}</a>
+  </section>
+{% else %}
+  <p class="muted">
+    {% blocktranslate count counter=fact_count %}The AI will use your {{ counter }} confirmed piece of business information and nothing else.{% plural %}The AI will use your {{ counter }} confirmed pieces of business information and nothing else.{% endblocktranslate %}
+    {% blocktranslate with name=ai_provider_name %}It is sent to {{ name }} to write drafts.{% endblocktranslate %}
+    {% if ai_data_notice %}{{ ai_data_notice }}{% endif %}
+  </p>
+{% endif %}

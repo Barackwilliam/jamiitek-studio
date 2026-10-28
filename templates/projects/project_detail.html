@@ -48,7 +48,13 @@
   <h2 id="profile-heading">{% translate "Business profile" %}</h2>
   <p>{% translate "Review the information found on your website, correct it, and add anything missing. Only confirmed information will be used for marketing content." %}</p>
   <a href="{% url 'business_profiles:detail' project.pk %}" class="button button-secondary">{% translate "Review business profile" %}</a>
-  <p class="muted">{% translate "Content creation is not available yet." %}</p>
+</section>
+
+<section class="notice" aria-labelledby="content-heading">
+  <h2 id="content-heading">{% translate "Marketing content" %}</h2>
+  <p>{% translate "Let AI draft video concepts and scripts from your confirmed business information. You review and approve everything." %}</p>
+  <a href="{% url 'marketing_content:home' project.pk %}" class="button button-secondary">{% translate "Create marketing content" %}</a>
+  <p class="muted">{% translate "Images, narration and video are not available yet." %}</p>
 </section>
 
 <p><a href="{% url 'projects:delete' project.pk %}" class="danger-link">{% translate "Delete this project" %}</a></p>

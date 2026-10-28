@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Marketing content" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{{ project.get_absolute_url }}">&larr; {{ project.name }}</a></p>
+<div class="page-heading">
+  <h1>{% translate "Marketing content" %}</h1>
+  {% if ai_ready and fact_count %}<a href="{% url 'marketing_content:brief_create' project.pk %}" class="button">{% translate "New content" %}</a>{% endif %}
+</div>
+
+{% include "marketing_content/includes/readiness.html" %}
+
+{% if briefs %}
+  <ul class="card-list">
+    {% for brief in briefs %}
+      <li class="card">
+        <h2><a href="{{ brief.get_absolute_url }}">{{ brief }}</a></h2>
+        <p class="muted">{{ brief.audience }} · {{ brief.get_language_display }} · {{ brief.get_duration_seconds_display }} · {{ brief.created_at|date:"j M Y" }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% elif ai_ready and fact_count %}
+  <div class="empty-state">
+    <p>{% translate "No content yet. Start by telling us what you want to create." %}</p>
+    <a href="{% url 'marketing_content:brief_create' project.pk %}" class="button">{% translate "Create your first content" %}</a>
+  </div>
+{% endif %}
+{% endblock %}

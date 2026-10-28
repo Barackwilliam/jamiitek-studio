@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ script.title }} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{{ brief.get_absolute_url }}">&larr; {{ brief }}</a></p>
+<div class="page-heading">
+  <h1>{{ script.title }}</h1>
+  <a href="{% url 'marketing_content:script_edit' project.pk script.pk %}" class="button button-secondary">{% translate "Edit" %}</a>
+</div>
+<p class="muted">
+  <span class="badge badge-{% if script.status == 'approved' %}confirmed{% else %}suggested{% endif %}">{{ script.get_status_display }}</span>
+  {% blocktranslate with seconds=total_seconds %}About {{ seconds }} seconds{% endblocktranslate %}
+  {% if script.provider %} · {% blocktranslate with provider=script.provider model=script.model %}Written by {{ provider }} ({{ model }}){% endblocktranslate %}{% endif %}
+</p>
+
+{% include "marketing_content/includes/flags.html" with flags=script.flags %}
+
+<h2>{% translate "Scenes" %}</h2>
+<ol class="scene-list">
+  {% for scene in scenes %}
+    <li class="card">
+      <p class="page-status">{% blocktranslate with seconds=scene.duration_seconds %}{{ seconds }} seconds{% endblocktranslate %}</p>
+      {% if scene.voiceover %}<p><strong>{% translate "Narration:" %}</strong> {{ scene.voiceover }}</p>{% endif %}
+      {% if scene.on_screen_text %}<p><strong>{% translate "On screen:" %}</strong> {{ scene.on_screen_text }}</p>{% endif %}
+      {% if scene.visual %}<p class="muted"><strong>{% translate "Show:" %}</strong> {{ scene.visual }}</p>{% endif %}
+      {% if scene.facts %}
+        <p class="fact-meta">{% translate "Based on:" %} {% for fact in scene.facts %}{{ fact.label }}: “{{ fact.value }}”{% if not forloop.last %}; {% endif %}{% endfor %}</p>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ol>
+
+<h2>{% translate "Post" %}</h2>
+<dl class="details">
+  {% if script.data.headline %}<dt>{% translate "Headline" %}</dt><dd>{{ script.data.headline }}</dd>{% endif %}
+  {% if script.data.caption %}<dt>{% translate "Caption" %}</dt><dd class="prewrap">{{ script.data.caption }}</dd>{% endif %}
+  {% if script.data.call_to_action %}<dt>{% translate "Call to action" %}</dt><dd>{{ script.data.call_to_action }}</dd>{% endif %}
+  {% if script.data.hashtags %}<dt>{% translate "Hashtags" %}</dt><dd>{% for tag in script.data.hashtags %}#{{ tag }} {% endfor %}</dd>{% endif %}
+</dl>
+
+<details>
+  <summary>{% translate "Business information the AI was given" %}</summary>
+  <ul>{% for fact in script.facts %}<li>{{ fact.label }}: {{ fact.value }}</li>{% endfor %}</ul>
+</details>
+
+{% if script.status != "approved" %}
+  <section class="notice narrow" aria-labelledby="approve-heading">
+    <h2 id="approve-heading">{% translate "Approve" %}</h2>
+    <p>{% translate "Approve this script when every statement in it is true for your business." %}</p>
+    <form method="post" action="{% url 'marketing_content:script_approve' project.pk script.pk %}" novalidate>
+      {% csrf_token %}
+      {% if approve_form.non_field_errors %}<div class="form-errors" role="alert">{% for e in approve_form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
+      {% if script.flags %}
+        <div class="field checkbox-field">
+          <label><input type="checkbox" name="checked_claims" value="on"> {{ approve_form.checked_claims.label }}</label>
+        </div>
+      {% endif %}
+      <button type="submit" class="button">{% translate "Approve script" %}</button>
+    </form>
+  </section>
+{% else %}
+  <p class="muted">{% blocktranslate with when=script.approved_at|date:"j M Y, H:i" %}Approved on {{ when }}. Editing it will require approval again.{% endblocktranslate %}</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Edit script" %} · {{ project.name }} · JamiiTek{% endblock %}
+
+{% block content %}
+<p><a href="{{ script.get_absolute_url }}">&larr; {{ script.title }}</a></p>
+<h1>{% translate "Edit script" %}</h1>
+<form method="post" novalidate class="narrow">
+  {% csrf_token %}
+  {% include "includes/form_fields.html" %}
+  {{ formset.management_form }}
+  {% if formset.non_form_errors %}<div class="form-errors" role="alert">{% for e in formset.non_form_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
+  {% for scene_form in formset %}
+    <fieldset class="card scene-fieldset">
+      <legend>{% blocktranslate with number=forloop.counter %}Scene {{ number }}{% endblocktranslate %}</legend>
+      {% include "includes/form_fields.html" with form=scene_form %}
+    </fieldset>
+  {% endfor %}
+  <div class="actions">
+    <button type="submit" class="button">{% translate "Save" %}</button>
+    <a href="{{ script.get_absolute_url }}">{% translate "Cancel" %}</a>
+  </div>
+</form>
+{% endblock %}
