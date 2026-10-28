@@ -24,6 +24,10 @@
   <section class="notice status-failed">
     <h2>{% translate "The video could not be made" %}</h2>
     <p>{{ video.error_message }}</p>
+    <form method="post" action="{% url 'media_production:video_retry' project.pk video.pk %}">
+      {% csrf_token %}
+      <button type="submit" class="button">{% translate "Try again" %}</button>
+    </form>
   </section>
 {% else %}
   <video class="video-preview" controls preload="metadata" src="{{ video.file_url }}" width="{{ video.width }}" height="{{ video.height }}">

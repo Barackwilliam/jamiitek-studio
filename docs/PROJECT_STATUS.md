@@ -95,7 +95,11 @@ Use the following status definitions consistently:
 | Editing and preview | Not Started | Requirements documented |
 | MP4 export | Implemented — Verified locally | Download from the video page |
 | Project history and persistence | Not Started | Data architecture proposed |
-| Automated tests | In Progress | 283 tests passing on SQLite and PostgreSQL 16 |
+| Automated tests | In Progress | 304 tests passing on SQLite and PostgreSQL 16 |
+| Login and sign-up rate limiting | Implemented — Verified | See section 4.8 |
+| Content-Security-Policy | Implemented — Verified | See section 4.8 |
+| Worker health monitoring | Implemented — Verified | `/health/` and admin |
+| Script version history | Implemented — Verified | Restore requires new approval |
 | Production deployment | Not Started | Hosting and infrastructure unconfirmed |
 
 Update these statuses as soon as code is written and verified.
@@ -284,6 +288,32 @@ For every important verification, record:
 - Text is static on screen; motion is a slow zoom and cross-fades.
 - The browser player cannot seek before the video has loaded (no HTTP range support yet).
 - Not yet tried on Windows.
+
+### 4.8 Verification record: Phase 8 (reliability and security)
+
+**Date:** 2026-10-28  
+**Environment:** as in section 4.7
+
+| Check | Command or method | Result |
+|---|---|---|
+| Automated tests | `python manage.py test` on SQLite and on PostgreSQL 16 | Passed: 304 tests on each |
+| Log-in limits | Unit tests | Locked after 5 failures even with the right password; same message for unknown usernames; other users unaffected; 20 attempts across usernames from one address locked; success clears failures; lock expires after 15 minutes; only hashes stored |
+| Mutation check | Raised the limits so they could never trigger | 3 rate-limit tests failed as expected; limits restored |
+| Sign-up limit | Unit test | 11th attempt from one address in an hour refused with HTTP 429 |
+| Security headers | Unit test and browser | Strict CSP without `unsafe-inline`; 15 application pages and the admin pages loaded in a browser with no CSP violations |
+| Range requests | Unit tests and browser | Partial content for start, open-ended, suffix and oversized ranges; 416 for impossible ranges; ownership still enforced; seeking to 25 s in a 31.5 s video worked in the browser |
+| Worker | Unit tests | An exception in one job type is logged and the worker continues; heartbeat records errors; health shows `not_seen`, `ok` and `stale` |
+| Cleanup | Unit tests | Dry run deletes nothing; `--delete` removes old orphan files and the application's own old temporary folders, keeps referenced files, recent files and unrelated folders |
+| History and retry | Unit tests | Edits keep the previous version; restore needs new approval; history capped at 20; failed videos can be retried with the same settings |
+
+**Defects found and fixed during testing:**
+- The first `cleanup` version matched any temporary folder starting with `jamii-`; a dry run showed it would have deleted an unrelated folder. The application now uses a dedicated `jamiitek-tmp-` prefix.
+- `cleanup` could have removed a file saved a moment before its database row; files changed in the last hour are now kept.
+- The worker closed database connections inside transactions (seen only on PostgreSQL in tests); it now skips that inside a transaction.
+
+**Known limitations:**
+- Rate limits use the connecting address; behind a proxy this must be configured (README).
+- Exports never expire automatically.
 
 ## 5. Current Blockers and Open Questions
 

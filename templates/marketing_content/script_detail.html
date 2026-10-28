@@ -45,6 +45,24 @@
   <ul>{% for fact in script.facts %}<li>{{ fact.label }}: {{ fact.value }}</li>{% endfor %}</ul>
 </details>
 
+{% if revisions %}
+  <details>
+    <summary>{% blocktranslate count counter=revisions|length %}{{ counter }} earlier version{% plural %}{{ counter }} earlier versions{% endblocktranslate %}</summary>
+    <ul class="fact-list">
+      {% for revision in revisions %}
+        <li class="fact">
+          <p class="fact-value">{{ revision.data.title }}</p>
+          <p class="fact-meta">{{ revision.created_at|date:"j M Y, H:i" }} · {{ revision.get_status_display }}{% if revision.data.headline %} · {{ revision.data.headline }}{% endif %}</p>
+          <form method="post" action="{% url 'marketing_content:script_restore' project.pk script.pk revision.pk %}" class="inline-form">
+            {% csrf_token %}
+            <button type="submit" class="link-button">{% translate "Restore this version" %}</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  </details>
+{% endif %}
+
 {% if script.status != "approved" %}
   <section class="notice narrow" aria-labelledby="approve-heading">
     <h2 id="approve-heading">{% translate "Approve" %}</h2>

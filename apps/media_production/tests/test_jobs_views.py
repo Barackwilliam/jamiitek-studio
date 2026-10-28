@@ -118,7 +118,7 @@ class RunRenderTests(VideoTestCase):
         path = Path(self.media_root) / video.file.name
         self.assertEqual(check_video(path, width=214, height=120, duration=7.0, has_audio=True), [])
         # Only the stored files remain; temporary render folders are removed.
-        self.assertFalse(list(Path(tempfile.gettempdir()).glob("jamii-render-*")))
+        self.assertFalse(list(Path(tempfile.gettempdir()).glob("jamiitek-tmp-*")))
 
     def test_deleted_image_falls_back_to_brand_colour(self):
         image = self.add_image()

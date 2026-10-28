@@ -161,3 +161,24 @@ class ContentDraft(models.Model):
 
     def fact_lookup(self):
         return {fact["ref"]: fact for fact in self.facts}
+
+
+class DraftRevision(models.Model):
+    """An earlier version of a draft, saved before each edit or restore."""
+
+    MAX_PER_DRAFT = 20
+
+    draft = models.ForeignKey(ContentDraft, on_delete=models.CASCADE, related_name="revisions")
+    data = models.JSONField()
+    status = models.CharField(max_length=20, choices=ContentDraft.Status.choices)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at", "-id"]
+
+    @classmethod
+    def save_from(cls, draft):
+        """Store the draft's current content, keeping only the newest revisions."""
+        cls.objects.create(draft=draft, data=draft.data, status=draft.status)
+        old = cls.objects.filter(draft=draft).order_by("-created_at", "-id")[cls.MAX_PER_DRAFT:]
+        cls.objects.filter(pk__in=[r.pk for r in old]).delete()

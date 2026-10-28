@@ -1,10 +1,7 @@
-import mimetypes
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.files.base import ContentFile
 from django.db import IntegrityError, transaction
-from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods, require_POST, require_safe
@@ -13,6 +10,7 @@ from apps.business_profiles.models import FactKey, ProfileFact
 from apps.marketing_content.generation import confirmed_facts
 from apps.marketing_content.models import ContentDraft
 from apps.marketing_content.validation import find_unsupported_claims
+from apps.core.files import stream_private_file
 from apps.projects.models import Project
 
 from .forms import ImportForm, PosterForm, UploadForm
@@ -28,18 +26,6 @@ def _owned_project(request, project_pk):
 def _read(field):
     with field.open("rb") as handle:
         return handle.read()
-
-
-def _stream(field, filename, download=False):
-    """Stream a private file after the caller has checked ownership."""
-    try:
-        handle = field.open("rb")
-    except (FileNotFoundError, OSError):
-        raise Http404("File missing")
-    content_type = mimetypes.guess_type(field.name)[0] or "application/octet-stream"
-    response = FileResponse(handle, content_type=content_type, as_attachment=download, filename=filename)
-    response["Cache-Control"] = "private, max-age=300"
-    return response
 
 
 @login_required
@@ -106,7 +92,7 @@ def import_from_website(request, project_pk):
 def asset_file(request, project_pk, pk, variant):
     asset = get_object_or_404(Asset, pk=pk, project_id=project_pk, project__owner=request.user)
     field = asset.thumbnail if variant == "thumb" else asset.file
-    return _stream(field, f"image-{asset.pk}.{field.name.rsplit('.', 1)[-1]}")
+    return stream_private_file(request, field, f"image-{asset.pk}.{field.name.rsplit('.', 1)[-1]}")
 
 
 @login_required
@@ -176,7 +162,7 @@ def poster_detail(request, project_pk, pk):
 @require_safe
 def poster_file(request, project_pk, pk):
     poster = get_object_or_404(Poster, pk=pk, project_id=project_pk, project__owner=request.user)
-    return _stream(poster.file, f"poster-{poster.pk}-{poster.format}.jpg",
+    return stream_private_file(request, poster.file, f"poster-{poster.pk}-{poster.format}.jpg",
                    download=request.GET.get("download") == "1")
 
 
